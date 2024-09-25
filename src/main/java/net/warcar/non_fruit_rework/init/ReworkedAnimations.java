@@ -5,6 +5,6 @@ import xyz.pixelatedw.mineminenomi.api.animations.AnimationId;
 
 public class ReworkedAnimations {
     public static void clientInit() {
-        AnimationId.register(SanzenSekaiAnimation.INSTANCE);
+        AnimationId.register(new SanzenSekaiAnimation(SanzenSekaiAnimation.INSTANCE));
     }
 }
