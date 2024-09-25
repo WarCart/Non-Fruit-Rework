@@ -1,0 +1,46 @@
+{
+  "ability.mineminenomi.mouton_shot": "Mouton Shot",
+  "ability.mineminenomi.ashura_ichibugin": "Ashura: Ichibugin",
+  "ability.mineminenomi.sanzen_sekai": "Sanzen Sekai",
+  "ability.mineminenomi.cape_guard": "Cape Guard",
+  "ability.mineminenomi.genetic_modification": "Genetic Modification",
+  "ability.mineminenomi.stealth_black_invisibility": "Stealth Black Invisibility",
+  "ability.mineminenomi.ryosei_osoba_kick": "Ryosei Osoba Kick",
+  "ability.mineminenomi.sparking_figure": "Sparking Figure",
+  "ability.mineminenomi.poison_hit": "Poison Hit",
+  "ability.mineminenomi.detoxicating_kiss": "Detoxicating Kiss",
+
+  "ability.mineminenomi.mouton_shot.description.0": "High speed forward dash, followed by rapid kick",
+  "ability.mineminenomi.stealth_black_invisibility.description.0": "Turns the user's entire body invisible",
+  "ability.mineminenomi.sanzen_sekai.description.0": "The user dashes forward rapidly spinning swords in hands to gain more momentum and slash opponent as strong as possible\n\n§2SHIFT-USE while haki imbuing is active§r: Sends Extreme powerful shockwave strong enough to cut giant mountains",
+  "ability.mineminenomi.ashura_ichibugin.description.0": "User uses immense power to split own body to 3 afterimages, then strikes opponent turning any projectiles on the way to mist",
+  "ability.mineminenomi.cape_guard.description.0": "User covers himself with his cape to protect himself from damage",
+  "ability.mineminenomi.sparking_figure.description.0": "Powerful punch that creates explosion\n\n§2Shift+use§r: changes mode to Double",
+  "ability.mineminenomi.ryosei_osoba_kick.description.0": "User uses jet boots to fly up, then propels himself forward towards enemy",
+  "ability.mineminenomi.poison_hit.description.0": "Infuses all attacks with strong poison",
+  "ability.mineminenomi.detoxicating_kiss.description.0": "",
+
+  "ability.item.message.need_three_sword": "You need three swords to use this ability!",
+
+  "item.mineminenomi.stealth_black_capsule": "\"3\" Capsule",
+  "item.mineminenomi.stealth_black_helmet": "Stealth Black Helmet",
+  "item.mineminenomi.stealth_black_chestplate": "Stealth Black Chestplate",
+  "item.mineminenomi.stealth_black_leggings": "Stealth Black Leggings",
+  "item.mineminenomi.stealth_black_boots": "Stealth Black Boots",
+
+  "quest.mineminenomi.trial_ninesword_style": "Trial: Nine-Sword Style",
+  "quest.mineminenomi.trial_sanzen_sekai": "Trial: Sanzen Sekai",
+  "quest.objective.mineminenomi.kill_%s_enemies_with_critical_attacks_using_sword": "Kill %s enemies with critical attacks using sword",
+  "quest.objective.mineminenomi.kill_%s_enemies_using_o_tatsumaki": "Kill %s enemies using O Tatsumaki",
+  "quest.objective.mineminenomi.kill_%s_enemies_using_sanbyakurokuju_pound_ho": "Kill %s enemies  using Sanbyakurokuju Pound Ho",
+  "quest.objective.mineminenomi.kill_%s_enemies_using_hiryu_kaen": "Kill %s enemies using Hiryu: Kaen",
+  "quest.objective.mineminenomi.kill_%s_enemies_using_ashura_ichibugin": "Kill %s enemies  using Ashura: Ichibugin",
+  "quest.objective.mineminenomi.get_%s_doriki_strong": "Get %s Doriki Strong",
+
+  "race.modified_human": "Modified Human",
+  "sub_race.mink_dog": "Dog",
+  "sub_race.mink_bunny": "Bunny",
+  "sub_race.mink_lion": "Lion",
+  "faction.agent": "Agent",
+  "faction.revolutionary_army": "Revolutionary Army"
+}

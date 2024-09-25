@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "package": "net.warcar.non_fruit_rework.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "DiableJambeMixin",
+    "EntityStatsMixin",
+    "IInProgressChallengeMixin",
+    "ModAbilitiesMixin",
+    "ModQuestsMixin",
+    "swordsman.PoundHoMixin",
+    "QuestMixin",
+    "rokushiki.ShiganMixin",
+    "swordsman.ShishisonsonMixin",
+    "swordsman.YakkodoriMixin",
+    "ccr.AbilityCoreMixin",
+    "ccr.AbilityHelperMixin",
+    "ccr.CharacterCreatorMapMixin",
+    "ccr.EntityPredicatesMixin",
+    "ccr.client.FinishCCPacketMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "mixins.non_fruit_rework.refmap.json",
+  "client": [
+    "ccr.client.CreatorScreenMixin",
+    "ccr.client.PlayerStatsScreenMixin"
+  ]
+}

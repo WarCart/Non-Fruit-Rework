@@ -1,0 +1,130 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "mineminenomi:models/raid_suits/stealth_black_helmet"
+	},
+	"elements": [
+		{
+			"name": "Head",
+			"from": [2, 0, 6],
+			"to": [4, 4, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -26, 8]},
+			"faces": {
+				"north": {"uv": [2.125, 2.625, 2.375, 3.125], "texture": "#0"},
+				"east": {"uv": [1.625, 2.625, 2.125, 3.125], "texture": "#0"},
+				"south": {"uv": [2.875, 2.625, 3.125, 3.125], "texture": "#0"},
+				"west": {"uv": [2.375, 2.625, 2.875, 3.125], "texture": "#0"},
+				"up": {"uv": [2.375, 2.625, 2.125, 2.125], "texture": "#0"},
+				"down": {"uv": [2.625, 2.125, 2.375, 2.625], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [12, 0, 6],
+			"to": [14, 4, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -26, 8]},
+			"faces": {
+				"north": {"uv": [0.5, 2.625, 0.75, 3.125], "texture": "#0"},
+				"east": {"uv": [0, 2.625, 0.5, 3.125], "texture": "#0"},
+				"south": {"uv": [1.25, 2.625, 1.5, 3.125], "texture": "#0"},
+				"west": {"uv": [0.75, 2.625, 1.25, 3.125], "texture": "#0"},
+				"up": {"uv": [0.75, 2.625, 0.5, 2.125], "texture": "#0"},
+				"down": {"uv": [1, 2.125, 0.75, 2.625], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [12, 3, 7],
+			"to": [13, 6, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -26, 8]},
+			"faces": {
+				"north": {"uv": [0.25, 3.5, 0.375, 3.875], "texture": "#0"},
+				"east": {"uv": [0, 3.5, 0.25, 3.875], "texture": "#0"},
+				"south": {"uv": [0.625, 3.5, 0.75, 3.875], "texture": "#0"},
+				"west": {"uv": [0.375, 3.5, 0.625, 3.875], "texture": "#0"},
+				"up": {"uv": [0.375, 3.5, 0.25, 3.25], "texture": "#0"},
+				"down": {"uv": [0.5, 3.25, 0.375, 3.5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [3, 3, 7],
+			"to": [4, 6, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -26, 8]},
+			"faces": {
+				"north": {"uv": [1.5, 3.5, 1.625, 3.875], "texture": "#0"},
+				"east": {"uv": [1.25, 3.5, 1.5, 3.875], "texture": "#0"},
+				"south": {"uv": [1.875, 3.5, 2, 3.875], "texture": "#0"},
+				"west": {"uv": [1.625, 3.5, 1.875, 3.875], "texture": "#0"},
+				"up": {"uv": [1.625, 3.5, 1.5, 3.25], "texture": "#0"},
+				"down": {"uv": [1.75, 3.25, 1.625, 3.5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [4, 5, 7],
+			"to": [12, 6, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -26, 8]},
+			"faces": {
+				"north": {"uv": [1.875, 1.25, 2.875, 1.375], "texture": "#0"},
+				"east": {"uv": [1.625, 1.25, 1.875, 1.375], "texture": "#0"},
+				"south": {"uv": [3.125, 1.25, 4.125, 1.375], "texture": "#0"},
+				"west": {"uv": [2.875, 1.25, 3.125, 1.375], "texture": "#0"},
+				"up": {"uv": [2.875, 1.25, 1.875, 1], "texture": "#0"},
+				"down": {"uv": [3.875, 1, 2.875, 1.25], "texture": "#0"}
+			}
+		},
+		{
+			"name": "Head",
+			"from": [4, 0, 3.75],
+			"to": [12, 2, 3.75],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -26, 8]},
+			"faces": {
+				"north": {"uv": [0, 1, 1, 1.25], "texture": "#0"},
+				"east": {"uv": [0, 1, 0, 1.25], "texture": "#0"},
+				"south": {"uv": [1, 1, 2, 1.25], "texture": "#0"},
+				"west": {"uv": [1, 1, 1, 1.25], "texture": "#0"},
+				"up": {"uv": [1, 1, 0, 1], "texture": "#0"},
+				"down": {"uv": [2, 1, 1, 1], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 0, 2],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_righthand": {
+			"translation": [0, 8.25, 0]
+		},
+		"firstperson_lefthand": {
+			"translation": [0, 9.5, 0]
+		},
+		"ground": {
+			"translation": [0, 8, 0]
+		},
+		"gui": {
+			"rotation": [36, -124, 0],
+			"translation": [0, 4.75, 0]
+		},
+		"head": {
+			"translation": [0, 10.5, 0],
+			"scale": [1.55, 1.55, 1.55]
+		},
+		"fixed": {
+			"translation": [0, 5, 0]
+		}
+	},
+	"groups": [
+		{
+			"name": "Head",
+			"origin": [8, 24, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5]
+		}
+	]
+}

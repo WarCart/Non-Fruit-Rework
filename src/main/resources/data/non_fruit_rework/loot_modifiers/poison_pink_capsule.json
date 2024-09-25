@@ -1,0 +1,29 @@
+{
+  "type": "ifrit_jambe:single_item",
+  "conditions": [
+    {
+      "condition": "alternative",
+      "terms": [
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "mineminenomi:chests/marine_large_base/captain"
+        },
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "mineminenomi:chests/marine_battleship/captain"
+        },
+        {
+          "condition": "forge:loot_table_id",
+          "loot_table_id": "mineminenomi:chests/pirate_large_ship/treasure"
+        }
+      ]
+    },
+    {
+      "condition": "random_chance",
+      "chance": 0.061
+    }
+  ],
+  "item": {
+    "name": "mineminenomi:poison_pink_capsule"
+  }
+}

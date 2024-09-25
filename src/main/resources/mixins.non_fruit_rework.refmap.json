@@ -1,0 +1,8 @@
+{
+  "mappings": {
+    "net/warcar/non_fruit_rework/mixins/ccr/client/PlayerStatsScreenMixin": {
+      "render": "func_230430_a_(Lcom/mojang/blaze3d/matrix/MatrixStack;IIF)V",
+      "init": "func_231160_c_()V"
+    }
+  }
+}

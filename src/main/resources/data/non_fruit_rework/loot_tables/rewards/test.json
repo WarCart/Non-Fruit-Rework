@@ -1,0 +1,19 @@
+{
+  "pools":[
+    {
+      "name":"mineminenomi:stats",
+      "rolls":1,
+      "entries":[
+        {
+          "type":"minecraft:item",
+          "functions":[
+            {
+              "function":"non_fruit_rework:self_remove_challenge"
+            }
+          ],
+          "name":"minecraft:air"
+        }
+      ]
+    }
+  ]
+}
