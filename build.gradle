@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.3.1.2'
+version = '0.3.3-BETA'
 group = 'net.warcar.non_fruit_rework' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'non_fruit_rework'
 
@@ -138,7 +138,7 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:5741150")
+    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:5762433")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"

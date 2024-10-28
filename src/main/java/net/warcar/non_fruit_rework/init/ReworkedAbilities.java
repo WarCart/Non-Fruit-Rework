@@ -15,6 +15,7 @@ import net.warcar.non_fruit_rework.abilities.raid_suit.stealth_black.StealthBlac
 import net.warcar.non_fruit_rework.abilities.rokushiki.RankyakuRanAbility;
 import net.warcar.non_fruit_rework.abilities.swordsman.AshuraIchibuginAbility;
 import net.warcar.non_fruit_rework.abilities.swordsman.SanzenSekaiAbility;
+import net.warcar.non_fruit_rework.abilities.test.IkokuAbility;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
@@ -31,6 +32,7 @@ public class ReworkedAbilities {
         registerAbility(PoisonHitAbility.INSTANCE);
         registerAbility(DetoxicatingKissAbility.INSTANCE);
         registerAbility(RankyakuRanAbility.INSTANCE);
+        registerAbility(IkokuAbility.INSTANCE);
     }
 
     public static <T extends IAbility> AbilityCore<T> registerAbility(AbilityCore<T> core) {

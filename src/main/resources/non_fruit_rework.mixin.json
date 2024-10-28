@@ -8,16 +8,16 @@
     "IInProgressChallengeMixin",
     "ModAbilitiesMixin",
     "ModQuestsMixin",
-    "swordsman.PoundHoMixin",
     "QuestMixin",
-    "rokushiki.ShiganMixin",
-    "swordsman.ShishisonsonMixin",
-    "swordsman.YakkodoriMixin",
     "ccr.AbilityCoreMixin",
     "ccr.AbilityHelperMixin",
     "ccr.CharacterCreatorMapMixin",
     "ccr.EntityPredicatesMixin",
-    "ccr.client.FinishCCPacketMixin"
+    "ccr.client.FinishCCPacketMixin",
+    "rokushiki.ShiganMixin",
+    "swordsman.PoundHoMixin",
+    "swordsman.ShishisonsonMixin",
+    "swordsman.YakkodoriMixin"
   ],
   "injectors": {
     "defaultRequire": 1

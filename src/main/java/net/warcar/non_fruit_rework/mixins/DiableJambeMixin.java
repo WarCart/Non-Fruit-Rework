@@ -9,7 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.warcar.non_fruit_rework.abilities.black_leg.IDiableJambeMixin;
 import net.warcar.non_fruit_rework.data.entity.germa_genes.GeneDataCapability;
-import net.warcar.non_fruit_rework.init.BlackLegParticleEffects;
+import net.warcar.non_fruit_rework.init.ReworkedParticleEffects;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +29,6 @@ import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
 import xyz.pixelatedw.mineminenomi.api.helpers.HakiHelper;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
-import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 import xyz.pixelatedw.mineminenomi.init.ModAbilityKeys;
 import xyz.pixelatedw.mineminenomi.init.ModAttributes;
@@ -94,7 +93,7 @@ public class DiableJambeMixin implements IDiableJambeMixin {
             this.continuousComponent.stopContinuity(entity);
             entity.hurt(DamageSource.ON_FIRE, 5);
         } else if (this.ifrit) {
-            WyHelper.spawnParticleEffect(BlackLegParticleEffects.IFRIT_JAMBE.get(), entity, entity.getX(), entity.getY(), entity.getZ());
+            WyHelper.spawnParticleEffect(ReworkedParticleEffects.IFRIT_JAMBE.get(), entity, entity.getX(), entity.getY(), entity.getZ());
         } else {
             WyHelper.spawnParticleEffect(ModParticleEffects.DIABLE_JAMBE.get(), entity, entity.getX(), entity.getY(), entity.getZ());
         }

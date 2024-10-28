@@ -21,6 +21,7 @@
   "ability.mineminenomi.detoxicating_kiss.description.0": "",
 
   "ability.item.message.need_three_sword": "You need three swords to use this ability!",
+  "ability.message.combo_invitation": "%s invited you to combo with ability at %s bar %s slot",
 
   "item.mineminenomi.stealth_black_capsule": "\"3\" Capsule",
   "item.mineminenomi.stealth_black_helmet": "Stealth Black Helmet",

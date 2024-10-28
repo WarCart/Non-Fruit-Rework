@@ -25,12 +25,12 @@ public class NonFruitReworkMod {
         bus.addListener(this::enqueueIMC);
         bus.addListener(this::processIMC);
         bus.addListener(this::clientSetup);
-        BlackLegParticleEffects.register(bus);
         ModRaidSuits.register();
         ReworkedAbilities.init(bus);
         AbilityUpdate.init();
         ReworkedAttributes.init();
         ReworkedQuests.init();
+        ReworkedComponents.init();
         if (ModConfig.INSTANCE.isPlayerChallenges()) ReworkedChallenges.init();
         ReworkedLootTypes.init();
         ModLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(bus);
