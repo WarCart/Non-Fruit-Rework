@@ -3,6 +3,9 @@
   "package": "net.warcar.non_fruit_rework.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "EntityDataMixin",
+    "IAbilityCoreMixin",
+    "WyHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 1
