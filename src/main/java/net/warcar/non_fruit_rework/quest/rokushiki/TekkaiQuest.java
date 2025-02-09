@@ -33,7 +33,7 @@ public class TekkaiQuest extends Quest {
         collectObjective.addRequirement(objective2);
         this.addObjective(collectObjective);
         this.addObjective(new ObtainItemObjective<>("Obtain Protection II Armor Piece", 1, (itemStack) -> EnchantmentHelper.getItemEnchantmentLevel(Enchantments.ALL_DAMAGE_PROTECTION, itemStack) > 1 && itemStack.getItem() instanceof ArmorItem).addRequirement(collectObjective));
-        this.onStartEvent = this::giveReward;
+        this.onCompleteEvent = this::giveReward;
     }
 
     public boolean giveReward(PlayerEntity player) {

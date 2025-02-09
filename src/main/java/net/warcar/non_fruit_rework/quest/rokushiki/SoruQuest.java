@@ -20,7 +20,7 @@ public class SoruQuest extends Quest {
         ReachDorikiObjective objective1 = new ReachDorikiObjective("Get %s Doriki Strong", 500);
         this.addObjective(objective1);
         this.addObjective(new TimedKillEntityObjective("Kill %s enemies in %s seconds", 3, 5).addRequirement(objective1));
-        this.onStartEvent = this::giveReward;
+        this.onCompleteEvent = this::giveReward;
     }
 
     public boolean giveReward(PlayerEntity player) {

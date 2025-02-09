@@ -25,7 +25,7 @@ public class RankyakuQuest extends Quest {
         this.addObjective(objective);
         this.addObjective(new KillEntityObjective("Kill %s enemies", 50).addRequirement(objective));
         this.addObjective(new UseAbilityObjective("Use Geppo %s times", 15, GeppoAbility.INSTANCE).addRequirement(objective));
-        this.onStartEvent = this::giveReward;
+        this.onCompleteEvent = this::giveReward;
     }
 
     public static RankyakuQuest difficult(QuestId core) {

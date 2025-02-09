@@ -14,18 +14,15 @@ import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.api.quests.objectives.Objective;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
-import xyz.pixelatedw.mineminenomi.entities.DummyEntity;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.extra.CannonBallProjectile;
 import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
-import xyz.pixelatedw.mineminenomi.init.ModEntities;
 import xyz.pixelatedw.mineminenomi.init.ModEntityPredicates;
 import xyz.pixelatedw.mineminenomi.packets.server.SSyncAbilityDataPacket;
 import xyz.pixelatedw.mineminenomi.packets.server.quest.SDespawnQuestObjectivePacket;
 import xyz.pixelatedw.mineminenomi.particles.effects.CommonExplosionParticleEffect;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.TimedSurvivalObjective;
-import xyz.pixelatedw.mineminenomi.quests.objectives.UseAbilityObjective;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
@@ -103,7 +100,7 @@ public class KamieQuest extends Quest {
             return true;
         };
         this.addObjective(objective2);
-        this.onStartEvent = this::giveReward;
+        this.onCompleteEvent = this::giveReward;
     }
 
     public boolean giveReward(PlayerEntity player) {

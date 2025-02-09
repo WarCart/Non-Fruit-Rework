@@ -17,8 +17,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.entities.quests.CP9Trainer;
 import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
-import xyz.pixelatedw.mineminenomi.models.entities.mobs.animals.HumandrillModel;
 import xyz.pixelatedw.mineminenomi.models.entities.mobs.humanoids.HumanoidModel;
 import xyz.pixelatedw.mineminenomi.renderers.entities.HumanoidRenderer;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
@@ -31,6 +31,7 @@ public class ModEntityTypes {
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);
         registerFactionlessWithSpawnEgg("Vegapunk", VegapunkEntity.INSTANCE);
+        registerFactionlessWithSpawnEgg("CP9 Trainer", CP9Trainer.INSTANCE);
     }
 
     private static <T extends Entity> RegistryObject<EntityType<T>> registerFactionlessWithSpawnEgg(String name, EntityType<T> type) {
@@ -42,10 +43,13 @@ public class ModEntityTypes {
     @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
         event.put(VegapunkEntity.INSTANCE, VegapunkEntity.createAttributes().build());
+        event.put(CP9Trainer.INSTANCE, CP9Trainer.createAttributes().build());
     }
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
     }
 }
