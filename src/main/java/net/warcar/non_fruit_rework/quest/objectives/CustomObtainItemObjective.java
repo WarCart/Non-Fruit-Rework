@@ -20,7 +20,7 @@ public class CustomObtainItemObjective<I extends Item> extends ObtainItemObjecti
 
     @Override
     public String getLocalizedTitle() {
-        return new TranslationTextComponent("quest.objective.non_fruit_rework.collect_items", this.getItemsNeeded(), new ItemStack(this.itemTarget.get()).getHoverName().getString()).getString();
+        return new TranslationTextComponent("quest.objective.mineminenomi.collect_%s_%s", this.getItemsNeeded(), new ItemStack(this.itemTarget.get()).getHoverName().getString()).getString();
     }
 
     public Supplier<I> getItemTarget() {

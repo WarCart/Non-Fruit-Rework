@@ -6,10 +6,12 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import net.warcar.non_fruit_rework.quest.cyborg.*;
+import net.warcar.non_fruit_rework.quest.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.ModMain;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
+import xyz.pixelatedw.mineminenomi.api.quests.objectives.Objective;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
 import java.util.List;
@@ -18,10 +20,25 @@ public class ModQuests {
     public static final DeferredRegister<QuestId<?>> QUESTS = DeferredRegister.create(ModRegistries.QUESTS, NonFruitReworkMod.MOD_ID);
 
     public static final List<QuestId> CYBORG_QUESTS = Lists.newArrayList();
+    public static final List<QuestId> ROKUSHIKI_QUESTS = Lists.newArrayList();
 
     public static void register(IEventBus bus) {
         QUESTS.register(bus);
-        LangHelper.registerLine("quest.objective.non_fruit_rework.collect_items", "Collect %s %s");
+        cyborgQuests();
+        rokushikiQuests();
+    }
+
+    private static void rokushikiQuests() {
+        registerQuest(GeppoQuest.INSTANCE, ROKUSHIKI_QUESTS);
+        registerQuest(KamieQuest.INSTANCE, ROKUSHIKI_QUESTS);
+        registerQuest(RankyakuQuest.INSTANCE, ROKUSHIKI_QUESTS);
+        registerQuest(RokuoganQuest.INSTANCE, ROKUSHIKI_QUESTS);
+        registerQuest(ShiganQuest.INSTANCE, ROKUSHIKI_QUESTS);
+        registerQuest(SoruQuest.INSTANCE, ROKUSHIKI_QUESTS);
+        registerQuest(TekkaiQuest.INSTANCE, ROKUSHIKI_QUESTS);
+    }
+
+    private static void cyborgQuests() {
         registerQuest(CyborgBodyQuest.INSTANCE, CYBORG_QUESTS);
         registerQuest(FreshFireQuest.INSTANCE, CYBORG_QUESTS);
         registerQuest(HeavyArmorQuest.INSTANCE, CYBORG_QUESTS);
@@ -34,6 +51,11 @@ public class ModQuests {
         String resourceName = WyHelper.getResourceName(instance.getName());
         QUESTS.register(resourceName, () -> instance);
         LangHelper.registerLine(String.format("quest.%s.%s", ModMain.PROJECT_ID, resourceName), instance.getName());
-        group.add(instance);
+        for (Objective objective : instance.createQuest().getObjectives()) {
+            LangHelper.registerLine("quest.objective.mineminenomi." + objective.getId(), objective.getTitle());
+        }
+        if (group != null) {
+            group.add(instance);
+        }
     }
 }
