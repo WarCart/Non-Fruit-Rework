@@ -8,12 +8,21 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
+import net.warcar.non_fruit_rework.network.ModNetwork;
+import net.warcar.non_fruit_rework.network.packets.server.SOpenVegapunkMenuPacket;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
+import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
+
 import java.util.List;
 
 public class VegapunkEntity extends TrainerEntity {
@@ -38,6 +47,22 @@ public class VegapunkEntity extends TrainerEntity {
 
     @Override
     public List<QuestId> getAvailableQuests(PlayerEntity playerEntity) {
-        return ModQuests.CYBORG_QUESTS;
+        return QuestHelper.getQuestsSorted(ModQuests.CYBORG_QUESTS, ModQuests.GEN_MODIFICATION_QUESTS);
+    }
+
+    protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        if (hand != Hand.MAIN_HAND) {
+            return ActionResultType.FAIL;
+        } else {
+            ItemStack stack = player.getItemInHand(hand);
+            if (!stack.isEmpty() && stack.getItem() == Items.NAME_TAG) {
+                return ActionResultType.FAIL;
+            } else if (!player.level.isClientSide && !WyHelper.isInCombat(player)) {
+                ModNetwork.sendTo(new SOpenVegapunkMenuPacket(this.getId()), player);
+                return ActionResultType.PASS;
+            } else {
+                return ActionResultType.PASS;
+            }
+        }
     }
 }

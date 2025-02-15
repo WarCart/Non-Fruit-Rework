@@ -28,7 +28,7 @@ public class RokuoganQuest extends Quest {
         this.addObjective(objective1);
         Objective objective2 = new KillEntityObjective("Kill %s enemies using Rankyaku", 35, SharedKillChecks.checkAbilitySource(RankyakuAbility.INSTANCE)).addRequirement(objective);
         this.addObjective(objective2);
-        this.addObjective(new KillEntityObjective("Kill %s enemies", 350).addRequirements(objective1, objective2, objective));
+        this.addObjective(new KillEntityObjective("Kill %s enemies", 350, (p, e, s) -> true).addRequirements(objective1, objective2, objective));
         this.onCompleteEvent = this::giveReward;
     }
 

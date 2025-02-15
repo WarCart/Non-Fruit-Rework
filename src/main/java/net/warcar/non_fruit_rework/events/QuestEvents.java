@@ -21,7 +21,7 @@ public class QuestEvents {
         if (entity instanceof PlayerEntity && !entity.level.isClientSide) {
             IQuestData questProps = QuestDataCapability.get((PlayerEntity) entity);
             for (Objective obj : questProps.getInProgressObjectives()) {
-                if (obj instanceof TakeDamageObjective) {
+                if (obj instanceof TakeDamageObjective && ((TakeDamageObjective) obj).getCheck().valid((PlayerEntity) entity, event.getAmount(), event.getSource())) {
                     obj.alterProgress((PlayerEntity) event.getEntityLiving(), event.getAmount(), false);
                     WyNetwork.sendTo(new SSyncQuestDataPacket(entity.getId(), questProps), (PlayerEntity) entity);
                 }

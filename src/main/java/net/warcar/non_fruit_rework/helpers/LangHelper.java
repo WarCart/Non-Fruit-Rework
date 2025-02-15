@@ -1,7 +1,6 @@
 package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.RegistryObject;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
@@ -47,7 +46,7 @@ public final class LangHelper {
         return components;
     }
 
-    public static ITextComponent registerLine(String resourceName, String name) {
+    public static TranslationTextComponent registerLine(String resourceName, String name) {
         langMap.put(resourceName, name);
         return new TranslationTextComponent(resourceName);
     }

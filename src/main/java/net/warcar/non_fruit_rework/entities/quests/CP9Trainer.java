@@ -7,7 +7,8 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.entities.goals.RokuoganWrapperGoal;
+import net.warcar.non_fruit_rework.entities.goals.rokushiki.RokuoganWrapperGoal;
+import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
 import xyz.pixelatedw.mineminenomi.api.enums.HakiType;
@@ -70,7 +71,7 @@ public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
     }
 
     public List<QuestId> getAvailableQuests(PlayerEntity playerEntity) {
-        return ModQuests.ROKUSHIKI_QUESTS;
+        return QuestHelper.getQuestsSorted(ModQuests.ROKUSHIKI_QUESTS);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {

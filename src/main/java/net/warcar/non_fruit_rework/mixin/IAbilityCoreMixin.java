@@ -8,4 +8,6 @@ import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 public interface IAbilityCoreMixin {
     @Accessor
     void setUnlockCheck(AbilityCore.ICanUnlock check);
+    @Accessor
+    AbilityCore.ICanUnlock getUnlockCheck();
 }

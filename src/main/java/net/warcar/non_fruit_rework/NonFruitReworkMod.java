@@ -8,10 +8,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.warcar.non_fruit_rework.init.ModAbilities;
-import net.warcar.non_fruit_rework.init.ModEntityTypes;
-import net.warcar.non_fruit_rework.init.ModQuests;
-import net.warcar.non_fruit_rework.init.ReworkedUnlockRequirements;
+import net.warcar.non_fruit_rework.init.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,10 +27,14 @@ public class NonFruitReworkMod {
         ModQuests.register(bus);
         ModAbilities.register(bus);
         ModEntityTypes.register(bus);
+        ModItems.register(bus);
+        ModTexts.init();
+        ModChallenges.register(bus);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+        ModPackets.init();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

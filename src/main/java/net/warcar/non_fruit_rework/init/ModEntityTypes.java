@@ -17,39 +17,88 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
+import net.warcar.non_fruit_rework.entities.bosses.NekomamushiBoss;
 import net.warcar.non_fruit_rework.entities.quests.CP9Trainer;
+import net.warcar.non_fruit_rework.entities.quests.FishmanTrainer;
 import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
+import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
+import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
+import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.models.entities.mobs.humanoids.HumanoidModel;
 import xyz.pixelatedw.mineminenomi.renderers.entities.HumanoidRenderer;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
-import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = NonFruitReworkMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, NonFruitReworkMod.MOD_ID);
 
+    public static final List<EntityType<? extends SeraphimEntity>> SERAPHIMS = new ArrayList<>();
+
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);
+
+        //Quest givers
         registerFactionlessWithSpawnEgg("Vegapunk", VegapunkEntity.INSTANCE);
         registerFactionlessWithSpawnEgg("CP9 Trainer", CP9Trainer.INSTANCE);
+        registerFactionlessWithSpawnEgg("Fishman Trainer", FishmanTrainer.INSTANCE);
+
+        //Seraphims
+        registerSeraphim("S-Hawk", SHawkEntity.INSTANCE);
+
+        //Bosses
+        registerEntity("Nekomamushi", NekomamushiBoss.INSTANCE);
+        registerEntity("Inuarashi", InuarashiBoss.INSTANCE);
     }
 
-    private static <T extends Entity> RegistryObject<EntityType<T>> registerFactionlessWithSpawnEgg(String name, EntityType<T> type) {
+    private static <T extends SeraphimEntity> void registerSeraphim(String name, EntityType<T> type) {
+        RegistryObject<EntityType<T>> reg = registerEntity(name, type);
+        ModItems.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#272727").getRGB(), WyHelper.hexToRGB("#ff0000").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
+        SERAPHIMS.add(type);
+    }
+
+    private static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType<T> type) {
         RegistryObject<EntityType<T>> reg = ENTITIES.register(WyHelper.getResourceName(name), () -> type);
-        WyRegistry.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#fbbf4c").getRGB(), WyHelper.hexToRGB("#F7F7F7").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
+        LangHelper.registerLine(String.format("entity.%s.%s", reg.getId().getNamespace(), reg.getId().getPath()), name);
         return reg;
+    }
+
+    private static <T extends Entity> void registerFactionlessWithSpawnEgg(String name, EntityType<T> type) {
+        RegistryObject<EntityType<T>> reg = registerEntity(name, type);
+        ModItems.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#5bffdc").getRGB(), WyHelper.hexToRGB("#F7F7F7").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
     }
 
     @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
+        //Quest givers
         event.put(VegapunkEntity.INSTANCE, VegapunkEntity.createAttributes().build());
         event.put(CP9Trainer.INSTANCE, CP9Trainer.createAttributes().build());
+        event.put(FishmanTrainer.INSTANCE, FishmanTrainer.createAttributes().build());
+
+        //Seraphims
+        event.put(SHawkEntity.INSTANCE, SeraphimEntity.createAttributes().build());
+
+        //Bosses
+        event.put(NekomamushiBoss.INSTANCE, NekomamushiBoss.createAttributes().build());
+        event.put(InuarashiBoss.INSTANCE, InuarashiBoss.createAttributes().build());
     }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
+        //Quest givers
         RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
         RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+
+        //Seraphims
+        RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+
+        //Bosses
+        RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "black_leg_trainer1"));
+        RenderingRegistry.registerEntityRenderingHandler(InuarashiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "black_leg_trainer2"));
     }
 }

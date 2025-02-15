@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.entities.goals;
+package net.warcar.non_fruit_rework.entities.goals.rokushiki;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;

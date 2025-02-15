@@ -3,8 +3,12 @@
   "package": "net.warcar.non_fruit_rework.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "AbilityHelperMixin",
+    "DimSulongMixin",
     "EntityDataMixin",
     "IAbilityCoreMixin",
+    "IReachDorikiMixin",
+    "PacifistaMixin",
     "WyHelperMixin"
   ],
   "injectors": {
