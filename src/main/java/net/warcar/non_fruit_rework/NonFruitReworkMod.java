@@ -12,6 +12,17 @@ import net.warcar.non_fruit_rework.init.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Not finished Stuff:
+ * <p>
+ * Seraphims
+ * <p>
+ * Models/textures
+ * <p>
+ * Berserk for humans
+ * <p>
+ * Genetic Modification and cloning
+ */
 @Mod(NonFruitReworkMod.MOD_ID)
 public class NonFruitReworkMod {
     public static final String MOD_ID = "non_fruit_rework";

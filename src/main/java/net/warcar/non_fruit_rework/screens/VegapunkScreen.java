@@ -125,6 +125,8 @@ public class VegapunkScreen extends Screen {
             case CUSTOM_SERAPHIM:
                 registerCustomSeraphim(mc, posX, posY);
                 break;
+            case GENETIC_MODIFICATIONS:
+                break;
             case INTRO:
             default:
                 registerIntroState(posX, posY);
@@ -194,7 +196,8 @@ public class VegapunkScreen extends Screen {
             this.init(this.getMinecraft(), this.width, this.height);
         }, tooltip);
         seraphimButton.active = genome;
-        this.addButton(seraphimButton);
+        //this.addButton(seraphimButton);
+        /// Uncomment when seraphims are balanced
         FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
             this.guiState = State.INTRO;
             this.init(this.getMinecraft(), this.width, this.height);
@@ -271,6 +274,7 @@ public class VegapunkScreen extends Screen {
         INTRO,
         CYBORG_QUESTS,
         GENETIC_QUESTS,
+        GENETIC_MODIFICATIONS,
         BUY_PACIFISTA,
         BUY_SERAPHIM,
         CUSTOM_SERAPHIM

@@ -20,6 +20,7 @@ import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.Geppo
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.SoruWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.TekkaiWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.phases.SimplePhase;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.init.ModWeapons;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
@@ -49,10 +50,10 @@ public class NekomamushiBoss extends OPBossEntity<NekomamushiBoss> {
     @Override
     public void initBoss() {
         super.initBoss();
-        this.entityStats.setRace("mink");
-        this.entityStats.setSubRace("lion");
-        this.entityStats.setFaction("pirate");
-        this.entityStats.setFightingStyle("swordsman");
+        this.entityStats.setRace(ModValues.MINK);
+        this.entityStats.setSubRace(ModValues.MINK_LION);
+        this.entityStats.setFaction(ModValues.PIRATE);
+        this.entityStats.setFightingStyle(ModValues.SWORDSMAN);
         this.entityStats.setDoriki(5000);
         this.hakiCapability.setKenbunshokuHakiExp(35);
         this.hakiCapability.setBusoshokuHakiExp(60);

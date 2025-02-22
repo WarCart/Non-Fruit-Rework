@@ -6,9 +6,11 @@
     "AbilityHelperMixin",
     "DimSulongMixin",
     "EntityDataMixin",
+    "GeppoMixin",
     "IAbilityCoreMixin",
     "IReachDorikiMixin",
     "PacifistaMixin",
+    "SoruMixin",
     "WyHelperMixin"
   ],
   "injectors": {

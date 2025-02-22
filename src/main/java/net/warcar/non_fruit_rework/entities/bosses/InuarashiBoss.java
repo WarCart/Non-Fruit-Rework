@@ -26,6 +26,7 @@ import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.Sanby
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.ShiShishiSonsonWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.YakkodoriWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.phases.SimplePhase;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.init.ModWeapons;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
@@ -51,10 +52,10 @@ public class InuarashiBoss extends OPBossEntity<InuarashiBoss> implements IHasIm
     @Override
     public void initBoss() {
         super.initBoss();
-        this.entityStats.setRace("mink");
-        this.entityStats.setSubRace("dog");
-        this.entityStats.setFaction("pirate");
-        this.entityStats.setFightingStyle("swordsman");
+        this.entityStats.setRace(ModValues.MINK);
+        this.entityStats.setSubRace(ModValues.MINK_DOG);
+        this.entityStats.setFaction(ModValues.PIRATE);
+        this.entityStats.setFightingStyle(ModValues.SWORDSMAN);
         this.entityStats.setDoriki(5000);
         this.hakiCapability.setKenbunshokuHakiExp(35);
         this.hakiCapability.setBusoshokuHakiExp(60);

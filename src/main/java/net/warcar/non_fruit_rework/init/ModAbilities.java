@@ -4,6 +4,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.abilities.cyborg.CyborgHeavyPlatingAbility;
+import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
+import net.warcar.non_fruit_rework.abilities.human.RageMeterAbility;
 import net.warcar.non_fruit_rework.abilities.lunarian.DisasterFlamesAbility;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
@@ -18,6 +20,8 @@ public class ModAbilities {
         ABILITIES.register(bus);
         registerAbility(CyborgHeavyPlatingAbility.INSTANCE);
         registerAbility(DisasterFlamesAbility.INSTANCE);
+        registerAbility(RageMeterAbility.INSTANCE);
+        registerAbility(BerserkModeAbility.INSTANCE);
     }
 
     private static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {
