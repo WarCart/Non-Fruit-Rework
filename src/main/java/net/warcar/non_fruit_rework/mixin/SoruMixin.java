@@ -10,6 +10,7 @@ import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.StackComponent;
+import xyz.pixelatedw.mineminenomi.init.ModAbilityKeys;
 
 @Mixin(SoruAbility.class)
 public abstract class SoruMixin extends Ability {
@@ -20,6 +21,8 @@ public abstract class SoruMixin extends Ability {
         public void addStacks(LivingEntity entity, IAbility ability, int stacks) {
             if (!MiscHelper.isBerserk(entity)) {
                 super.addStacks(entity, ability, stacks);
+            } else {
+                this.getAbility().getComponent(ModAbilityKeys.COOLDOWN).ifPresent(cooldownComponent1 -> cooldownComponent1.startCooldown(entity, 10));
             }
         }
     }.addStackChangeEvent(this::onStacksChange);
