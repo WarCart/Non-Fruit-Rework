@@ -5,8 +5,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.non_fruit_rework.init.*;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +32,7 @@ public class NonFruitReworkMod {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::enqueueIMC);
-        bus.addListener(this::processIMC);
+        bus.addListener(this::onLoadComplete);
         bus.addListener(this::clientSetup);
         ReworkedUnlockRequirements.init();
         ModQuests.register(bus);
@@ -41,11 +41,13 @@ public class NonFruitReworkMod {
         ModItems.register(bus);
         ModTexts.init();
         ModChallenges.register(bus);
+        ModDamages.init();
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
         ModPackets.init();
+        ModCapabilities.init();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -53,5 +55,6 @@ public class NonFruitReworkMod {
 
     private void enqueueIMC(final InterModEnqueueEvent event) {}
 
-    private void processIMC(final InterModProcessEvent event) {}
+    private void onLoadComplete(final FMLLoadCompleteEvent event) {
+    }
 }

@@ -1,6 +1,12 @@
 {
+	"ability.non_fruit_rework.berserk_mode": "Berserk Mode",
 	"ability.non_fruit_rework.cyborg_heavy_armor_passive_bonuses": "Cyborg Heavy Armor Passive Bonuses",
 	"ability.non_fruit_rework.disaster_flames": "Disaster Flames",
+	"ability.non_fruit_rework.fishman_power": "Fishman power",
+	"ability.non_fruit_rework.rage_meter": "Rage Meter",
+
+	"death.attack.overdose": "%s overdosed on drugs",
+	"death.attack.overdose.player": "%s overdosed on drugs while fighting %s",
 
 	"entity.non_fruit_rework.cp9_trainer": "CP9 Trainer",
 	"entity.non_fruit_rework.fishman_trainer": "Fishman Trainer",
@@ -25,8 +31,12 @@
 	"gui.text.quests_genetics": "Genetic Collection",
 
 	"item.non_fruit_rework.cp9_trainer_spawn_egg": "Spawn CP9 Trainer",
+	"item.non_fruit_rework.energy_steroid": "Energy Steroid",
+	"item.non_fruit_rework.energy_steroid_batch": "Energy Steroid Batch",
 	"item.non_fruit_rework.fishman_trainer_spawn_egg": "Spawn Fishman Trainer",
+	"item.non_fruit_rework.rumble_ball": "Rumble Ball",
 	"item.non_fruit_rework.shawk_spawn_egg": "Spawn S-Hawk",
+	"item.non_fruit_rework.sulong_ball": "Sulong Ball",
 	"item.non_fruit_rework.vegapunk_spawn_egg": "Spawn Vegapunk",
 
 	"quest.mineminenomi.cyborg_body": "Cyborg Body",

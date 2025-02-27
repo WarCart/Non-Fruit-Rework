@@ -18,7 +18,8 @@ public class CyborgHeavyPlatingAbility  extends PassiveStatBonusAbility {
     private static final AttributeModifier CYBORG_ARMOR;
     private static final AttributeModifier CYBORG_ARMOR_TOUGHNESS;
     private static final AttributeModifier CYBORG_DAMAGE;
-    public static final AbilityCore<CyborgHeavyPlatingAbility> INSTANCE = new AbilityCore.Builder<>("Cyborg Heavy Armor Passive Bonuses", AbilityCategory.RACIAL, AbilityType.PASSIVE, CyborgHeavyPlatingAbility::new).setIcon(ModResources.PERK_ICON).addDescriptionLine(new AbilityDescriptionLine.IDescriptionLine[]{ChangeStatsComponent.getTooltip()}).setUnlockCheck(CyborgHeavyPlatingAbility::canUnlock).build();
+    public static final AbilityCore<CyborgHeavyPlatingAbility> INSTANCE = new AbilityCore.Builder<>("Cyborg Heavy Armor Passive Bonuses", AbilityCategory.RACIAL, AbilityType.PASSIVE, CyborgHeavyPlatingAbility::new)
+            .setIcon(ModResources.PERK_ICON).addDescriptionLine(ChangeStatsComponent.getTooltip()).setUnlockCheck(CyborgHeavyPlatingAbility::canUnlock).build();
 
     public CyborgHeavyPlatingAbility(AbilityCore<CyborgHeavyPlatingAbility> core) {
         super(core);
