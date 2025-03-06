@@ -3,6 +3,10 @@ package net.warcar.non_fruit_rework.abilities.human;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.GeppoAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.RokuoganAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.SoruAbility;
@@ -16,6 +20,9 @@ import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
 import xyz.pixelatedw.mineminenomi.init.ModAbilityKeys;
+import xyz.pixelatedw.mineminenomi.packets.server.SAddScreenShaderPacket;
+import xyz.pixelatedw.mineminenomi.packets.server.SRemoveScreenShaderPacket;
+import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
 import java.util.UUID;
 
@@ -52,6 +59,9 @@ public class BerserkModeAbility extends Ability {
                 });
             }
         });
+        if (livingEntity instanceof ServerPlayerEntity) {
+            WyNetwork.sendTo(new SAddScreenShaderPacket(new ResourceLocation(NonFruitReworkMod.MOD_ID, "shaders/post/berserk.json")), (PlayerEntity) livingEntity);
+        }
     }
 
     private void endContinuous(LivingEntity livingEntity, IAbility iAbility) {
@@ -63,5 +73,8 @@ public class BerserkModeAbility extends Ability {
                 cooldownComponent.getMaxChargeBonusManager().removeBonus(UUID.fromString("c296909b-43f3-4043-8be2-783ff18d2b05"));
             });
         });
+        if (livingEntity instanceof ServerPlayerEntity) {
+            WyNetwork.sendTo(new SRemoveScreenShaderPacket(new ResourceLocation(NonFruitReworkMod.MOD_ID, "shaders/post/berserk.json")), (PlayerEntity) livingEntity);
+        }
     }
 }

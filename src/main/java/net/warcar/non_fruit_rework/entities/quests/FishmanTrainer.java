@@ -22,6 +22,7 @@ import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuH
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiHardeningWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiImbuingWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.quest.givers.IHakiTrainer;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
@@ -33,8 +34,8 @@ public class FishmanTrainer extends TrainerEntity implements IHakiTrainer {
     public FishmanTrainer(EntityType type, World world) {
         super(type, world);
         if (!world.isClientSide) {
-            this.getEntityStats().setFaction("civilian");
-            this.getEntityStats().setRace("fishman");
+            this.getEntityStats().setFaction(ModValues.CIVILIAN);
+            this.getEntityStats().setRace(ModValues.FISHMAN);
             this.setDoriki(2000.0D + WyHelper.randomWithRange(0, 1000));
             this.setBelly(20.0D + WyHelper.randomWithRange(0, 20));
             //Fishman karate
@@ -70,7 +71,7 @@ public class FishmanTrainer extends TrainerEntity implements IHakiTrainer {
     }
 
     public List<QuestId> getAvailableQuests(PlayerEntity playerEntity) {
-        return QuestHelper.getQuestsSorted(ModQuests.FISHMAN_KARATE_QUESTS);
+        return QuestHelper.getQuestsSorted(playerEntity, ModQuests.FISHMAN_KARATE_GENERIC_QUESTS, ModQuests.FISHMAN_KARATE_RACIAL_QUESTS);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {

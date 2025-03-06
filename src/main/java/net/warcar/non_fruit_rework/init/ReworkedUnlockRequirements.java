@@ -3,25 +3,30 @@ package net.warcar.non_fruit_rework.init;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.mixin.IAbilityCoreMixin;
 import net.warcar.non_fruit_rework.quest.cyborg.*;
-import net.warcar.non_fruit_rework.quest.fishman_karate.KachiageHaisokuQuest;
-import net.warcar.non_fruit_rework.quest.fishman_karate.KarakusagawaraSeikenQuest;
-import net.warcar.non_fruit_rework.quest.fishman_karate.SamehadaShoteiQuest;
-import net.warcar.non_fruit_rework.quest.fishman_karate.TwoFishEngineQuest;
+import net.warcar.non_fruit_rework.quest.electro.*;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.*;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.*;
 import net.warcar.non_fruit_rework.quest.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.abilities.cyborg.*;
-import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.KachiageHaisokuAbility;
-import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.KarakusagawaraSeikenAbility;
-import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.SamehadaShoteiAbility;
-import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.TwoFishEngineAbility;
+import xyz.pixelatedw.mineminenomi.abilities.electro.*;
+import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.*;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
-import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 
 public class ReworkedUnlockRequirements {
     public static void init() {
         cyborgAbilities();
         rokushikiAbilities();
         fishmanAbilities();
+        minkAbilities();
+    }
+
+    private static void minkAbilities() {
+        addReqs(EleclawAbility.INSTANCE, entity -> QuestHelper.isHybridRace(entity, "mink"));
+        addReqs(ElectricalLunaAbility.INSTANCE, QuestHelper.questFinished(ElectricalLunaQuest.INSTANCE));
+        addReqs(ElectricalMissileAbility.INSTANCE, QuestHelper.questFinished(ElectricalMissileQuest.INSTANCE));
+        addReqs(ElectricalShowerAbility.INSTANCE, QuestHelper.questFinished(ElectricalShowerQuest.INSTANCE));
+        addReqs(ElectricalTempestaAbility.INSTANCE, QuestHelper.questFinished(ElectricalTempestaQuest.INSTANCE));
     }
 
     private static void fishmanAbilities() {
@@ -29,6 +34,10 @@ public class ReworkedUnlockRequirements {
         addReqs(KarakusagawaraSeikenAbility.INSTANCE, QuestHelper.questFinished(KarakusagawaraSeikenQuest.INSTANCE));
         addReqs(SamehadaShoteiAbility.INSTANCE, QuestHelper.questFinished(SamehadaShoteiQuest.INSTANCE));
         addReqs(TwoFishEngineAbility.INSTANCE, QuestHelper.questFinished(TwoFishEngineQuest.INSTANCE));
+
+        addReqs(MurasameAbility.INSTANCE, QuestHelper.questFinished(MurasameQuest.INSTANCE));
+        addReqs(UchimizuAbility.INSTANCE, QuestHelper.questFinished(UchimizuQuest.INSTANCE));
+        addReqs(YarinamiAbility.INSTANCE, QuestHelper.questFinished(YarinamiQuest.INSTANCE));
     }
 
     private static void rokushikiAbilities() {
@@ -60,6 +69,6 @@ public class ReworkedUnlockRequirements {
     }
 
     private static AbilityCore.ICanUnlock isTrueRace(String race) {
-        return entity -> EntityStatsCapability.get(entity).getRace().equalsIgnoreCase(race);
+        return entity -> QuestHelper.isTrueRace(entity, race);
     }
 }

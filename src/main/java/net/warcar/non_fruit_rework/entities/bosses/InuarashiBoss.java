@@ -43,6 +43,8 @@ public class InuarashiBoss extends OPBossEntity<InuarashiBoss> implements IHasIm
 
     public InuarashiBoss(InProgressChallenge inProgressChallenge) {
         super(INSTANCE, inProgressChallenge);
+        this.entityStats.setRace(ModValues.MINK);
+        this.entityStats.setSubRace(ModValues.MINK_DOG);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
@@ -52,8 +54,6 @@ public class InuarashiBoss extends OPBossEntity<InuarashiBoss> implements IHasIm
     @Override
     public void initBoss() {
         super.initBoss();
-        this.entityStats.setRace(ModValues.MINK);
-        this.entityStats.setSubRace(ModValues.MINK_DOG);
         this.entityStats.setFaction(ModValues.PIRATE);
         this.entityStats.setFightingStyle(ModValues.SWORDSMAN);
         this.entityStats.setDoriki(5000);
@@ -61,7 +61,7 @@ public class InuarashiBoss extends OPBossEntity<InuarashiBoss> implements IHasIm
         this.hakiCapability.setBusoshokuHakiExp(60);
         //Generics
         MobsHelper.addBasicNPCGoals(this);
-        this.goalSelector.addGoal(3, new GeppoWrapperGoal(this));
+        this.basicPhase.addGoal(3, new GeppoWrapperGoal(this));
         this.goalSelector.addGoal(3, new TekkaiWrapperGoal(this));
         //Haki
         this.basicPhase.addGoal(1, new BusoshokuHakiImbuingWrapperGoal(this));

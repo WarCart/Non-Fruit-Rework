@@ -7,9 +7,11 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.entities.goals.rokushiki.RokuoganWrapperGoal;
+import net.warcar.non_fruit_rework.entities.goals.TransformationWrapperGoal;
+import net.warcar.non_fruit_rework.entities.goals.mink.*;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
+import xyz.pixelatedw.mineminenomi.abilities.electro.SulongAbility;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
 import xyz.pixelatedw.mineminenomi.api.enums.HakiType;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
@@ -20,7 +22,6 @@ import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuH
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiFullbodyHardeningWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiHardeningWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiImbuingWrapperGoal;
-import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.entities.mobs.quest.givers.IHakiTrainer;
 import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
@@ -28,28 +29,25 @@ import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
 import java.util.List;
 
-public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
-    public static final EntityType<CP9Trainer> INSTANCE = WyRegistry.createEntityType(CP9Trainer::new).build("");
+public class ElectroTrainer extends TrainerEntity implements IHakiTrainer {
+    public static final EntityType<ElectroTrainer> INSTANCE = WyRegistry.createEntityType(ElectroTrainer::new).build("");
 
-    public CP9Trainer(EntityType type, World world) {
+    public ElectroTrainer(EntityType type, World world) {
         super(type, world);
         if (!world.isClientSide) {
-            this.getEntityStats().setFaction(ModValues.WORLD_GOVT);
-            this.getEntityStats().setRace(ModValues.HUMAN);
+            this.getEntityStats().setFaction(ModValues.CIVILIAN);
+            this.getEntityStats().setRace(ModValues.MINK);
+            this.getEntityStats().setSubRace(ModValues.MINK_LION);
             this.setDoriki(2000.0D + WyHelper.randomWithRange(0, 1000));
             this.setBelly(20.0D + WyHelper.randomWithRange(0, 20));
-            //Rokushiki
-            this.goalSelector.addGoal(2, new SoruWrapperGoal(this));
-            this.goalSelector.addGoal(2, new GeppoWrapperGoal(this));
-            this.goalSelector.addGoal(2, new TekkaiWrapperGoal(this));
-            this.goalSelector.addGoal(2, new KamieWrapperGoal(this));
-            this.goalSelector.addGoal(2, new RankyakuWrapperGoal(this));
-            if (this.getRandom().nextFloat() < 0.7) {
-                this.goalSelector.addGoal(2, new ShiganWrapperGoal(this));
-            }
-            if (this.getRandom().nextFloat() < 0.1) {
-                this.goalSelector.addGoal(2, new RokuoganWrapperGoal(this));
-            }
+            //Electro
+            this.goalSelector.addGoal(1, new EleclawWrapperGoal(this));
+            this.goalSelector.addGoal(2, new ElectricalTempestaWrapperGoal(this));
+            this.goalSelector.addGoal(2, new ElectricalShowerWrapperGoal(this));
+            this.goalSelector.addGoal(2, new ElectricalLunaWrapperGoal(this));
+            this.goalSelector.addGoal(2, new ElectricalMissileWrapperGoal(this));
+            this.goalSelector.addGoal(1, new TransformationWrapperGoal<>(this, SulongAbility.INSTANCE));
+
             float hakiLevel = this.getRandom().nextFloat();
             if (hakiLevel < 0.05) {
                 this.goalSelector.addGoal(2, new BusoshokuHakiEmissionWrapperGoal(this));
@@ -72,7 +70,7 @@ public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
     }
 
     public List<QuestId> getAvailableQuests(PlayerEntity playerEntity) {
-        return QuestHelper.getQuestsSorted(playerEntity, ModQuests.ROKUSHIKI_QUESTS);
+        return QuestHelper.getQuestsSorted(playerEntity, ModQuests.ELECTRO_QUESTS);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {

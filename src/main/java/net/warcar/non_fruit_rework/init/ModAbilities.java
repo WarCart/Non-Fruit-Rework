@@ -3,10 +3,14 @@ package net.warcar.non_fruit_rework.init;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.cyborg.CyborgHeavyPlatingAbility;
 import net.warcar.non_fruit_rework.abilities.fishman.FishmanPowerAbility;
+import net.warcar.non_fruit_rework.abilities.giant.AncientGiantPassiveBonusesAbility;
+import net.warcar.non_fruit_rework.abilities.giant.GiantPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
 import net.warcar.non_fruit_rework.abilities.human.RageMeterAbility;
+import net.warcar.non_fruit_rework.abilities.hybrid.HybridPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.lunarian.DisasterFlamesAbility;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
@@ -24,6 +28,10 @@ public class ModAbilities {
         registerAbility(RageMeterAbility.INSTANCE);
         registerAbility(BerserkModeAbility.INSTANCE);
         registerAbility(FishmanPowerAbility.INSTANCE);
+        registerAbility(GenesAbility.INSTANCE);
+        registerAbility(HybridPassiveBonusesAbility.INSTANCE);
+        registerAbility(GiantPassiveBonusesAbility.INSTANCE);
+        registerAbility(AncientGiantPassiveBonusesAbility.INSTANCE);
     }
 
     private static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {

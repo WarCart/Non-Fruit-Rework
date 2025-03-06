@@ -1,0 +1,37 @@
+{
+    "targets": [
+        "swap",
+        "swap1",
+        "previous",
+        "previous1"
+    ],
+    "passes": [
+        {
+            "name": "phosphor",
+            "intarget": "previous",
+            "outtarget": "swap",
+            "auxtargets": [
+                {
+                    "name": "PrevSampler",
+                    "id": "minecraft:main"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "Phosphor",
+                    "values": [ 1, 0, 0 ]
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "minecraft:main",
+            "outtarget": "previous"
+        },
+        {
+            "name": "blit",
+            "intarget": "swap",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

@@ -4,12 +4,13 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.IExtensibleEnum;
 import xyz.pixelatedw.mineminenomi.entities.mobs.marines.PacifistaEntity;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
 import java.util.UUID;
 
-public enum PacifistaModel {
+public enum PacifistaModel implements IExtensibleEnum {
     PROTOTYPE(10000, "Prototype", -0.5, -0.5),
     MK1(25000, "MK. I", -0.25, -0.33),
     MK2(100000, "MK. II", 0, 0),
@@ -44,5 +45,9 @@ public enum PacifistaModel {
                 "Model armor modifier", armorMod, AttributeModifier.Operation.MULTIPLY_TOTAL));
         entity.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(UUID.fromString("2272c4ce-47f8-4e26-b494-335dee94727b"),
                 "Model HP Modifier", hpMod, AttributeModifier.Operation.MULTIPLY_TOTAL));
+    }
+
+    public static PacifistaModel create(String regName, int price, String name, double armorMod, double hpMod) {
+        throw new IllegalStateException(regName + " PacifistaModel isn't created");
     }
 }

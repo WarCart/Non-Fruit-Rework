@@ -1,13 +1,22 @@
 package net.warcar.non_fruit_rework.init;
 
-import com.google.common.collect.Lists;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import net.warcar.non_fruit_rework.quest.cyborg.*;
-import net.warcar.non_fruit_rework.quest.fishman_karate.*;
-import net.warcar.non_fruit_rework.quest.genetic_materials.*;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalLunaQuest;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalMissileQuest;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalShowerQuest;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalTempestaQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.KachiageHaisokuQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.KarakusagawaraSeikenQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.SamehadaShoteiQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.TwoFishEngineQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.MurasameQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.UchimizuQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.YarinamiQuest;
+import net.warcar.non_fruit_rework.quest.genetic_materials.FishmanGenesQuest;
 import net.warcar.non_fruit_rework.quest.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.ModMain;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
@@ -16,15 +25,18 @@ import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.api.quests.objectives.Objective;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModQuests {
     public static final DeferredRegister<QuestId<?>> QUESTS = DeferredRegister.create(ModRegistries.QUESTS, NonFruitReworkMod.MOD_ID);
 
-    public static final List<QuestId<?>> CYBORG_QUESTS = Lists.newArrayList();
-    public static final List<QuestId<?>> GEN_MODIFICATION_QUESTS = Lists.newArrayList();
-    public static final List<QuestId<?>> ROKUSHIKI_QUESTS = Lists.newArrayList();
-    public static final List<QuestId<?>> FISHMAN_KARATE_QUESTS = Lists.newArrayList();
+    public static final List<QuestId<?>> CYBORG_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> GEN_MODIFICATION_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> ROKUSHIKI_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> FISHMAN_KARATE_GENERIC_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> FISHMAN_KARATE_RACIAL_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> ELECTRO_QUESTS = new ArrayList<>();
 
     public static void register(IEventBus bus) {
         QUESTS.register(bus);
@@ -32,18 +44,32 @@ public class ModQuests {
         rokushikiQuests();
         fishmanQuests();
         geneticQuests();
+        electroQuests();
+    }
+
+    private static void electroQuests() {
+        registerQuest(ElectricalLunaQuest.INSTANCE, ELECTRO_QUESTS);
+        registerQuest(ElectricalMissileQuest.INSTANCE, ELECTRO_QUESTS);
+        registerQuest(ElectricalShowerQuest.INSTANCE, ELECTRO_QUESTS);
+        registerQuest(ElectricalTempestaQuest.INSTANCE, ELECTRO_QUESTS);
     }
 
     private static void geneticQuests() {
         registerQuest(FishmanGenesQuest.INSTANCE, GEN_MODIFICATION_QUESTS);
-        registerQuest(LunarianGenesQuest.INSTANCE, GEN_MODIFICATION_QUESTS);
+        //registerQuest(LunarianGenesQuest.INSTANCE, GEN_MODIFICATION_QUESTS);
     }
 
     private static void fishmanQuests() {
-        registerQuest(KachiageHaisokuQuest.INSTANCE, FISHMAN_KARATE_QUESTS);
-        registerQuest(KarakusagawaraSeikenQuest.INSTANCE, FISHMAN_KARATE_QUESTS);
-        registerQuest(SamehadaShoteiQuest.INSTANCE, FISHMAN_KARATE_QUESTS);
-        registerQuest(TwoFishEngineQuest.INSTANCE, FISHMAN_KARATE_QUESTS);
+        //Generics
+        registerQuest(KachiageHaisokuQuest.INSTANCE, FISHMAN_KARATE_GENERIC_QUESTS);
+        registerQuest(KarakusagawaraSeikenQuest.INSTANCE, FISHMAN_KARATE_GENERIC_QUESTS);
+        registerQuest(SamehadaShoteiQuest.INSTANCE, FISHMAN_KARATE_GENERIC_QUESTS);
+        registerQuest(TwoFishEngineQuest.INSTANCE, FISHMAN_KARATE_GENERIC_QUESTS);
+
+        //Racial
+        registerQuest(MurasameQuest.INSTANCE, FISHMAN_KARATE_RACIAL_QUESTS);
+        registerQuest(UchimizuQuest.INSTANCE, FISHMAN_KARATE_RACIAL_QUESTS);
+        registerQuest(YarinamiQuest.INSTANCE, FISHMAN_KARATE_RACIAL_QUESTS);
     }
 
     private static void rokushikiQuests() {

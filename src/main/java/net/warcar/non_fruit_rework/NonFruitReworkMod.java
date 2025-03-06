@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework;
 
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.non_fruit_rework.init.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import xyz.pixelatedw.mineminenomi.mixins.RangedAttributeMixin;
 
 /**
  * Not finished Stuff:
@@ -42,6 +44,7 @@ public class NonFruitReworkMod {
         ModTexts.init();
         ModChallenges.register(bus);
         ModDamages.init();
+        ModEntityAttributes.register(bus);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -56,5 +59,6 @@ public class NonFruitReworkMod {
     private void enqueueIMC(final InterModEnqueueEvent event) {}
 
     private void onLoadComplete(final FMLLoadCompleteEvent event) {
+        ((RangedAttributeMixin) Attributes.ARMOR).setMaxValue(2000);
     }
 }

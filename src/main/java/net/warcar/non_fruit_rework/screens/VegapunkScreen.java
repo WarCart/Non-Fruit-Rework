@@ -9,22 +9,32 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.IExtensibleEnum;
+import net.warcar.non_fruit_rework.abilities.GenesAbility;
+import net.warcar.non_fruit_rework.data.entity.medical_data.IMedicalData;
+import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
+import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
 import net.warcar.non_fruit_rework.enums.PacifistaModel;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModEntityTypes;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import net.warcar.non_fruit_rework.init.ModTexts;
 import net.warcar.non_fruit_rework.network.ModNetwork;
-import net.warcar.non_fruit_rework.network.packets.client.CSpawnPacifistaModelPacket;
-import net.warcar.non_fruit_rework.network.packets.client.CSpawnSeraphimModelPacket;
+import net.warcar.non_fruit_rework.network.packets.client.*;
 import net.warcar.non_fruit_rework.quest.genetic_materials.LunarianGenesQuest;
 import net.warcar.non_fruit_rework.screens.extra.AvailableQuestsListScreenPanel;
+import net.warcar.non_fruit_rework.screens.extra.OptionSlider;
+import net.warcar.non_fruit_rework.screens.extra.PlankToggle;
+import xyz.pixelatedw.mineminenomi.api.enums.StatChangeSource;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
+import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
+import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.IQuestData;
@@ -32,27 +42,102 @@ import xyz.pixelatedw.mineminenomi.data.entity.quests.QuestDataCapability;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
 import xyz.pixelatedw.mineminenomi.screens.extra.SequencedString;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.FactionButton;
+import xyz.pixelatedw.mineminenomi.screens.extra.buttons.PlankButton;
+import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
+import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class VegapunkScreen extends Screen {
+    public final Button.ITooltip WIP = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, ModTexts.WIP, mouseX, mouseY);
     private final PlayerEntity player;
     private final IQuestData questData;
     private final IEntityStats entityStats;
+    private final IMedicalData medicalData;
+    private final IAbilityData abilityData;
     private final LivingEntity trainer;
     private float animationTime = 0.0F;
     private float animationTranslation = 100.0F;
     private State guiState = State.INTRO;
+    private GeneticModsState geneticState = GeneticModsState.HYBRID_RACES;
     private SequencedString startMessage = new SequencedString("", 0, 0);
     private AvailableQuestsListScreenPanel availableQuestsPanel;
+    private OptionSlider[] hybridGenesSliders = {};
+    private OptionSlider[] otherGenesSliders = {};
+    private PlankButton[] pristineRaceButtons = {};
+    private PlankToggle germaGenes;
+    private FactionButton finishButton;
 
     public VegapunkScreen(PlayerEntity player, LivingEntity trainer) {
         super(new StringTextComponent(""));
         this.player = player;
         this.questData = QuestDataCapability.get(player);
         this.entityStats = EntityStatsCapability.get(player);
+        this.medicalData = MedicalDataCapability.get(player);
+        this.abilityData = AbilityDataCapability.get(player);
         this.trainer = trainer;
+    }
+
+    @Override
+    public void tick() {
+        if (this.finishButton != null) {
+            long finishPrice = this.getFinishPrice();
+            this.finishButton.active = !this.isGenomeDamaged() && this.entityStats.getBelly() > finishPrice;
+            this.finishButton.setMessage(new TranslationTextComponent(ModTexts.FINISH.getKey(), finishPrice));
+        }
+    }
+
+    private long getFinishPrice() {
+        return getRacialPrice() + getAdditionalGenesPrice();
+    }
+
+    private long getAdditionalGenesPrice() {
+        long price = 0;
+        GenesAbility ability = abilityData.getPassiveAbility(GenesAbility.INSTANCE);
+        if (ability != null && this.otherGenesSliders.length > 0) {
+            for (ModifiableAttributes attribute : ModifiableAttributes.values()) {
+                OptionSlider slider = this.otherGenesSliders[attribute.ordinal()];
+                double delta = slider.getValueStrict() - slider.unapplyValue(ability.getGenes().getOrDefault(attribute, 0d));
+                long powed = (long) Math.max(Math.pow(4, Math.abs(delta * 10)), 10000);
+                if (delta != 0) {
+                    price += powed;
+                }
+            }
+        }
+        return price;
+    }
+
+    private long getRacialPrice() {
+        try {
+            long racialPrice = 0;
+            if (this.chosenPristineRace() != 0) {
+                racialPrice = 1000000;
+            } else {
+                long defaultPrice = 5000;
+                for (int i = 0; i < HybridRaces.values().length; i++) {
+                    HybridRaces race = HybridRaces.values()[i];
+                    if (this.hybridGenesSliders[i].getValueStrict() == 0) {
+                        continue;
+                    }
+                    if (this.entityStats.getRace().equalsIgnoreCase("hybrid")) {
+                        if (medicalData.getGenome().containsKey(WyHelper.getResourceName(race.name()))) {
+                            racialPrice += 1000;
+                        } else {
+                            racialPrice += 10000;
+                        }
+                    } else if (!entityStats.getRace().equalsIgnoreCase(WyHelper.getResourceName(race.name()))) {
+                        racialPrice += 15000;
+                    }
+                }
+                racialPrice += defaultPrice;
+            }
+            return racialPrice;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -68,6 +153,9 @@ public class VegapunkScreen extends Screen {
         int posX = this.width / 2;
         int posY = this.height / 2;
         switch (this.guiState) {
+            case GENETIC_MODIFICATIONS:
+                this.renderMessage(matrixStack);
+                break;
             case INTRO:
                 this.renderMenu(matrixStack, mouseX, mouseY, partialTicks);
                 break;
@@ -84,9 +172,31 @@ public class VegapunkScreen extends Screen {
         matrixStack.pushPose();
         matrixStack.translate(this.animationTranslation, 0.0, 0.0);
         RenderSystem.enableBlend();
-        InventoryScreen.renderEntityInInventory(posX + 150, posY + 150, 100, 40.0F, 5.0F, this.trainer);
+        if (this.guiState != State.GENETIC_MODIFICATIONS) {
+            InventoryScreen.renderEntityInInventory(posX + 150, posY + 150, 100, 40.0F, 5.0F, this.trainer);
+        }
         matrixStack.popPose();
         super.render(matrixStack, mouseX, mouseY, partialTicks);
+    }
+
+    public void renderMessage(MatrixStack matrixStack) {
+        int posX = this.width / 2;
+        int posY = this.height / 2;
+        if (isGenomeDamaged()) {
+            WyHelper.drawStringWithBorder(this.minecraft.font, matrixStack, ModTexts.GENOME_DAMAGED, posX - 150, posY - 75, Color.RED.getRGB());
+        }
+    }
+
+    private boolean isGenomeDamaged() {
+        return getTotalGenes() != 1 && this.chosenPristineRace() == 0;
+    }
+
+    private double getTotalGenes() {
+        double totalGenes = 0;
+        for (OptionSlider slider : this.hybridGenesSliders) {
+            totalGenes += slider.getValueStrict();
+        }
+        return totalGenes;
     }
 
     public void renderMenu(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -117,15 +227,16 @@ public class VegapunkScreen extends Screen {
                 registerQuestState(ModQuests.GEN_MODIFICATION_QUESTS, posX, posY);
                 break;
             case BUY_PACIFISTA:
-                registerBuyPacifistaState(mc, posX, posY);
+                registerBuyPacifistaState(posX, posY);
                 break;
             case BUY_SERAPHIM:
-                registerBuySeraphim(mc, posX, posY);
+                registerBuySeraphim(posX, posY);
                 break;
             case CUSTOM_SERAPHIM:
-                registerCustomSeraphim(mc, posX, posY);
+                registerCustomSeraphim(posX, posY);
                 break;
             case GENETIC_MODIFICATIONS:
+                registerGeneticModifications(posX, posY);
                 break;
             case INTRO:
             default:
@@ -133,7 +244,191 @@ public class VegapunkScreen extends Screen {
         }
     }
 
-    private void registerCustomSeraphim(Minecraft mc, int posX, int posY) {
+    private void registerGeneticModifications(int posX, int posY) {
+        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
+            this.guiState = State.INTRO;
+            this.init(this.getMinecraft(), this.width, this.height);
+        });
+        this.addButton(backButton);
+        for (int i = 0; i < GeneticModsState.values().length; i++) {
+            GeneticModsState state = GeneticModsState.values()[i];
+            PlankButton button = new PlankButton(40 + i * 140, 20, 120, 30, state.component, btn -> {
+                this.geneticState = state;
+                this.init(this.minecraft, this.width, this.height);
+            });
+            if (this.geneticState == state) {
+                button.active = false;
+            }
+            this.addButton(button);
+        }
+        this.finishButton = this.addButton(new FactionButton(posX + 40, posY + 80, 200, 20, new TranslationTextComponent(ModTexts.FINISH.getKey(), getFinishPrice()), btn -> finish()));
+        switch (this.geneticState) {
+            case HYBRID_RACES:
+                this.initHybridableRaces(posX, posY);
+                break;
+            case PRISTINE_RACES:
+                this.initPristineRaces(posX, posY);
+                break;
+            case OTHER_GENES:
+                this.initOtherGenes(posX, posY);
+                break;
+        }
+    }
+
+    private void finish() {
+        this.entityStats.alterDoriki(-entityStats.getDoriki() * 0.9, StatChangeSource.DEATH);
+        if (this.chosenPristineRace() == 0) {
+            boolean isHybrid = false;
+            String race = "";
+            Map<String, Float> genomeMap = new HashMap<>();
+
+            for (int i = 0; i < hybridGenesSliders.length; i++) {
+                OptionSlider slider = hybridGenesSliders[i];
+                race = HybridRaces.values()[i].name().toLowerCase();
+                genomeMap.put(race, (float) slider.getValueStrict());
+                if (slider.getValueStrict() != 1 && slider.getValueStrict() != 0) {
+                    isHybrid = true;
+                } else if (slider.getValueStrict() == 1) {
+                    break;
+                }
+            }
+            if (isHybrid) {
+                this.entityStats.setRace("hybrid");
+                this.medicalData.setGenome(genomeMap);
+            } else {
+                this.entityStats.setRace(race);
+            }
+            ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));
+            ModNetwork.sendToServer(new CSyncMedicalDataPacket(this.player.getId(), this.medicalData));
+        } else {
+            this.entityStats.setRace(PristineRaces.values()[chosenPristineRace() - 1].name());
+            ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));
+        }
+        IAbilityData abilityData = AbilityDataCapability.get(player);
+        for (int i = 0; i < this.otherGenesSliders.length; i++) {
+            GenesAbility ability = abilityData.getPassiveAbility(GenesAbility.INSTANCE);
+            if (ability != null) {
+                ability.getGenes().put(ModifiableAttributes.values()[i], this.otherGenesSliders[i].getValue());
+                ModNetwork.sendToServer(new CUpdatePassiveAbilityDataPacket(this.player, ability));
+            }
+        }
+        QuestHelper.restartPlayer(player);
+        player.refreshDimensions();
+        this.minecraft.setScreen(null);
+    }
+
+    private int chosenPristineRace() {
+        for (int i = 0; i < pristineRaceButtons.length; i++) {
+            if (!pristineRaceButtons[i].active) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private void initOtherGenes(int posX, int posY) {
+        if (this.otherGenesSliders.length == 0) {
+            this.otherGenesSliders = new OptionSlider[ModifiableAttributes.values().length];
+            for (int i = 0; i < otherGenesSliders.length; i++) {
+                int yPos = i % 4;
+                int xPos = i / 4;
+                ModifiableAttributes attribute = ModifiableAttributes.values()[i];
+                OptionSlider slider = new OptionSlider(posX - 220 + 110 * xPos, posY + 30 * yPos - 50, 100, 20, new TranslationTextComponent("gui.gene." + WyHelper.getResourceName(attribute.name())), 0) {
+                    @Override
+                    public void updateMessage() {
+                        this.setMessage(new StringTextComponent(this.message.getString() + ": " + this.getValue()));
+                    }
+                };
+                slider.setMaxValue(attribute.getMax());
+                slider.setMinValue(attribute.getMin());
+                slider.setSteps(attribute.getSteps());
+                GenesAbility ability = abilityData.getPassiveAbility(GenesAbility.INSTANCE);
+                if (ability != null) {
+                    slider.setValue(ability.getGenes().getOrDefault(attribute, 0d));
+                } else {
+                    slider.setValue(0);
+                }
+                slider.updateMessage();
+                otherGenesSliders[i] = this.addButton(slider);
+            }
+            int yPos = otherGenesSliders.length % 4;
+            int xPos = otherGenesSliders.length / 4;
+            this.germaGenes = new PlankToggle(posX - 220 + 110 * xPos, posY + 30 * yPos - 50, 100, 20, ModTexts.WIP, btn -> {
+            });//TODO: Well, germa genes
+        } else {
+            for (OptionSlider slider : this.otherGenesSliders) {
+                this.addButton(slider);
+            }
+        }
+    }
+
+    private void initPristineRaces(int posX, int posY) {
+        if (this.pristineRaceButtons.length == 0) {
+            this.pristineRaceButtons = new PlankButton[PristineRaces.values().length + 1];
+            boolean hasOtherRace = false;
+            for (int i = 1; i < pristineRaceButtons.length; i++) {
+                int buttonId = i;
+                PristineRaces race = PristineRaces.values()[i - 1];
+                this.pristineRaceButtons[i] = this.addButton(new PlankButton(posX - 180, posY + 30 * i - 50, 120, 20, new TranslationTextComponent("race." + WyHelper.getResourceName(race.name())), btn -> {
+                    choosePristineRace(buttonId);
+                }, WIP));
+                this.pristineRaceButtons[i].active = false;
+                if (entityStats.getRace().equalsIgnoreCase(race.name())) {
+                    hasOtherRace = true;
+                    this.pristineRaceButtons[i].active = false;
+                }
+            }
+            this.pristineRaceButtons[0] = this.addButton(new PlankButton(posX - 180, posY - 50, 120, 20, new TranslationTextComponent("race.empty"), btn -> {
+                choosePristineRace(0);
+            }));
+            this.pristineRaceButtons[0].active = hasOtherRace;
+        } else {
+            for (PlankButton button : this.pristineRaceButtons) {
+                this.addButton(button);
+            }
+        }
+    }
+
+    private void choosePristineRace(int choice) {
+        for (int i = 0; i < pristineRaceButtons.length; i++) {
+            if (i == choice) {
+                pristineRaceButtons[i].active = false;
+            } else {
+                pristineRaceButtons[i].active = false;
+            }
+        }
+    }
+
+    private void initHybridableRaces(int posX, int posY) {
+        if (this.hybridGenesSliders.length == 0) {
+            this.hybridGenesSliders = new OptionSlider[HybridRaces.values().length];
+            String race = EntityStatsCapability.get(this.player).getRace();
+            for (int i = 0; i < HybridRaces.values().length; i++) {
+                HybridRaces hybridRace = HybridRaces.values()[i];
+                double val;
+                if (race.equalsIgnoreCase("hybrid")) {
+                    val = this.medicalData.getGenome().computeIfAbsent(hybridRace.toString().toLowerCase(), s -> 0f);
+                } else if (race.equalsIgnoreCase(hybridRace.toString())) {
+                    val = 1;
+                } else {
+                    val = 0;
+                }
+                hybridGenesSliders[i] = this.addButton(new OptionSlider(posX - 180, posY + 30 * i - 50, 200, 20, new TranslationTextComponent("race." + WyHelper.getResourceName(hybridRace.toString())), val) {
+                    @Override
+                    public void updateMessage() {
+                        this.setMessage(new StringTextComponent(this.message.getString() + ": " + (int) (this.value * 100) + "%"));
+                    }
+                });
+                hybridGenesSliders[i].updateMessage();
+            }
+        } else {
+            for (OptionSlider slider : this.hybridGenesSliders) {
+                this.addButton(slider);
+            }
+        }
+    }
+
+    private void registerCustomSeraphim(int posX, int posY) {
         FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
             this.guiState = State.BUY_SERAPHIM;
             this.init(this.getMinecraft(), this.width, this.height);
@@ -141,7 +436,7 @@ public class VegapunkScreen extends Screen {
         this.addButton(backButton);
     }
 
-    private void registerBuySeraphim(Minecraft mc, int posX, int posY) {
+    private void registerBuySeraphim(int posX, int posY) {
         for (int i = 0; i < ModEntityTypes.SERAPHIMS.size(); i++) {
             EntityType<SeraphimEntity> model = (EntityType<SeraphimEntity>) ModEntityTypes.SERAPHIMS.get(i);
             int modelId = i;
@@ -152,7 +447,7 @@ public class VegapunkScreen extends Screen {
             FactionButton modelButton = new FactionButton(posX - 180, posY + 15 * i - 50, 100, 10, new TranslationTextComponent(ModTexts.BUY_SERAPHIM_LVL.getKey(), model.getDescription()), btn -> {
                 if (this.entityStats.getBelly() >= 1000000) {
                     ModNetwork.sendToServer(new CSpawnSeraphimModelPacket(modelId, 1000000));
-                    mc.setScreen(null);
+                    this.minecraft.setScreen(null);
                 }
             }, tooltip);
             modelButton.active = this.entityStats.getBelly() >= 1000000;
@@ -170,7 +465,7 @@ public class VegapunkScreen extends Screen {
         this.addButton(backButton);
     }
 
-    private void registerBuyPacifistaState(Minecraft mc, int posX, int posY) {
+    private void registerBuyPacifistaState(int posX, int posY) {
         for (int i = 0; i < PacifistaModel.values().length; i++) {
             PacifistaModel model = PacifistaModel.values()[i];
             Button.ITooltip tooltip = Button.NO_TOOLTIP;
@@ -180,14 +475,14 @@ public class VegapunkScreen extends Screen {
             FactionButton modelButton = new FactionButton(posX - 180, posY + 15 * i - 50, 100, 10, new TranslationTextComponent(ModTexts.BUY_PACIFISTA_LVL.getKey(), model.getLocalizedName(), model.getPrice()), btn -> {
                 if (this.entityStats.getBelly() >= model.getPrice()) {
                     ModNetwork.sendToServer(new CSpawnPacifistaModelPacket(model));
-                    mc.setScreen(null);
+                    this.minecraft.setScreen(null);
                 }
             }, tooltip);
             modelButton.active = this.entityStats.getBelly() >= model.getPrice();
             this.addButton(modelButton);
         }
-        Button.ITooltip tooltip = Button.NO_TOOLTIP;
-        boolean genome = QuestHelper.hasFinishedQuest(this.player, LunarianGenesQuest.INSTANCE);
+        Button.ITooltip tooltip = WIP;
+        boolean genome = /*QuestHelper.hasFinishedQuest(this.player, LunarianGenesQuest.INSTANCE)*/false;
         if (!genome) {
             tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, this.minecraft.font.split(new TranslationTextComponent(ModTexts.GENOME_NOT_INCLUDED.getKey(), "Lunarian", LunarianGenesQuest.INSTANCE.getLocalizedTitle()), Math.max(this.width / 2 - 43, 170)), mouseX, mouseY);
         }
@@ -196,8 +491,7 @@ public class VegapunkScreen extends Screen {
             this.init(this.getMinecraft(), this.width, this.height);
         }, tooltip);
         seraphimButton.active = genome;
-        //this.addButton(seraphimButton);
-        /// Uncomment when seraphims are balanced
+        this.addButton(seraphimButton);
         FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
             this.guiState = State.INTRO;
             this.init(this.getMinecraft(), this.width, this.height);
@@ -264,6 +558,11 @@ public class VegapunkScreen extends Screen {
             this.init(this.getMinecraft(), this.width, this.height);
         });
         this.addButton(pacifistaButton);
+        FactionButton genModButton = new FactionButton(posX - 180, posY + 40, 100, 20, ModTexts.MODIFY_ME, btn->{
+            this.guiState = State.GENETIC_MODIFICATIONS;
+            this.init(this.getMinecraft(), this.width, this.height);
+        });
+        this.addButton(genModButton);
     }
 
     public boolean isAnimationComplete() {
@@ -278,5 +577,40 @@ public class VegapunkScreen extends Screen {
         BUY_PACIFISTA,
         BUY_SERAPHIM,
         CUSTOM_SERAPHIM
+    }
+
+    private enum GeneticModsState {
+        HYBRID_RACES(ModTexts.HYBRID_RACES),
+        PRISTINE_RACES(ModTexts.PRISTINE_RACES),
+        OTHER_GENES(ModTexts.OTHER_GENES);
+
+        private final ITextComponent component;
+
+        GeneticModsState(ITextComponent component) {
+            this.component = component;
+        }
+    }
+
+    public enum HybridRaces implements IExtensibleEnum {
+        HUMAN,
+        FISHMAN,
+        MINK,
+        GIANT,
+        ;
+
+        public static HybridRaces create(String name) {
+            throw new IllegalStateException(name + "not created");
+        }
+    }
+
+    public enum PristineRaces implements IExtensibleEnum {
+        LUNARIAN,
+        ONI,
+        ANCIENT_GIANT,
+        ;
+
+        public static PristineRaces create(String name) {
+            throw new IllegalStateException(name + "not created");
+        }
     }
 }

@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.quest.fishman_karate;
+package net.warcar.non_fruit_rework.quest.fishman_karate.generic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.FishmanKarateHelper;

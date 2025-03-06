@@ -2,9 +2,13 @@ package net.warcar.non_fruit_rework.init;
 
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
 import net.warcar.non_fruit_rework.enums.PacifistaModel;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
+import net.warcar.non_fruit_rework.screens.VegapunkScreen;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
+
+import java.util.function.Function;
 
 public class ModTexts {
     public static final ITextComponent BUY_PACIFISTA = LangHelper.registerLine("gui.text.buy_pacifista", "Buy Pacifista (10000-500000 belly)");
@@ -17,10 +21,31 @@ public class ModTexts {
     public static final ITextComponent BROKE = LangHelper.registerLine("gui.text.not_enough_money", "You don't have enough moneys for that");
     public static final TranslationTextComponent GENOME_NOT_INCLUDED = LangHelper.registerLine("gui.text.need_genome", "You need to collect %s genome for that\n(Go look %s quest)");
     public static final ITextComponent CUSTOM_SERAPHIM = LangHelper.registerLine("gui.text.custom_seraphim", "I want a custom Seraphim! (50000000 belly)");
+    public static final ITextComponent MODIFY_ME = LangHelper.registerLine("gui.text.modify_me", "I want a new body with genetic modifications!");
+    public static final TranslationTextComponent FINISH = LangHelper.registerLine("gui.text.finish", "Finish (%s belly)");
+    public static final ITextComponent HYBRID_RACES = LangHelper.registerLine("gui.text.genetic_states.hybrid_races", "Hybrid Races");
+    public static final ITextComponent PRISTINE_RACES = LangHelper.registerLine("gui.text.genetic_states.pristine_races", "Pristine Races");
+    public static final ITextComponent OTHER_GENES = LangHelper.registerLine("gui.text.genetic_states.other_genes", "Other genes");
+    public static final ITextComponent GENOME_DAMAGED = LangHelper.registerLine("gui.text.genome_damaged", "Hybrid genes should add up to 100%");
+    public static final ITextComponent WIP = LangHelper.registerLine("gui.text.wip", "WIP");
+    
+    public static final ITextComponent GIANT = LangHelper.registerLine("race.giant", "Giant");
+    public static final ITextComponent HYBRID = LangHelper.registerLine("race.hybrid", "Hybrid");
 
     public static void init() {
-        for (PacifistaModel model : PacifistaModel.values()) {
-            LangHelper.registerLine("entity.pacifista." + WyHelper.getResourceName(model.name()), model.getName());
+        registerEnum(PacifistaModel.class, "entity.pacifista.", PacifistaModel::getName);
+        registerEnum(ModifiableAttributes.class, "gui.gene.", e -> getName(e.name()));
+        registerEnum(VegapunkScreen.PristineRaces.class, "race.", e -> getName(e.name()));
+    }
+
+    private static <E extends Enum<E>> void registerEnum(Class<E> enumClass, String string, Function<E, String> toNameConverter) {
+        for (E val : enumClass.getEnumConstants()) {
+            LangHelper.registerLine(string + WyHelper.getResourceName(val.name()), toNameConverter.apply(val));
         }
+    }
+
+    private static String getName(String name) {
+        String lowerCase = name.replace('_', ' ').toLowerCase();
+        return name.charAt(0) + lowerCase.substring(1);
     }
 }

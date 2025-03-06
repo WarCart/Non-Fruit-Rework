@@ -5,7 +5,7 @@ import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 
 public final class MiscHelper {
-    private MiscHelper() {}
+    private MiscHelper() {} //Don't initialize
 
     public static boolean isBerserk(LivingEntity entity) {
         BerserkModeAbility ability = AbilityDataCapability.get(entity).getEquippedAbility(BerserkModeAbility.INSTANCE);

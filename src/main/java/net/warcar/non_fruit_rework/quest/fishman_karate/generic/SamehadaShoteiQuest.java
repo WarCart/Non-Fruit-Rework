@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.quest.fishman_karate;
+package net.warcar.non_fruit_rework.quest.fishman_karate.generic;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;

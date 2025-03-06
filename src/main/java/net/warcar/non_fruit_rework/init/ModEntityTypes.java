@@ -20,6 +20,7 @@ import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
 import net.warcar.non_fruit_rework.entities.bosses.NekomamushiBoss;
 import net.warcar.non_fruit_rework.entities.quests.CP9Trainer;
+import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.entities.quests.FishmanTrainer;
 import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
@@ -45,6 +46,7 @@ public class ModEntityTypes {
         registerFactionlessWithSpawnEgg("Vegapunk", VegapunkEntity.INSTANCE);
         registerFactionlessWithSpawnEgg("CP9 Trainer", CP9Trainer.INSTANCE);
         registerFactionlessWithSpawnEgg("Fishman Trainer", FishmanTrainer.INSTANCE);
+        registerFactionlessWithSpawnEgg("Electro Trainer", ElectroTrainer.INSTANCE);
 
         //Seraphims
         registerSeraphim("S-Hawk", SHawkEntity.INSTANCE);
@@ -55,9 +57,9 @@ public class ModEntityTypes {
     }
 
     private static <T extends SeraphimEntity> void registerSeraphim(String name, EntityType<T> type) {
-        RegistryObject<EntityType<T>> reg = registerEntity(name, type);
+        /*RegistryObject<EntityType<T>> reg = registerEntity(name, type);
         ModItems.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#272727").getRGB(), WyHelper.hexToRGB("#ff0000").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
-        SERAPHIMS.add(type);
+        SERAPHIMS.add(type);*/
     }
 
     private static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType<T> type) {
@@ -77,6 +79,7 @@ public class ModEntityTypes {
         event.put(VegapunkEntity.INSTANCE, VegapunkEntity.createAttributes().build());
         event.put(CP9Trainer.INSTANCE, CP9Trainer.createAttributes().build());
         event.put(FishmanTrainer.INSTANCE, FishmanTrainer.createAttributes().build());
+        event.put(ElectroTrainer.INSTANCE, ElectroTrainer.createAttributes().build());
 
         //Seraphims
         event.put(SHawkEntity.INSTANCE, SeraphimEntity.createAttributes().build());
@@ -93,6 +96,7 @@ public class ModEntityTypes {
         RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
         RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
         RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
 
         //Seraphims
         RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
