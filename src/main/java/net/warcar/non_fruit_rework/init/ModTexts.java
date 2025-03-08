@@ -2,6 +2,7 @@ package net.warcar.non_fruit_rework.init;
 
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.warcar.non_fruit_rework.abilities.cyborg.WeaponsLeftAbility;
 import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
 import net.warcar.non_fruit_rework.enums.PacifistaModel;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
@@ -32,6 +33,7 @@ public class ModTexts {
         registerEnum(PacifistaModel.class, "entity.pacifista.", PacifistaModel::getName);
         registerEnum(ModifiableAttributes.class, "gui.gene.", e -> getName(e.name()));
         registerEnum(VegapunkScreen.PristineRaces.class, "race.", e -> getName(e.name()));
+        registerEnum(WeaponsLeftAbility.Mode.class, "ability.non_fruit_rework.weapons_left.mode.", e -> getName(e.name()));
         LangHelper.registerLine("gui.text.genetic_modification", "Genetic Modifications");
         LangHelper.registerLine("race.hybrid", "Hybrid");
         LangHelper.registerLine("race.giant", "Giant");

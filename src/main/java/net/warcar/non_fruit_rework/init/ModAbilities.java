@@ -5,6 +5,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.cyborg.CyborgHeavyPlatingAbility;
+import net.warcar.non_fruit_rework.abilities.cyborg.WeaponsLeftAbility;
 import net.warcar.non_fruit_rework.abilities.fishman.FishmanPowerAbility;
 import net.warcar.non_fruit_rework.abilities.giant.AncientGiantPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.giant.GiantPassiveBonusesAbility;
@@ -24,6 +25,7 @@ public class ModAbilities {
     public static void register(IEventBus bus) {
         ABILITIES.register(bus);
         registerAbility(CyborgHeavyPlatingAbility.INSTANCE);
+        registerAbility(WeaponsLeftAbility.INSTANCE);
         registerAbility(DisasterFlamesAbility.INSTANCE);
         registerAbility(RageMeterAbility.INSTANCE);
         registerAbility(BerserkModeAbility.INSTANCE);

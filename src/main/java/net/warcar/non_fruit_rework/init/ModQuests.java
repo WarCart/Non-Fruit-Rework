@@ -91,6 +91,7 @@ public class ModQuests {
         registerQuest(PressurizedTanksQuest.INSTANCE, CYBORG_QUESTS);
         registerQuest(RadicalBeamQuest.INSTANCE, CYBORG_QUESTS);
         registerQuest(StrongRightQuest.INSTANCE, CYBORG_QUESTS);
+        registerQuest(WeaponsLeftQuest.INSTANCE, CYBORG_QUESTS);
     }
 
     private static <Q extends Quest> void registerQuest(QuestId<Q> instance, List<QuestId<?>> group) {

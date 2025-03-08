@@ -8,6 +8,9 @@
 	"ability.non_fruit_rework.giant_passive_bonuses": "Giant passive bonuses",
 	"ability.non_fruit_rework.hybrid_passive_bonuses": "Hybrid passive bonuses",
 	"ability.non_fruit_rework.rage_meter": "Rage Meter",
+	"ability.non_fruit_rework.weapons_left": "Weapons Left",
+	"ability.non_fruit_rework.weapons_left.mode.canon": "Canon",
+	"ability.non_fruit_rework.weapons_left.mode.machine_gun": "Machine gun",
 
 	"attribute.generic.non_fruit_rework.size": "Size",
 
@@ -94,6 +97,7 @@
 	"quest.mineminenomi.trial_two_fish_engine": "Trial: Two Fish Engine",
 	"quest.mineminenomi.trial_uchimizu": "Trial: Uchimizu",
 	"quest.mineminenomi.trial_yarinami": "Trial: Yarinami",
+	"quest.mineminenomi.weapons_left": "Weapons left",
 	"quest.objective.mineminenomi.collect_%s_%s": "Collect %s %s",
 	"quest.objective.mineminenomi.defeat_hody_jones": "Defeat Hody Jones",
 	"quest.objective.mineminenomi.defeat_mink_dukes": "Defeat Mink dukes",
