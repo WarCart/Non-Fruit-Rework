@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.quest;
+package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.entity.player.PlayerEntity;
 

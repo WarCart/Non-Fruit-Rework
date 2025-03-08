@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework.screens;
 
+import com.google.common.base.Predicates;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -15,6 +16,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
+import net.minecraftforge.fml.ModList;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.data.entity.medical_data.IMedicalData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
@@ -27,7 +29,9 @@ import net.warcar.non_fruit_rework.init.ModQuests;
 import net.warcar.non_fruit_rework.init.ModTexts;
 import net.warcar.non_fruit_rework.network.ModNetwork;
 import net.warcar.non_fruit_rework.network.packets.client.*;
+import net.warcar.non_fruit_rework.quest.genetic_materials.FishmanGenesQuest;
 import net.warcar.non_fruit_rework.quest.genetic_materials.LunarianGenesQuest;
+import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.screens.extra.AvailableQuestsListScreenPanel;
 import net.warcar.non_fruit_rework.screens.extra.OptionSlider;
 import net.warcar.non_fruit_rework.screens.extra.PlankToggle;
@@ -45,10 +49,12 @@ import xyz.pixelatedw.mineminenomi.screens.extra.buttons.FactionButton;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.PlankButton;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 @OnlyIn(Dist.CLIENT)
 public class VegapunkScreen extends Screen {
@@ -372,7 +378,7 @@ public class VegapunkScreen extends Screen {
                 this.pristineRaceButtons[i] = this.addButton(new PlankButton(posX - 180, posY + 30 * i - 50, 120, 20, new TranslationTextComponent("race." + WyHelper.getResourceName(race.name())), btn -> {
                     choosePristineRace(buttonId);
                 }, WIP));
-                this.pristineRaceButtons[i].active = false;
+                this.pristineRaceButtons[i].active = PristineRaces.values()[i - 1].canHave(this.player);
                 if (entityStats.getRace().equalsIgnoreCase(race.name())) {
                     hasOtherRace = true;
                     this.pristineRaceButtons[i].active = false;
@@ -393,8 +399,10 @@ public class VegapunkScreen extends Screen {
         for (int i = 0; i < pristineRaceButtons.length; i++) {
             if (i == choice) {
                 pristineRaceButtons[i].active = false;
+            } else if (i != 0) {
+                pristineRaceButtons[i].active = PristineRaces.values()[i - 1].canHave(this.player);
             } else {
-                pristineRaceButtons[i].active = false;
+                pristineRaceButtons[i].active = true;
             }
         }
     }
@@ -413,13 +421,26 @@ public class VegapunkScreen extends Screen {
                 } else {
                     val = 0;
                 }
-                hybridGenesSliders[i] = this.addButton(new OptionSlider(posX - 180, posY + 30 * i - 50, 200, 20, new TranslationTextComponent("race." + WyHelper.getResourceName(hybridRace.toString())), val) {
+                TranslationTextComponent raceName = new TranslationTextComponent("race." + WyHelper.getResourceName(hybridRace.toString()));
+                Button.ITooltip tooltip;
+                if (!hybridRace.canModify(this.player)) {
+                    tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, new TranslationTextComponent(ModTexts.GENOME_NOT_INCLUDED.getKey(), raceName.getString(), hybridRace.requirement == null ? null : hybridRace.requirement.getLocalizedTitle()), mouseX, mouseY);
+                } else {
+                    tooltip = Button.NO_TOOLTIP;
+                }
+                hybridGenesSliders[i] = this.addButton(new OptionSlider(posX - 180, posY + 30 * i - 50, 200, 20, raceName, val) {
                     @Override
                     public void updateMessage() {
                         this.setMessage(new StringTextComponent(this.message.getString() + ": " + (int) (this.value * 100) + "%"));
                     }
+
+                    @Override
+                    public void renderToolTip(MatrixStack matrixStack, int mouseX, int mouseY) {
+                        tooltip.onTooltip(null, matrixStack, mouseX, mouseY);
+                    }
                 });
                 hybridGenesSliders[i].updateMessage();
+                hybridGenesSliders[i].active = hybridRace.canModify(this.player);
             }
         } else {
             for (OptionSlider slider : this.hybridGenesSliders) {
@@ -592,24 +613,57 @@ public class VegapunkScreen extends Screen {
     }
 
     public enum HybridRaces implements IExtensibleEnum {
-        HUMAN,
-        FISHMAN,
-        MINK,
-        GIANT,
+        HUMAN(null),
+        FISHMAN(FishmanGenesQuest.INSTANCE),
+        MINK(MinkGenesQuest.INSTANCE),
+        GIANT(null),
         ;
 
-        public static HybridRaces create(String name) {
+        @Nullable
+        private final QuestId<?> requirement;
+
+        HybridRaces(@Nullable QuestId<?> requirement) {
+            this.requirement = requirement;
+        }
+
+        public boolean canModify(LivingEntity entity) {
+            if (this.requirement == null || QuestHelper.hasFinishedQuest(entity, this.requirement)) {
+                return true;
+            } else {
+                return EntityStatsCapability.get(entity).getRace().equalsIgnoreCase(this.name());
+            }
+        }
+
+        public static HybridRaces create(String name, QuestId<?> requirement) {
             throw new IllegalStateException(name + "not created");
         }
     }
 
     public enum PristineRaces implements IExtensibleEnum {
-        LUNARIAN,
-        ONI,
-        ANCIENT_GIANT,
+        LUNARIAN(entity -> Boolean.logicalXor(ModList.get().isLoaded("cartaddon"), ModList.get().isLoaded("addonnomi"))),
+        ONI(entity -> ModList.get().isLoaded("cartaddon")),
+        ANCIENT_GIANT(entity -> false),
         ;
 
-        public static PristineRaces create(String name) {
+        private final Predicate<LivingEntity> requirement;
+
+        PristineRaces(@Nullable QuestId<?> requirement) {
+            this(requirement == null ? Predicates.alwaysTrue() : QuestHelper.questFinished(requirement)::canUnlock);
+        }
+
+        PristineRaces(Predicate<LivingEntity> requirement) {
+            if (requirement == null) {
+                this.requirement = Predicates.alwaysFalse();
+            } else {
+                this.requirement = requirement;
+            }
+        }
+
+        public boolean canHave(LivingEntity entity) {
+            return this.requirement.test(entity);
+        }
+
+        public static PristineRaces create(String name, QuestId<?> requirement) {
             throw new IllegalStateException(name + "not created");
         }
     }

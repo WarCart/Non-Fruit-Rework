@@ -16,7 +16,6 @@ public class ModTexts {
     public static final ITextComponent BUY_SERAPHIM = LangHelper.registerLine("gui.text.buy_seraphim", "Buy Seraphim (1000000-50000000 belly)");
     public static final TranslationTextComponent BUY_SERAPHIM_LVL = LangHelper.registerLine("gui.text.buy_seraphim_lvl", "Buy %s (1000000 belly)");
     public static final ITextComponent CYBORG_UPGRADES = LangHelper.registerLine("gui.text.quests_cyborg", "Cyborg Upgrades");
-    public static final ITextComponent GENETIC_MODIFICATION = LangHelper.registerLine("gui.text.genetic_modification", "Genetic Modifications");
     public static final ITextComponent GENETIC_COLLECTION = LangHelper.registerLine("gui.text.quests_genetics", "Genetic Collection");
     public static final ITextComponent BROKE = LangHelper.registerLine("gui.text.not_enough_money", "You don't have enough moneys for that");
     public static final TranslationTextComponent GENOME_NOT_INCLUDED = LangHelper.registerLine("gui.text.need_genome", "You need to collect %s genome for that\n(Go look %s quest)");
@@ -28,14 +27,14 @@ public class ModTexts {
     public static final ITextComponent OTHER_GENES = LangHelper.registerLine("gui.text.genetic_states.other_genes", "Other genes");
     public static final ITextComponent GENOME_DAMAGED = LangHelper.registerLine("gui.text.genome_damaged", "Hybrid genes should add up to 100%");
     public static final ITextComponent WIP = LangHelper.registerLine("gui.text.wip", "WIP");
-    
-    public static final ITextComponent GIANT = LangHelper.registerLine("race.giant", "Giant");
-    public static final ITextComponent HYBRID = LangHelper.registerLine("race.hybrid", "Hybrid");
 
     public static void init() {
         registerEnum(PacifistaModel.class, "entity.pacifista.", PacifistaModel::getName);
         registerEnum(ModifiableAttributes.class, "gui.gene.", e -> getName(e.name()));
         registerEnum(VegapunkScreen.PristineRaces.class, "race.", e -> getName(e.name()));
+        LangHelper.registerLine("gui.text.genetic_modification", "Genetic Modifications");
+        LangHelper.registerLine("race.hybrid", "Hybrid");
+        LangHelper.registerLine("race.giant", "Giant");
     }
 
     private static <E extends Enum<E>> void registerEnum(Class<E> enumClass, String string, Function<E, String> toNameConverter) {

@@ -2,7 +2,7 @@ package net.warcar.non_fruit_rework.quest.fishman_karate.racial;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
-import net.warcar.non_fruit_rework.quest.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.SwimObjective;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.FishmanKarateHelper;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;

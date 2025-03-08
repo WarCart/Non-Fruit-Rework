@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework.screens.extra;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.AbstractSlider;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -13,6 +14,14 @@ public class OptionSlider extends AbstractSlider {
     public OptionSlider(int x, int y, int width, int height, ITextComponent message, double value) {
         super(x, y, width, height, message, value);
         this.message = message;
+    }
+
+    @Override
+    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
+        super.render(stack, mouseX, mouseY, partialTicks);
+        if (this.isHovered) {
+            this.renderToolTip(stack, mouseX, mouseY);
+        }
     }
 
     @Override

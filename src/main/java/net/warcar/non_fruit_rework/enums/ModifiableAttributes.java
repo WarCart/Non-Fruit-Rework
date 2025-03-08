@@ -3,15 +3,16 @@ package net.warcar.non_fruit_rework.enums;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.IExtensibleEnum;
 import net.warcar.non_fruit_rework.init.ModEntityAttributes;
 import xyz.pixelatedw.mineminenomi.init.ModAttributes;
 
 import java.util.function.Supplier;
 
-public enum ModifiableAttributes {
+public enum ModifiableAttributes implements IExtensibleEnum {
     STRENGTH(0, 20, 200, new AttributeLink(Attributes.ATTACK_DAMAGE)),
     TOUGHNESS(0, 4, 40, new AttributeLink(ModAttributes.TOUGHNESS)),
-    SIZE(-0.9, 4, 49, new AttributeLink(ModEntityAttributes.SIZE),
+    SIZE(-0.9, 2, 29, new AttributeLink(ModEntityAttributes.SIZE),
             new AttributeLink(ModAttributes.JUMP_HEIGHT, 0.5), new AttributeLink(ModAttributes.ATTACK_RANGE, val -> Math.max(val * 2.5, 0)),
             new AttributeLink(ModAttributes.STEP_HEIGHT, 0.375), new AttributeLink(ModAttributes.FALL_RESISTANCE, 2.5),
             new AttributeLink(ForgeMod.REACH_DISTANCE, val -> Math.max(val * 2.5, 0))),
@@ -30,6 +31,10 @@ public enum ModifiableAttributes {
         this.min = min;
         this.max = max;
         this.step = step;
+    }
+
+    public static ModifiableAttributes create(String name, double min, double max, double step, AttributeLink... supplier) {
+        throw new IllegalStateException(name + " not created");
     }
 
     public AttributeLink[] getAttribute() {

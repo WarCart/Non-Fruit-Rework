@@ -9,6 +9,7 @@
     "GeppoMixin",
     "IAbilityCoreMixin",
     "IReachDorikiMixin",
+    "ItemsHelperMixin",
     "PacifistaMixin",
     "SoruMixin",
     "WyHelperMixin"

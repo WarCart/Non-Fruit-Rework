@@ -43,12 +43,16 @@ public class InuarashiBoss extends OPBossEntity<InuarashiBoss> implements IHasIm
 
     public InuarashiBoss(InProgressChallenge inProgressChallenge) {
         super(INSTANCE, inProgressChallenge);
-        this.entityStats.setRace(ModValues.MINK);
-        this.entityStats.setSubRace(ModValues.MINK_DOG);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
         return OPEntity.createAttributes().add(Attributes.FOLLOW_RANGE, 60.0).add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.ATTACK_DAMAGE, 8.0).add(Attributes.MAX_HEALTH, 400.0).add(Attributes.ARMOR, 3.0).add(Attributes.KNOCKBACK_RESISTANCE, 0.2);
+    }
+
+    @Override
+    public void preInit() {
+        this.entityStats.setRace(ModValues.MINK);
+        this.entityStats.setSubRace(ModValues.MINK_DOG);
     }
 
     @Override

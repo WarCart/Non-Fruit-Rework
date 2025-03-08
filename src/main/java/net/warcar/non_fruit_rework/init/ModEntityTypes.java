@@ -17,6 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.entities.bosses.HodyJonesBoss;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
 import net.warcar.non_fruit_rework.entities.bosses.NekomamushiBoss;
 import net.warcar.non_fruit_rework.entities.quests.CP9Trainer;
@@ -54,6 +55,7 @@ public class ModEntityTypes {
         //Bosses
         registerEntity("Nekomamushi", NekomamushiBoss.INSTANCE);
         registerEntity("Inuarashi", InuarashiBoss.INSTANCE);
+        registerEntity("Hody Jones", HodyJonesBoss.INSTANCE);
     }
 
     private static <T extends SeraphimEntity> void registerSeraphim(String name, EntityType<T> type) {
@@ -87,6 +89,7 @@ public class ModEntityTypes {
         //Bosses
         event.put(NekomamushiBoss.INSTANCE, NekomamushiBoss.createAttributes().build());
         event.put(InuarashiBoss.INSTANCE, InuarashiBoss.createAttributes().build());
+        event.put(HodyJonesBoss.INSTANCE, HodyJonesBoss.createAttributes().build());
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -102,7 +105,8 @@ public class ModEntityTypes {
         RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
 
         //Bosses
-        RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "black_leg_trainer1"));
-        RenderingRegistry.registerEntityRenderingHandler(InuarashiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "black_leg_trainer2"));
+        RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "nekomamushi"));
+        RenderingRegistry.registerEntityRenderingHandler(InuarashiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "inuarashi"));
+        RenderingRegistry.registerEntityRenderingHandler(HodyJonesBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "hody_jones"));
     }
 }

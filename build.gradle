@@ -126,6 +126,9 @@ mixin {
 }
 
 repositories {
+    flatDir {
+        dir 'libs'
+    }
     maven {
         url "https://cursemaven.com"
     }
@@ -140,6 +143,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:6049537")
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:4529749")
+    runtimeOnly fg.deobf("blank:cartaddon-1.16.5:0.5.1")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"

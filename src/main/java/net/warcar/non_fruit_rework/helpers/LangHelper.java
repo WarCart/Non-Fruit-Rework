@@ -46,6 +46,11 @@ public final class LangHelper {
         return components;
     }
 
+    public static String registerChallengeName(String resourceName, String name) {
+        registerLine(resourceName, name);
+        return name;
+    }
+
     public static TranslationTextComponent registerLine(String resourceName, String name) {
         langMap.put(resourceName, name);
         return new TranslationTextComponent(resourceName);

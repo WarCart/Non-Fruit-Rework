@@ -2,7 +2,7 @@ package net.warcar.non_fruit_rework.quest.electro;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
-import net.warcar.non_fruit_rework.quest.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.CustomUseAbilityObjective;
 import xyz.pixelatedw.mineminenomi.abilities.electro.EleclawAbility;
 import xyz.pixelatedw.mineminenomi.abilities.electro.ElectricalMissileAbility;

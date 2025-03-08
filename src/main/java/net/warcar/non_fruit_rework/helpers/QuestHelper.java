@@ -5,7 +5,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import net.warcar.non_fruit_rework.mixin.IReachDorikiMixin;
-import net.warcar.non_fruit_rework.quest.IHasRequirements;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;

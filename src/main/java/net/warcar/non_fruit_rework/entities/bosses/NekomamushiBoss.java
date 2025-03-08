@@ -37,6 +37,10 @@ public class NekomamushiBoss extends OPBossEntity<NekomamushiBoss> {
 
     public NekomamushiBoss(InProgressChallenge inProgressChallenge) {
         super(INSTANCE, inProgressChallenge);
+    }
+
+    @Override
+    public void preInit() {
         this.entityStats.setRace(ModValues.MINK);
         this.entityStats.setSubRace(ModValues.MINK_LION);
     }

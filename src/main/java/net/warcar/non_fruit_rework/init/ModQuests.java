@@ -17,6 +17,7 @@ import net.warcar.non_fruit_rework.quest.fishman_karate.racial.MurasameQuest;
 import net.warcar.non_fruit_rework.quest.fishman_karate.racial.UchimizuQuest;
 import net.warcar.non_fruit_rework.quest.fishman_karate.racial.YarinamiQuest;
 import net.warcar.non_fruit_rework.quest.genetic_materials.FishmanGenesQuest;
+import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.quest.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.ModMain;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
@@ -56,6 +57,7 @@ public class ModQuests {
 
     private static void geneticQuests() {
         registerQuest(FishmanGenesQuest.INSTANCE, GEN_MODIFICATION_QUESTS);
+        registerQuest(MinkGenesQuest.INSTANCE, GEN_MODIFICATION_QUESTS);
         //registerQuest(LunarianGenesQuest.INSTANCE, GEN_MODIFICATION_QUESTS);
     }
 

@@ -3,7 +3,9 @@ package net.warcar.non_fruit_rework.init;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.challenges.HodyJonesChallenge;
 import net.warcar.non_fruit_rework.challenges.MinkDukesChallenge;
+import net.warcar.non_fruit_rework.challenges.complex.*;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.challenges.ChallengeCore;
 
@@ -14,6 +16,11 @@ public class ModChallenges {
         CHALLENGES.register(bus);
         //registerChallenge(KingChallenge.INSTANCE);
         registerChallenge(MinkDukesChallenge.INSTANCE);
+        registerChallenge(HodyJonesChallenge.INSTANCE);
+        registerChallenge(ArlongParkChallenge.INSTANCE);
+        registerChallenge(ArlongParkHardChallenge.INSTANCE);
+        registerChallenge(BaroqueWorksChallenge.INSTANCE);
+        registerChallenge(BaroqueWorksHardChallenge.INSTANCE);
     }
 
     public static void registerChallenge(ChallengeCore<?> core) {
