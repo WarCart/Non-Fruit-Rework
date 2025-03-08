@@ -47,7 +47,7 @@ public class WeaponsLeftAbility extends Ability {
     }
 
     private static boolean canUnlock(LivingEntity entity) {
-        return QuestHelper.isTrueRace(entity, "cyborg") || QuestHelper.hasFinishedQuest(entity, WeaponsLeftQuest.INSTANCE);//TODO: Put quest
+        return QuestHelper.isTrueRace(entity, "cyborg") || QuestHelper.hasFinishedQuest(entity, WeaponsLeftQuest.INSTANCE);
     }
 
     private void changeMode(LivingEntity entity, IAbility ability, Mode mode) {
