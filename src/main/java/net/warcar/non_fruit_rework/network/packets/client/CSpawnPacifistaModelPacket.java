@@ -60,7 +60,7 @@ public class CSpawnPacifistaModelPacket implements IPacket<CSpawnPacifistaModelP
                 playerStats.alterBelly(-this.model.getPrice(), StatChangeSource.STORE);
                 WyNetwork.sendTo(new SSyncEntityStatsPacket(player.getId(), playerStats), player);
                 IAbilityData abilityData = AbilityDataCapability.get(player);
-                abilityData.addUnlockedAbility(CommandAbility.INSTANCE, AbilityUnlock.PROGRESSION);
+                abilityData.addUnlockedAbility(CommandAbility.INSTANCE, AbilityUnlock.COMMAND);
                 WyNetwork.sendTo(new SSyncAbilityDataPacket(player.getId(), abilityData), player);
             });
         }

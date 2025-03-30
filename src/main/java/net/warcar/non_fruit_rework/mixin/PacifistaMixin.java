@@ -20,7 +20,7 @@ public abstract class PacifistaMixin extends OPEntity implements ICommandReceive
 
     @Shadow @Nullable public abstract LivingEntity getLastCommandSender();
 
-    public PacifistaMixin(EntityType type, World world) {
+    private PacifistaMixin(EntityType type, World world) {
         super(type, world);
     }
 
