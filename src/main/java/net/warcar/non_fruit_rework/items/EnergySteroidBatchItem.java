@@ -9,7 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -28,7 +28,7 @@ public class EnergySteroidBatchItem extends AbstractPillItem {
         } else {
             pills = tag.getInt("pills");
         }
-        MedicalDataCapability.get(entity).popEnergySteroids(pills);
+        NonFruitDataCapability.get(entity).popEnergySteroids(pills);
         return true;
     }
 

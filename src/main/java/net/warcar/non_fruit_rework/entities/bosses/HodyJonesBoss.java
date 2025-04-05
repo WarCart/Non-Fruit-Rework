@@ -21,7 +21,7 @@ import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
 import net.warcar.non_fruit_rework.abilities.fishman.FishmanPowerAbility;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import xyz.pixelatedw.mineminenomi.abilities.brawler.ChargedPunchAbility;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.KachiageHaisokuAbility;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.SharkOnToothAbility;
@@ -157,10 +157,9 @@ public class HodyJonesBoss extends OPBossEntity<HodyJonesBoss> {
         this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(3, new LookRandomlyGoal(this));
         Predicate<Entity> factionScope = ModEntityPredicates.getEnemyFactions(this).and(ModEntityPredicates.IS_ENTITY_HARMLESS.negate());
-        Predicate<Entity> invisibleCheck = factionScope.and(ModEntityPredicates.IS_INVISIBLE.negate());
         this.targetSelector.addGoal(1, new FactionHurtByTargetGoal(this, factionScope));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, MobEntity.class, 10, true, true, invisibleCheck));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PlayerEntity.class, 10, true, true, invisibleCheck));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, MobEntity.class, 10, true, true, factionScope));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PlayerEntity.class, 10, true, true, factionScope));
         this.goalSelector.addGoal(0, new FishmanPassiveBonusesWrapperGoal(this));
         this.goalSelector.addGoal(0, new AlwaysActiveAbilityWrapperGoal<>(this, FishmanPowerAbility.INSTANCE));
         this.goalSelector.addGoal(1, new ImprovedMeleeAttackGoal(this, 1.0, true));
@@ -252,13 +251,13 @@ public class HodyJonesBoss extends OPBossEntity<HodyJonesBoss> {
     private void startSecondPhaseEvent(HodyJonesBoss entity) {
         this.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.TRIDENT));
         this.getAttribute(ModAttributes.ATTACK_RANGE.get()).setBaseValue(1.0);
-        MedicalDataCapability.get(entity).popEnergySteroids(1);
+        NonFruitDataCapability.get(entity).popEnergySteroids(1);
         if (this.isDifficultyHardOrAbove()) {
             ModifiableAttributeInstance attr = entity.getAttribute(ModAttributes.GCD.get());
             if (attr != null && !attr.hasModifier(GCD_MOD)) {
                 attr.addTransientModifier(GCD_MOD);
             }
-            MedicalDataCapability.get(entity).popEnergySteroids(2);
+            NonFruitDataCapability.get(entity).popEnergySteroids(2);
         }
     }
 

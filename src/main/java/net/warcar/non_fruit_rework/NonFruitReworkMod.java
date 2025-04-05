@@ -1,5 +1,10 @@
 package net.warcar.non_fruit_rework;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -10,9 +15,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.non_fruit_rework.init.*;
+import net.warcar.non_fruit_rework.renderers.layers.HeadLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.pixelatedw.mineminenomi.mixins.RangedAttributeMixin;
+
+import java.util.Map;
 
 /**
  * Not finished Stuff:
@@ -54,6 +62,20 @@ public class NonFruitReworkMod {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            for (Map.Entry<EntityType<?>, EntityRenderer<?>> entry : mc.getEntityRenderDispatcher().renderers.entrySet()) {
+                EntityRenderer entityRenderer = entry.getValue();
+                if (entityRenderer instanceof LivingRenderer) {
+                    LivingRenderer renderer = (LivingRenderer) entityRenderer;
+                    renderer.addLayer(new HeadLayer<>(renderer));
+                }
+            }
+            for (Map.Entry<String, PlayerRenderer> entry : mc.getEntityRenderDispatcher().getSkinMap().entrySet()) {
+                PlayerRenderer renderer = entry.getValue();
+                renderer.addLayer(new HeadLayer<>(renderer));
+            }
+        });
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {}

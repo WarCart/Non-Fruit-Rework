@@ -18,8 +18,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.fml.ModList;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
-import net.warcar.non_fruit_rework.data.entity.medical_data.IMedicalData;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
 import net.warcar.non_fruit_rework.enums.PacifistaModel;
@@ -62,7 +62,7 @@ public class VegapunkScreen extends Screen {
     private final PlayerEntity player;
     private final IQuestData questData;
     private final IEntityStats entityStats;
-    private final IMedicalData medicalData;
+    private final INonFruitData medicalData;
     private final IAbilityData abilityData;
     private final LivingEntity trainer;
     private float animationTime = 0.0F;
@@ -82,7 +82,7 @@ public class VegapunkScreen extends Screen {
         this.player = player;
         this.questData = QuestDataCapability.get(player);
         this.entityStats = EntityStatsCapability.get(player);
-        this.medicalData = MedicalDataCapability.get(player);
+        this.medicalData = NonFruitDataCapability.get(player);
         this.abilityData = AbilityDataCapability.get(player);
         this.trainer = trainer;
     }
@@ -305,7 +305,7 @@ public class VegapunkScreen extends Screen {
                 this.entityStats.setRace(race);
             }
             ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));
-            ModNetwork.sendToServer(new CSyncMedicalDataPacket(this.player.getId(), this.medicalData));
+            ModNetwork.sendToServer(new CSyncNonFruitDataPacket(this.player.getId(), this.medicalData));
         } else {
             this.entityStats.setRace(PristineRaces.values()[chosenPristineRace() - 1].name());
             ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));

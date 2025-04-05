@@ -17,7 +17,8 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "mixins.non_fruit_rework.refmap.json",
+  "refmap": "non_fruit_rework.refmap.json",
   "client": [
+    "PlayerInventoryScreenMixin"
   ]
 }

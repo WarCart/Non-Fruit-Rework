@@ -118,7 +118,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
-    //add sourceSets.main, 'mixins.non_fruit_rework.refmap.json'
+    add sourceSets.main, 'non_fruit_rework.refmap.json'
     config 'non_fruit_rework.mixin.json'
     debug.verbose = true
     debug.export = true

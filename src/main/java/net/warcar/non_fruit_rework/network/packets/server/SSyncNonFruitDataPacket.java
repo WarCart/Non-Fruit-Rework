@@ -9,22 +9,22 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.warcar.non_fruit_rework.data.entity.medical_data.IMedicalData;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.network.packets.IPacket;
 
 import java.util.function.Supplier;
 
-public class SSyncMedicalDataPacket implements IPacket<SSyncMedicalDataPacket> {
+public class SSyncNonFruitDataPacket implements IPacket<SSyncNonFruitDataPacket> {
     private int entityId;
     private CompoundNBT data;
 
-    public SSyncMedicalDataPacket() {
+    public SSyncNonFruitDataPacket() {
     }
 
-    public SSyncMedicalDataPacket(int entityId, IMedicalData stats) {
+    public SSyncNonFruitDataPacket(int entityId, INonFruitData stats) {
         this.entityId = entityId;
-        this.data = (CompoundNBT) MedicalDataCapability.INSTANCE.writeNBT(stats, null);
+        this.data = (CompoundNBT) NonFruitDataCapability.INSTANCE.writeNBT(stats, null);
     }
 
     public void encode(PacketBuffer buffer) {
@@ -32,8 +32,8 @@ public class SSyncMedicalDataPacket implements IPacket<SSyncMedicalDataPacket> {
         buffer.writeNbt(this.data);
     }
 
-    public SSyncMedicalDataPacket decode(PacketBuffer buffer) {
-        SSyncMedicalDataPacket msg = new SSyncMedicalDataPacket();
+    public SSyncNonFruitDataPacket decode(PacketBuffer buffer) {
+        SSyncNonFruitDataPacket msg = new SSyncNonFruitDataPacket();
         msg.entityId = buffer.readInt();
         msg.data = buffer.readNbt();
         return msg;
@@ -52,11 +52,11 @@ public class SSyncMedicalDataPacket implements IPacket<SSyncMedicalDataPacket> {
         }
 
         @OnlyIn(Dist.CLIENT)
-        public static void handle(SSyncMedicalDataPacket message) {
+        public static void handle(SSyncNonFruitDataPacket message) {
             Entity target = Minecraft.getInstance().level.getEntity(message.entityId);
             if (target != null && target instanceof LivingEntity) {
-                IMedicalData props = MedicalDataCapability.get((LivingEntity)target);
-                MedicalDataCapability.INSTANCE.readNBT(props, null, message.data);
+                INonFruitData props = NonFruitDataCapability.get((LivingEntity)target);
+                NonFruitDataCapability.INSTANCE.readNBT(props, null, message.data);
             }
         }
     }

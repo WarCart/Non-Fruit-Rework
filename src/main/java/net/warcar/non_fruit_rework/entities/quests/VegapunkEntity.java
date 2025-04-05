@@ -13,12 +13,12 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import net.warcar.non_fruit_rework.network.ModNetwork;
 import net.warcar.non_fruit_rework.network.packets.server.SOpenVegapunkMenuPacket;
-import net.warcar.non_fruit_rework.network.packets.server.SSyncMedicalDataPacket;
+import net.warcar.non_fruit_rework.network.packets.server.SSyncNonFruitDataPacket;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
@@ -64,7 +64,7 @@ public class VegapunkEntity extends TrainerEntity {
                 return ActionResultType.FAIL;
             } else if (!player.level.isClientSide && !WyHelper.isInCombat(player)) {
                 WyNetwork.sendToAllTrackingAndSelf(new SSyncEntityStatsPacket(player.getId(), EntityStatsCapability.get(player)), player);
-                ModNetwork.sendToAllTrackingAndSelf(new SSyncMedicalDataPacket(player.getId(), MedicalDataCapability.get(player)), player);
+                ModNetwork.sendToAllTrackingAndSelf(new SSyncNonFruitDataPacket(player.getId(), NonFruitDataCapability.get(player)), player);
                 ModNetwork.sendTo(new SOpenVegapunkMenuPacket(this.getId()), player);
                 return ActionResultType.PASS;
             } else {

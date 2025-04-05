@@ -2,8 +2,8 @@ package net.warcar.non_fruit_rework.items;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.warcar.non_fruit_rework.data.entity.medical_data.IMedicalData;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import xyz.pixelatedw.mineminenomi.abilities.electro.SulongAbility;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 
@@ -17,7 +17,7 @@ public class SimplePillItem extends AbstractPillItem {
 
     @Override
     protected boolean pillEffect(LivingEntity entity, ItemStack stack) {
-        IMedicalData medicalData = MedicalDataCapability.get(entity);
+        INonFruitData medicalData = NonFruitDataCapability.get(entity);
         switch (this.effect) {
             case ENERGY_STEROID:
                 medicalData.popEnergySteroids();

@@ -2,7 +2,7 @@ package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import net.warcar.non_fruit_rework.mixin.IReachDorikiMixin;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
@@ -65,7 +65,7 @@ public final class QuestHelper {
     }
 
     public static boolean isHybridRace(LivingEntity entity, String race) {
-        return MedicalDataCapability.get(entity).getGenome().computeIfAbsent(race, s -> 0f) > 0.1 && EntityStatsCapability.get(entity).getRace().equalsIgnoreCase("hybrid");
+        return NonFruitDataCapability.get(entity).getGenome().computeIfAbsent(race, s -> 0f) > 0.1 && EntityStatsCapability.get(entity).getRace().equalsIgnoreCase("hybrid");
     }
 
     public static boolean isTrueRace(LivingEntity entity, String race) {

@@ -3,7 +3,7 @@ package net.warcar.non_fruit_rework.abilities.fishman;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityType;
@@ -25,7 +25,7 @@ public class FishmanPowerAbility extends PassiveStatBonusAbility {
     }
 
     private static float getDamageBoost(LivingEntity entity) {
-        return 2 + MedicalDataCapability.get(entity).getEnergySteroidLevel();
+        return 2 + NonFruitDataCapability.get(entity).getEnergySteroidLevel();
     }
 
     @Override

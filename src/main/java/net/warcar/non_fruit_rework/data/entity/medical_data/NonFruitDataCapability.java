@@ -14,14 +14,14 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MedicalDataCapability {
-	@CapabilityInject(IMedicalData.class)
-	public static final Capability<IMedicalData> INSTANCE = null;
+public class NonFruitDataCapability {
+	@CapabilityInject(INonFruitData.class)
+	public static final Capability<INonFruitData> INSTANCE = null;
 
 	public static void register() {
-		CapabilityManager.INSTANCE.register(IMedicalData.class, new Capability.IStorage<IMedicalData>() {
+		CapabilityManager.INSTANCE.register(INonFruitData.class, new Capability.IStorage<INonFruitData>() {
 			@Override
-			public INBT writeNBT(Capability<IMedicalData> capability, IMedicalData instance, Direction side) {
+			public INBT writeNBT(Capability<INonFruitData> capability, INonFruitData instance, Direction side) {
 				CompoundNBT props = new CompoundNBT();
 				props.putInt("energySteroidTicks", instance.getEnergySteroidTicks());
 				props.putInt("energySteroidLevel", instance.getEnergySteroidLevel());
@@ -37,11 +37,13 @@ public class MedicalDataCapability {
 				}
 				props.put("genome", genome);
 
+				props.put("additionalInventory", instance.getAdditionalInventory().serializeNBT());
+
 				return props;
 			}
 
 			@Override
-			public void readNBT(Capability<IMedicalData> capability, IMedicalData instance, Direction side, INBT nbtData) {
+			public void readNBT(Capability<INonFruitData> capability, INonFruitData instance, Direction side, INBT nbtData) {
 				CompoundNBT props = (CompoundNBT) nbtData;
 				instance.setEnergySteroidTicks(props.getInt("energySteroidTicks"));
 				instance.setEnergySteroidLevel(props.getInt("energySteroidLevel"));
@@ -56,18 +58,21 @@ public class MedicalDataCapability {
 				for (String name : genome.getAllKeys()) {
 					genomeMap.put(name, genome.getFloat(name));
 				}
+
+				instance.getAdditionalInventory().deserializeNBT(props.getCompound("additionalInventory"));
+
 				instance.setGenome(genomeMap);
 			}
-		}, MedicalDataBase::new);
+		}, NonFruitDataBase::new);
 	}
 
 	@Nullable
-	public static IMedicalData get(@Nonnull final LivingEntity entity) {
-		return getLazy(entity).orElse(new MedicalDataBase());
+	public static INonFruitData get(@Nonnull final LivingEntity entity) {
+		return getLazy(entity).orElse(new NonFruitDataBase());
 	}
 
-	public static LazyOptional<IMedicalData> getLazy(@Nonnull final LivingEntity entity) {
-		LazyOptional<IMedicalData> lazyGCD = entity.getCapability(INSTANCE, null);
+	public static LazyOptional<INonFruitData> getLazy(@Nonnull final LivingEntity entity) {
+		LazyOptional<INonFruitData> lazyGCD = entity.getCapability(INSTANCE, null);
 		lazyGCD.ifPresent(data -> data.setDataOwner(entity));
 		return lazyGCD;
 	}

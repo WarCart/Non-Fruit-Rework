@@ -4,14 +4,14 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
-import net.warcar.non_fruit_rework.data.entity.medical_data.IMedicalData;
-import net.warcar.non_fruit_rework.data.entity.medical_data.MedicalDataCapability;
+import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
+import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 
 @Mod.EventBusSubscriber(modid = NonFruitReworkMod.MOD_ID)
-public class MedicalDataEvents {
+public class NonFruitDataEvents {
     @SubscribeEvent
     public static void onTick(LivingEvent.LivingUpdateEvent event) {
-        IMedicalData data = MedicalDataCapability.get(event.getEntityLiving());
+        INonFruitData data = NonFruitDataCapability.get(event.getEntityLiving());
         data.setEnergySteroidTicks(data.getEnergySteroidTicks() - 1);
         if (data.getEnergySteroidTicks() <= 0) {
             data.setEnergySteroidLevel(0);

@@ -1,11 +1,12 @@
 package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MedicalDataBase implements IMedicalData {
+public class NonFruitDataBase implements INonFruitData {
     private Map<String, Float> genome = new HashMap<>();
 
     private int energySteroidTicks;
@@ -15,6 +16,8 @@ public class MedicalDataBase implements IMedicalData {
     private int rumbleBallLevel;
 
     private int sulongBallTicks;
+
+    private final ItemStackHandler additionalInventory = new ItemStackHandler(1);
 
     private LivingEntity dataOwner;
 
@@ -86,6 +89,11 @@ public class MedicalDataBase implements IMedicalData {
     @Override
     public void setRumbleBallLevel(int level) {
         this.rumbleBallLevel = level;
+    }
+
+    @Override
+    public ItemStackHandler getAdditionalInventory() {
+        return this.additionalInventory;
     }
 
     public LivingEntity getDataOwner() {

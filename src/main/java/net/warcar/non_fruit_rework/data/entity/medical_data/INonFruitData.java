@@ -1,11 +1,12 @@
 package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraftforge.items.ItemStackHandler;
 import net.warcar.non_fruit_rework.init.ModDamages;
 
 import java.util.Map;
 
-public interface IMedicalData {
+public interface INonFruitData {
     Map<String, Float> getGenome();
     void setGenome(Map<String, Float> newGenome);
 
@@ -50,6 +51,8 @@ public interface IMedicalData {
     default boolean popRumbleBall() {
         return this.popRumbleBall(1);
     }
+
+    ItemStackHandler getAdditionalInventory();
 
     LivingEntity getDataOwner();
 
