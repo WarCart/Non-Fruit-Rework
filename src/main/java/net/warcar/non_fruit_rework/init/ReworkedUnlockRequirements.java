@@ -3,9 +3,17 @@ package net.warcar.non_fruit_rework.init;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.mixin.IAbilityCoreMixin;
 import net.warcar.non_fruit_rework.quest.cyborg.*;
-import net.warcar.non_fruit_rework.quest.electro.*;
-import net.warcar.non_fruit_rework.quest.fishman_karate.generic.*;
-import net.warcar.non_fruit_rework.quest.fishman_karate.racial.*;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalLunaQuest;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalMissileQuest;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalShowerQuest;
+import net.warcar.non_fruit_rework.quest.electro.ElectricalTempestaQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.KachiageHaisokuQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.KarakusagawaraSeikenQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.SamehadaShoteiQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.generic.TwoFishEngineQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.MurasameQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.UchimizuQuest;
+import net.warcar.non_fruit_rework.quest.fishman_karate.racial.YarinamiQuest;
 import net.warcar.non_fruit_rework.quest.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.abilities.cyborg.*;
 import xyz.pixelatedw.mineminenomi.abilities.electro.*;
@@ -65,7 +73,11 @@ public class ReworkedUnlockRequirements {
     }
 
     private static void addReqs(AbilityCore<?> core, AbilityCore.ICanUnlock check) {
-        ((IAbilityCoreMixin) core).setUnlockCheck(check.or(((IAbilityCoreMixin) core).getUnlockCheck()));
+        AbilityCore.ICanUnlock check1 = ((IAbilityCoreMixin) core).getUnlockCheck();
+        if (false) {//TODO: Config
+            check1 = ent -> false;
+        }
+        ((IAbilityCoreMixin) core).setUnlockCheck(check.or(check1));
     }
 
     private static AbilityCore.ICanUnlock isTrueRace(String race) {

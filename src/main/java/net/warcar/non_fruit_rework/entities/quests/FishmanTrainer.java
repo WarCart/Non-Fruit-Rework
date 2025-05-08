@@ -6,8 +6,10 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeMod;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
@@ -29,12 +31,12 @@ import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 import java.util.List;
 
 public class FishmanTrainer extends TrainerEntity implements IHakiTrainer {
-    public static final EntityType<FishmanTrainer> INSTANCE = WyRegistry.createEntityType(FishmanTrainer::new).build("");
+    public static final EntityType<FishmanTrainer> INSTANCE = WyRegistry.createEntityType(FishmanTrainer::new).sized(1, 3.5f).build("");
 
     public FishmanTrainer(EntityType type, World world) {
-        super(type, world);
+        super(type, world, new ResourceLocation[]{new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/entities/hack.png")});
         if (!world.isClientSide) {
-            this.getEntityStats().setFaction(ModValues.CIVILIAN);
+            this.getEntityStats().setFaction(ModValues.REVOLUTIONARY);
             this.getEntityStats().setRace(ModValues.FISHMAN);
             this.setDoriki(2000.0D + WyHelper.randomWithRange(0, 1000));
             this.setBelly(20.0D + WyHelper.randomWithRange(0, 20));

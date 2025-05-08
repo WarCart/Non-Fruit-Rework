@@ -6,19 +6,25 @@
     "AbilityHelperMixin",
     "ElectroHelperMixin",
     "EntityDataMixin",
-    "GeppoMixin",
     "IAbilityCoreMixin",
     "IReachDorikiMixin",
     "ItemsHelperMixin",
     "PacifistaMixin",
-    "SoruMixin",
-    "WyHelperMixin"
+    "WyHelperMixin",
+    "advanced_rokushiki.GeppoMixin",
+    "advanced_rokushiki.KamieMixin",
+    "advanced_rokushiki.RankyakuMixin",
+    "advanced_rokushiki.RokuoganMixin",
+    "advanced_rokushiki.ShiganMixin",
+    "advanced_rokushiki.SoruMixin",
+    "advanced_rokushiki.TekkaiMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "refmap": "non_fruit_rework.refmap.json",
   "client": [
+    "ILivingRendererMixin",
     "PlayerInventoryScreenMixin"
   ]
 }

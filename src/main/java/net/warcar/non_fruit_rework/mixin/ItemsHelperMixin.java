@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import xyz.pixelatedw.mineminenomi.api.challenges.Challenge;
 import xyz.pixelatedw.mineminenomi.api.challenges.ChallengeCore;
 import xyz.pixelatedw.mineminenomi.api.helpers.ItemsHelper;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
@@ -20,9 +21,10 @@ public class ItemsHelperMixin {
 
     @Inject(method = "lambda$dropWantedPosters$12", at = @At("HEAD"), cancellable = true, remap = false)
     private static void modifyRules(ChallengeCore core, CallbackInfoReturnable<Boolean> cir) {
-        if (core.createChallenge() instanceof IHasRequirements) {
+        Challenge challenge = core.createChallenge();
+        if (challenge instanceof IHasRequirements) {
             PlayerEntity player = WyHelper.getEntitiesNearSphere(pos, world, 10, null, PlayerEntity.class).stream().findFirst().orElse(null);
-            cir.setReturnValue(((IHasRequirements) core).canGet(player));
+            cir.setReturnValue(((IHasRequirements) challenge).canGet(player));
         }
     }
 

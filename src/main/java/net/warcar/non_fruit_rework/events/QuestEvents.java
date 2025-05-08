@@ -2,6 +2,7 @@ package net.warcar.non_fruit_rework.events;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
@@ -15,7 +16,7 @@ import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
 @Mod.EventBusSubscriber(modid = NonFruitReworkMod.MOD_ID)
 public class QuestEvents {
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onEntityAttack(WyLivingHurtEvent event) {
         LivingEntity entity = event.getEntityLiving();
         if (entity instanceof PlayerEntity && !entity.level.isClientSide) {

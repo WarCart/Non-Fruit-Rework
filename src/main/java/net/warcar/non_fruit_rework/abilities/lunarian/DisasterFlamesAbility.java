@@ -19,13 +19,19 @@ public class DisasterFlamesAbility extends Ability {
     private static final AbilityAttributeModifier TOUGHNESS_MODIFIER = new AbilityAttributeModifier(UUID.fromString("d7da40d5-a651-48ee-83bd-9a8b0c73150f"), INSTANCE, "Lunarian Flames defence", 10, AttributeModifier.Operation.ADDITION);
     private static final AbilityAttributeModifier ARMOR_MODIFIER = new AbilityAttributeModifier(UUID.fromString("d7da40d5-a651-48ee-83ba-9a8b0c73150f"), INSTANCE, "Lunarian Flames defence", 70, AttributeModifier.Operation.ADDITION);
     private static final AbilityAttributeModifier SPEED_MODIFIER = new AbilityAttributeModifier(UUID.fromString("d5da40d5-a651-481e-83ba-9a8b0f73150f"), INSTANCE, "Lunarian Flames Speed", 4, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    private static final AbilityAttributeModifier JUMP_MODIFIER = new AbilityAttributeModifier(UUID.fromString("d5daa0d5-a651-481a-43fa-9a8b0f7f150f"), INSTANCE, "Lunarian Flames Jump Boost", 4, AttributeModifier.Operation.ADDITION);
     private static final AbilityAttributeModifier DAMAGE_MODIFIER = new AbilityAttributeModifier(UUID.fromString("d5da40d5-f451-481e-83ba-9a8b0f43150f"), INSTANCE, "Lunarian Flames Damage", 4, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     private final Predicate<LivingEntity> isActive = entity -> this.isContinuous();
     private final Predicate<LivingEntity> isInactive = isActive.negate();
 
-    private final ContinuousComponent continuousComponent = new ContinuousComponent(this);
-    private final ChangeStatsComponent statsComponent = new ChangeStatsComponent(this).addAttributeModifier(ModAttributes.TOUGHNESS, TOUGHNESS_MODIFIER, isInactive).addAttributeModifier(Attributes.ARMOR, ARMOR_MODIFIER, isInactive).addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_MODIFIER, isActive).addAttributeModifier(Attributes.ATTACK_DAMAGE, DAMAGE_MODIFIER);
+    private final ContinuousComponent continuousComponent = new ContinuousComponent(this, true);
+    private final ChangeStatsComponent statsComponent = new ChangeStatsComponent(this)
+            .addAttributeModifier(ModAttributes.TOUGHNESS, TOUGHNESS_MODIFIER, isInactive)
+            .addAttributeModifier(Attributes.ARMOR, ARMOR_MODIFIER, isInactive)
+            .addAttributeModifier(Attributes.MOVEMENT_SPEED, SPEED_MODIFIER, isActive)
+            .addAttributeModifier(ModAttributes.JUMP_HEIGHT, JUMP_MODIFIER, isActive)
+            .addAttributeModifier(Attributes.ATTACK_DAMAGE, DAMAGE_MODIFIER, isActive);
 
     public DisasterFlamesAbility(AbilityCore<DisasterFlamesAbility> core) {
         super(core);

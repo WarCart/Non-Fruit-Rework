@@ -19,6 +19,17 @@ import net.warcar.non_fruit_rework.quest.fishman_karate.racial.YarinamiQuest;
 import net.warcar.non_fruit_rework.quest.genetic_materials.FishmanGenesQuest;
 import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.quest.rokushiki.*;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.geppo.KamisoriQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.kamie.ZanshinQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.rankyaku.AmaneDachiQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.rankyaku.RankyakuHakuraiQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.rankyaku.RankyakuRanQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.rokuogan.SaiDaiRinRokuoganQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.shigan.JushiganQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.shigan.ShiganOrenQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.shigan.TobuShiganQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.soru.TekkaiDamaQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.*;
 import xyz.pixelatedw.mineminenomi.ModMain;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
@@ -35,6 +46,7 @@ public class ModQuests {
     public static final List<QuestId<?>> CYBORG_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> GEN_MODIFICATION_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> ROKUSHIKI_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> TEKKAI_KENPO_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> FISHMAN_KARATE_GENERIC_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> FISHMAN_KARATE_RACIAL_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> ELECTRO_QUESTS = new ArrayList<>();
@@ -75,6 +87,7 @@ public class ModQuests {
     }
 
     private static void rokushikiQuests() {
+        //Basic 7 techniques
         registerQuest(GeppoQuest.INSTANCE, ROKUSHIKI_QUESTS);
         registerQuest(KamieQuest.INSTANCE, ROKUSHIKI_QUESTS);
         registerQuest(RankyakuQuest.INSTANCE, ROKUSHIKI_QUESTS);
@@ -82,6 +95,36 @@ public class ModQuests {
         registerQuest(ShiganQuest.INSTANCE, ROKUSHIKI_QUESTS);
         registerQuest(SoruQuest.INSTANCE, ROKUSHIKI_QUESTS);
         registerQuest(TekkaiQuest.INSTANCE, ROKUSHIKI_QUESTS);
+
+        //Advanced
+        registerQuest(KamisoriQuest.INSTANCE, null);
+        registerQuest(TekkaiDamaQuest.INSTANCE, null);
+        registerQuest(ZanshinQuest.INSTANCE, null);
+        registerQuest(SaiDaiRinRokuoganQuest.INSTANCE, null);
+        rankyakuPart();
+        shiganPart();
+        tekkaiPart();
+    }
+
+    private static void rankyakuPart() {
+        registerQuest(RankyakuRanQuest.INSTANCE, null);
+        registerQuest(RankyakuHakuraiQuest.INSTANCE, null);
+        registerQuest(AmaneDachiQuest.INSTANCE, null);
+    }
+
+    private static void shiganPart() {
+        registerQuest(TobuShiganQuest.INSTANCE, null);
+        registerQuest(ShiganOrenQuest.INSTANCE, null);
+        registerQuest(JushiganQuest.INSTANCE, null);
+    }
+
+    private static void tekkaiPart() {
+        registerQuest(TekkaiGoQuest.INSTANCE, null);
+        registerQuest(TekkaiUtsugiQuest.INSTANCE, null);
+        //Kenpo
+        registerQuest(TekkaiKenpoQuest.INSTANCE, TEKKAI_KENPO_QUESTS);
+        registerQuest(OkamiHajikiQuest.INSTANCE, TEKKAI_KENPO_QUESTS);
+        registerQuest(RokaruAreaNetworkQuest.INSTANCE, TEKKAI_KENPO_QUESTS);
     }
 
     private static void cyborgQuests() {

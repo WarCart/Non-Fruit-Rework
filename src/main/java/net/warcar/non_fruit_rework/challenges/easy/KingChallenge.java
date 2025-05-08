@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.challenges;
+package net.warcar.non_fruit_rework.challenges.easy;
 
 import net.warcar.non_fruit_rework.init.ModNPCGroups;
 import xyz.pixelatedw.mineminenomi.api.challenges.*;

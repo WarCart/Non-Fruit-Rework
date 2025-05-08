@@ -17,6 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.entities.AfterimageEntity;
 import net.warcar.non_fruit_rework.entities.bosses.HodyJonesBoss;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
 import net.warcar.non_fruit_rework.entities.bosses.NekomamushiBoss;
@@ -27,6 +28,10 @@ import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
+import net.warcar.non_fruit_rework.models.HackModel;
+import net.warcar.non_fruit_rework.models.VegapunkModel;
+import net.warcar.non_fruit_rework.renderers.AfterimageRenderer;
+import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
 import xyz.pixelatedw.mineminenomi.models.entities.mobs.humanoids.HumanoidModel;
 import xyz.pixelatedw.mineminenomi.renderers.entities.HumanoidRenderer;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
@@ -56,6 +61,9 @@ public class ModEntityTypes {
         registerEntity("Nekomamushi", NekomamushiBoss.INSTANCE);
         registerEntity("Inuarashi", InuarashiBoss.INSTANCE);
         registerEntity("Hody Jones", HodyJonesBoss.INSTANCE);
+
+        //Misc
+        registerEntity("Afterimage", AfterimageEntity.INSTANCE);
     }
 
     private static <T extends SeraphimEntity> void registerSeraphim(String name, EntityType<T> type) {
@@ -64,7 +72,7 @@ public class ModEntityTypes {
         SERAPHIMS.add(type);*/
     }
 
-    private static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType<T> type) {
+    public static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType<T> type) {
         RegistryObject<EntityType<T>> reg = ENTITIES.register(WyHelper.getResourceName(name), () -> type);
         LangHelper.registerLine(String.format("entity.%s.%s", reg.getId().getNamespace(), reg.getId().getPath()), name);
         return reg;
@@ -90,15 +98,18 @@ public class ModEntityTypes {
         event.put(NekomamushiBoss.INSTANCE, NekomamushiBoss.createAttributes().build());
         event.put(InuarashiBoss.INSTANCE, InuarashiBoss.createAttributes().build());
         event.put(HodyJonesBoss.INSTANCE, HodyJonesBoss.createAttributes().build());
+
+        //Misc
+        event.put(AfterimageEntity.INSTANCE, OPEntity.createAttributes().build());
     }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
         //Quest givers
-        RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new VegapunkModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
-        RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HackModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
 
         //Seraphims
@@ -108,5 +119,8 @@ public class ModEntityTypes {
         RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "nekomamushi"));
         RenderingRegistry.registerEntityRenderingHandler(InuarashiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "inuarashi"));
         RenderingRegistry.registerEntityRenderingHandler(HodyJonesBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "hody_jones"));
+
+        //Misc
+        RenderingRegistry.registerEntityRenderingHandler(AfterimageEntity.INSTANCE, new AfterimageRenderer.Factory());
     }
 }

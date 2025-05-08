@@ -1,10 +1,11 @@
-package net.warcar.non_fruit_rework.challenges.complex;
+package net.warcar.non_fruit_rework.challenges.rushes;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.helpers.IHasRequirements;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.challenges.*;
 import xyz.pixelatedw.mineminenomi.challenges.arenas.AlabastaDesertSimpleArena;
@@ -16,7 +17,7 @@ import xyz.pixelatedw.mineminenomi.init.ModNPCGroups;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BaroqueWorksChallenge extends Challenge {
+public class BaroqueWorksChallenge extends Challenge implements IHasRequirements {
     private static final String TITLE = LangHelper.registerChallengeName("challenge.mineminenomi.baroque_works", "Baroque Works");
     public static final String OBJECTIVE = LangHelper.registerChallengeName("challenge.mineminenomi.baroque_works.objective", "Defeat Baroque Works");
     public static final ResourceLocation REWARD = new ResourceLocation(NonFruitReworkMod.MOD_ID, "rewards/baroque_works");
@@ -61,6 +62,11 @@ public class BaroqueWorksChallenge extends Challenge {
         set.add(new ChallengeArena.EnemySpawn(new Mr5Entity(challenge), spawns[5]));
         set.add(new ChallengeArena.EnemySpawn(new MissValentineEntity(challenge), spawns[6]));
         return set;
+    }
+
+    @Override
+    public boolean canGet(LivingEntity player) {
+        return false;
     }
 
     public static LivingEntity createMr1Showcase(World world) {

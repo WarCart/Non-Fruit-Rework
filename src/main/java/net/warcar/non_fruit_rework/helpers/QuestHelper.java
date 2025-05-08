@@ -8,9 +8,11 @@ import net.warcar.non_fruit_rework.mixin.IReachDorikiMixin;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
+import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.IQuestData;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.QuestDataCapability;
+import xyz.pixelatedw.mineminenomi.init.ModAbilities;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
 
 import java.util.ArrayList;
@@ -39,22 +41,21 @@ public final class QuestHelper {
     }
 
     public static List<QuestId> getQuestsSorted(PlayerEntity player, List<QuestId<?>>... questss) {
-        List<QuestId> finalList = new ArrayList<>();
-        for (List<QuestId<?>> quests : questss) {
-            finalList.addAll(Arrays.asList(quests.stream()
-                    .filter(questId -> {
-                        if (questId.createQuest() instanceof IHasRequirements) {
-                            return ((IHasRequirements) questId.createQuest()).canGet(player);
-                        } else {
-                            return true;
-                        }
-                    })
-                    .sorted(Comparator.comparingInt(quest -> {
-                        return quest.createQuest().getObjectives().stream().filter(ReachDorikiObjective.class::isInstance)
-                                .map((t) -> ((IReachDorikiMixin) t).getDoriki()).findFirst().orElse(0);}))
-                    .toArray(QuestId[]::new)));
-        }
-        return finalList;
+        List<QuestId<?>> quests = new ArrayList<>();
+        Arrays.stream(questss).forEach(quests::addAll);
+        return new ArrayList<>(Arrays.asList(quests.stream()
+                .filter(questId -> {
+                    if (questId.createQuest() instanceof IHasRequirements) {
+                        return ((IHasRequirements) questId.createQuest()).canGet(player);
+                    } else {
+                        return true;
+                    }
+                })
+                .sorted(Comparator.comparingInt(quest -> {
+                    return quest.createQuest().getObjectives().stream().filter(ReachDorikiObjective.class::isInstance)
+                            .map((t) -> ((IReachDorikiMixin) t).getDoriki()).findFirst().orElse(0);
+                }))
+                .toArray(QuestId[]::new)));
     }
 
     public static void restartPlayer(PlayerEntity player) {
@@ -69,10 +70,21 @@ public final class QuestHelper {
     }
 
     public static boolean isTrueRace(LivingEntity entity, String race) {
-        return EntityStatsCapability.get(entity).getRace().equalsIgnoreCase(race);
+        return EntityStatsCapability.get(entity).getRace().equalsIgnoreCase(race) ||
+                (race.equalsIgnoreCase("human") && DevilFruitCapability.get(entity).hasDevilFruit(ModAbilities.HITO_HITO_NO_MI));
     }
 
     public static boolean isAnyRace(LivingEntity entity, String race) {
         return isTrueRace(entity, race) || isHybridRace(entity, race);
+    }
+
+    public static boolean canUseAdvancedRokushiki(LivingEntity entity) {
+        return QuestHelper.isTrueRace(entity, "human");
+    }
+
+    public static class UnfinishedQuestException extends RuntimeException {
+        public UnfinishedQuestException(QuestId<?> questId) {
+            super("Unfinished quest: " + (questId == null ? null : questId.getRegistryName()));
+        }
     }
 }

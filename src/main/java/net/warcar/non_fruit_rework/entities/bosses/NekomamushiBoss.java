@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.warcar.non_fruit_rework.entities.goals.TransformationWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.*;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import xyz.pixelatedw.mineminenomi.abilities.electro.SulongAbility;
 import xyz.pixelatedw.mineminenomi.api.challenges.InProgressChallenge;
 import xyz.pixelatedw.mineminenomi.api.challenges.OPBossEntity;
@@ -16,7 +17,6 @@ import xyz.pixelatedw.mineminenomi.api.helpers.MobsHelper;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiEmissionWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiImbuingWrapperGoal;
-import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.GeppoWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.SoruWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.TekkaiWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.phases.SimplePhase;
@@ -64,7 +64,7 @@ public class NekomamushiBoss extends OPBossEntity<NekomamushiBoss> {
         //Generics
         MobsHelper.addBasicNPCGoals(this);
         this.goalSelector.addGoal(3, new SoruWrapperGoal(this));
-        this.basicPhase.addGoal(3, new GeppoWrapperGoal(this));
+        EntityHelper.addDefaultBossGoals(this, this.getChallengeInfo());
         this.goalSelector.addGoal(3, new TekkaiWrapperGoal(this));
         //Haki
         this.basicPhase.addGoal(1, new BusoshokuHakiImbuingWrapperGoal(this));

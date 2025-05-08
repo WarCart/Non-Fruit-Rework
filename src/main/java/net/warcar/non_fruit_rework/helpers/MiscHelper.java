@@ -1,7 +1,9 @@
 package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
+import net.warcar.non_fruit_rework.entities.AfterimageEntity;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 
 public final class MiscHelper {
@@ -13,5 +15,16 @@ public final class MiscHelper {
             return false;
         }
         return ability.isContinuous();
+    }
+
+    public static AfterimageEntity spawnAfterimage(LivingEntity entity) {
+        if (entity instanceof PlayerEntity) {
+            AfterimageEntity afterimage = new AfterimageEntity(entity.level, 10);
+            afterimage.setPlayer((PlayerEntity) entity);
+            afterimage.setPos(entity.getX(), entity.getY(), entity.getZ());
+            entity.level.addFreshEntity(afterimage);
+            return afterimage;
+        }
+        return null;
     }
 }

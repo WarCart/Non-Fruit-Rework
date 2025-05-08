@@ -1,7 +1,7 @@
 package net.warcar.non_fruit_rework.quest.genetic_materials;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.warcar.non_fruit_rework.challenges.HodyJonesChallenge;
+import net.warcar.non_fruit_rework.challenges.easy.HodyJonesChallenge;
 import net.warcar.non_fruit_rework.quest.objectives.FinishChalengeObjective;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;

@@ -6,10 +6,17 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
+import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.modes.TekkaiMode;
 import net.warcar.non_fruit_rework.entities.goals.rokushiki.RokuoganWrapperGoal;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.geppo.KamisoriQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.TekkaiGoQuest;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.TekkaiUtsugiQuest;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
 import xyz.pixelatedw.mineminenomi.api.enums.HakiType;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
@@ -26,10 +33,14 @@ import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
     public static final EntityType<CP9Trainer> INSTANCE = WyRegistry.createEntityType(CP9Trainer::new).build("");
+
+    private static final DataParameter<Boolean> HAS_ADV_GEPPO = EntityDataManager.defineId(CP9Trainer.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> TEKKAI_MODE = EntityDataManager.defineId(CP9Trainer.class, DataSerializers.INT);
 
     public CP9Trainer(EntityType type, World world) {
         super(type, world);
@@ -71,8 +82,37 @@ public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
         }
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(HAS_ADV_GEPPO, random.nextBoolean());
+        this.entityData.define(TEKKAI_MODE, random.nextInt(TekkaiMode.values().length));
+    }
+
     public List<QuestId> getAvailableQuests(PlayerEntity playerEntity) {
-        return QuestHelper.getQuestsSorted(playerEntity, ModQuests.ROKUSHIKI_QUESTS);
+        List<QuestId<?>> toSort = new ArrayList<>(ModQuests.ROKUSHIKI_QUESTS);
+        if (this.hasAdvGeppo()) {
+            toSort.add(KamisoriQuest.INSTANCE);
+        }
+        switch (this.getTekkaiSpecialty()) {
+            case TEKKAI_GO:
+                toSort.add(TekkaiGoQuest.INSTANCE);
+                break;
+            case TEKKAI_KENPO:
+                toSort.addAll(ModQuests.TEKKAI_KENPO_QUESTS);
+                break;
+            case UTSUGI:
+                toSort.add(TekkaiUtsugiQuest.INSTANCE);
+        }
+        return QuestHelper.getQuestsSorted(playerEntity, toSort);
+    }
+
+    private TekkaiMode getTekkaiSpecialty() {
+        return TekkaiMode.values()[this.entityData.get(TEKKAI_MODE)];
+    }
+
+    private boolean hasAdvGeppo() {
+        return this.entityData.get(HAS_ADV_GEPPO);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {

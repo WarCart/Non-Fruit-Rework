@@ -3,9 +3,9 @@ package net.warcar.non_fruit_rework.init;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
-import net.warcar.non_fruit_rework.challenges.HodyJonesChallenge;
-import net.warcar.non_fruit_rework.challenges.MinkDukesChallenge;
-import net.warcar.non_fruit_rework.challenges.complex.*;
+import net.warcar.non_fruit_rework.challenges.easy.HodyJonesChallenge;
+import net.warcar.non_fruit_rework.challenges.easy.MinkDukesChallenge;
+import net.warcar.non_fruit_rework.challenges.rushes.*;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.challenges.ChallengeCore;
 

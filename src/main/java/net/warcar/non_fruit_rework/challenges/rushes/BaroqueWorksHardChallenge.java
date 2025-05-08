@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.challenges.complex;
+package net.warcar.non_fruit_rework.challenges.rushes;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;

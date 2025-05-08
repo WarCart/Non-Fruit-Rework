@@ -12,15 +12,14 @@ import net.warcar.non_fruit_rework.entities.goals.mink.EleclawWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.ElectricalLunaWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.ElectricalMissileWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.ElectricalTempestaWrapperGoal;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import xyz.pixelatedw.mineminenomi.abilities.electro.SulongAbility;
 import xyz.pixelatedw.mineminenomi.api.challenges.InProgressChallenge;
 import xyz.pixelatedw.mineminenomi.api.challenges.OPBossEntity;
 import xyz.pixelatedw.mineminenomi.api.entities.ai.NPCPhase;
-import xyz.pixelatedw.mineminenomi.api.helpers.MobsHelper;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiEmissionWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiImbuingWrapperGoal;
-import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.GeppoWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.TekkaiWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.SanbyakurokujuPoundHoWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.ShiShishiSonsonWrapperGoal;
@@ -64,8 +63,7 @@ public class InuarashiBoss extends OPBossEntity<InuarashiBoss> implements IHasIm
         this.hakiCapability.setKenbunshokuHakiExp(35);
         this.hakiCapability.setBusoshokuHakiExp(60);
         //Generics
-        MobsHelper.addBasicNPCGoals(this);
-        this.basicPhase.addGoal(3, new GeppoWrapperGoal(this));
+        EntityHelper.addDefaultBossGoals(this, this.getChallengeInfo());
         this.goalSelector.addGoal(3, new TekkaiWrapperGoal(this));
         //Haki
         this.basicPhase.addGoal(1, new BusoshokuHakiImbuingWrapperGoal(this));

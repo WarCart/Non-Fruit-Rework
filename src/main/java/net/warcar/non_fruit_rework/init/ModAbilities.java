@@ -11,12 +11,16 @@ import net.warcar.non_fruit_rework.abilities.giant.AncientGiantPassiveBonusesAbi
 import net.warcar.non_fruit_rework.abilities.giant.GiantPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
 import net.warcar.non_fruit_rework.abilities.human.RageMeterAbility;
+import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.AmaneDachiAbility;
+import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.OkamiHajikiAbility;
+import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.RokaruAreaNetworkAbility;
 import net.warcar.non_fruit_rework.abilities.hybrid.HybridPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.lunarian.DisasterFlamesAbility;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
+import xyz.pixelatedw.mineminenomi.api.enums.AbilityCommandGroup;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
 public class ModAbilities {
@@ -34,11 +38,22 @@ public class ModAbilities {
         registerAbility(HybridPassiveBonusesAbility.INSTANCE);
         registerAbility(GiantPassiveBonusesAbility.INSTANCE);
         registerAbility(AncientGiantPassiveBonusesAbility.INSTANCE);
+
+        registerAbility(AmaneDachiAbility.INSTANCE);
+
+        registerGroup("TEKKAI_KENPO", OkamiHajikiAbility.INSTANCE, RokaruAreaNetworkAbility.INSTANCE);
     }
 
     private static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {
         String resourceName = WyHelper.getResourceName(instance.getUnlocalizedName());
         ABILITIES.register(resourceName, () -> instance);
         LangHelper.registerLine(String.format("ability.%s.%s", NonFruitReworkMod.MOD_ID, resourceName), instance.getUnlocalizedName());
+    }
+
+    private static void registerGroup(String name, AbilityCore... abilities) {
+        AbilityCommandGroup.create(name, () -> abilities);
+        for (AbilityCore ability : abilities) {
+            registerAbility(ability);
+        }
     }
 }

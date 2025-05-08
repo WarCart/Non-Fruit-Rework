@@ -1,7 +1,5 @@
-package net.warcar.non_fruit_rework.challenges.complex;
+package net.warcar.non_fruit_rework.challenges.rushes;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.challenges.*;
 import xyz.pixelatedw.mineminenomi.challenges.arenas.ArlongParkSimpleArena;
@@ -16,20 +14,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class ArlongParkChallenge extends Challenge implements IHasRequirements {
-    private static final String TITLE = LangHelper.registerChallengeName("challenge.non_fruit_rework.arlong_park", "Arlong Park");
-    public static final String OBJECTIVE = LangHelper.registerChallengeName("challenge.non_fruit_rework.arlong_park.objective", "Defeat Arlong's crew");
-    public static final ChallengeCore INSTANCE = new ChallengeCore.Builder("arlong_park", TITLE, OBJECTIVE, ModNPCGroups.ARLONG_PIRATES.getName(), ArlongChallenge::new)
-            .setDifficulty(ChallengeDifficulty.STANDARD).setDifficultyStars(8).addArena(ArenaStyle.SIMPLE, ArlongParkSimpleArena.INSTANCE, ArlongParkSimpleArena::getChallengerSpawnPos, ArlongParkSimpleArena::getEnemySpawnPos)
-            .setEnemySpawns(ArlongParkChallenge::setEnemeySpawns).setTargetShowcase(new Supplier[]{ModEntities.ARLONG, ModEntities.CHEW, ModEntities.KUROOBI}).setTimeLimit(10).build();
+public class ArlongParkHardChallenge extends Challenge {
+    private static final String TITLE = LangHelper.registerChallengeName("challenge.non_fruit_rework.arlong_park_hard", "Arlong Park (Hard)");
+    public static final ChallengeCore INSTANCE = new ChallengeCore.Builder("arlong_park_hard", TITLE, ArlongParkChallenge.OBJECTIVE, ModNPCGroups.ARLONG_PIRATES.getName(), ArlongChallenge::new)
+            .setDifficulty(ChallengeDifficulty.HARD).setDifficultyStars(8).addArena(ArenaStyle.SIMPLE, ArlongParkSimpleArena.INSTANCE, ArlongParkSimpleArena::getChallengerSpawnPos, ArlongParkSimpleArena::getEnemySpawnPos)
+            .setEnemySpawns(ArlongParkHardChallenge::setEnemeySpawns).setTargetShowcase(new Supplier[]{ModEntities.ARLONG, ModEntities.CHEW, ModEntities.KUROOBI})
+            .setTimeLimit(10).build();
 
-    public ArlongParkChallenge(ChallengeCore<?> core) {
+    public ArlongParkHardChallenge(ChallengeCore<?> core) {
         super(core);
-    }
-
-    @Override
-    public boolean canGet(PlayerEntity player) {
-        return false;
     }
 
     public static Set<ChallengeArena.EnemySpawn> setEnemeySpawns(InProgressChallenge challenge, ChallengeArena.SpawnPosition[] spawns) {
