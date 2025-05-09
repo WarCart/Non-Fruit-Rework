@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework.init;
 
+import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.mixin.IAbilityCoreMixin;
 import net.warcar.non_fruit_rework.quest.cyborg.*;
@@ -24,7 +25,7 @@ import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 public class ReworkedUnlockRequirements {
     public static void init() {
         cyborgAbilities();
-        rokushikiAbilities();
+        humanAbilities();
         fishmanAbilities();
         minkAbilities();
     }
@@ -48,7 +49,7 @@ public class ReworkedUnlockRequirements {
         addReqs(YarinamiAbility.INSTANCE, QuestHelper.questFinished(YarinamiQuest.INSTANCE));
     }
 
-    private static void rokushikiAbilities() {
+    private static void humanAbilities() {
         addReqs(GeppoAbility.INSTANCE, QuestHelper.questFinished(GeppoQuest.INSTANCE));
         addReqs(KamieAbility.INSTANCE, QuestHelper.questFinished(KamieQuest.INSTANCE));
         addReqs(RankyakuAbility.INSTANCE, QuestHelper.questFinished(RankyakuQuest.INSTANCE));
@@ -74,7 +75,7 @@ public class ReworkedUnlockRequirements {
 
     private static void addReqs(AbilityCore<?> core, AbilityCore.ICanUnlock check) {
         AbilityCore.ICanUnlock check1 = ((IAbilityCoreMixin) core).getUnlockCheck();
-        if (false) {//TODO: Config
+        if (CommonConfig.INSTANCE.isFullQuest()) {
             check1 = ent -> false;
         }
         ((IAbilityCoreMixin) core).setUnlockCheck(check.or(check1));

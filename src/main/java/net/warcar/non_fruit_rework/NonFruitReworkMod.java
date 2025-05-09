@@ -8,12 +8,15 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.init.*;
 import net.warcar.non_fruit_rework.renderers.layers.HeadLayer;
 import org.apache.logging.log4j.LogManager;
@@ -54,6 +57,7 @@ public class NonFruitReworkMod {
         ModChallenges.register(bus);
         ModDamages.init();
         ModEntityAttributes.register(bus);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
