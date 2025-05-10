@@ -74,11 +74,11 @@ public class ReworkedUnlockRequirements {
     }
 
     private static void addReqs(AbilityCore<?> core, AbilityCore.ICanUnlock check) {
-        AbilityCore.ICanUnlock check1 = ((IAbilityCoreMixin) core).getUnlockCheck();
         if (CommonConfig.INSTANCE.isFullQuest()) {
-            check1 = ent -> false;
+            setReqs(core, check);
+        } else {
+            ((IAbilityCoreMixin) core).setUnlockCheck(check.or(((IAbilityCoreMixin) core).getUnlockCheck()));
         }
-        ((IAbilityCoreMixin) core).setUnlockCheck(check.or(check1));
     }
 
     private static AbilityCore.ICanUnlock isTrueRace(String race) {

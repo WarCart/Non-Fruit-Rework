@@ -19,7 +19,7 @@ public class MinkDukesChallenge extends Challenge {
             .setDifficulty(ChallengeDifficulty.STANDARD).setDifficultyStars(6).addArena(ArenaStyle.SIMPLE, JungleClearingSimpleArena.INSTANCE, JungleClearingSimpleArena::getChallengerSpawnPos, JungleClearingSimpleArena::getEnemySpawnPos)
             .setTargetShowcase(MinkDukesChallenge::createNekomamushiShowcase, MinkDukesChallenge::createInuarashiShowcase).setEnemySpawns(MinkDukesChallenge::getEnemySpawns).build();
 
-    private static InuarashiBoss createInuarashiShowcase(World world) {
+    public static InuarashiBoss createInuarashiShowcase(World world) {
         InuarashiBoss boss = InuarashiBoss.INSTANCE.create(world);
         IEntityStats stats = EntityStatsCapability.get(boss);
         stats.setRace(ModValues.MINK);
@@ -27,7 +27,7 @@ public class MinkDukesChallenge extends Challenge {
         return boss;
     }
 
-    private static LivingEntity createNekomamushiShowcase(World world) {
+    public static LivingEntity createNekomamushiShowcase(World world) {
         NekomamushiBoss boss = NekomamushiBoss.INSTANCE.create(world);
         IEntityStats stats = EntityStatsCapability.get(boss);
         stats.setRace(ModValues.MINK);
@@ -39,7 +39,7 @@ public class MinkDukesChallenge extends Challenge {
         super(core);
     }
 
-    private static Set<ChallengeArena.EnemySpawn> getEnemySpawns(InProgressChallenge challenge, ChallengeArena.SpawnPosition[] spawnPositions) {
+    public static Set<ChallengeArena.EnemySpawn> getEnemySpawns(InProgressChallenge challenge, ChallengeArena.SpawnPosition[] spawnPositions) {
         HashSet<ChallengeArena.EnemySpawn> spawns = new HashSet<>();
         spawns.add(new ChallengeArena.EnemySpawn(new NekomamushiBoss(challenge), spawnPositions[0]));
         spawns.add(new ChallengeArena.EnemySpawn(new InuarashiBoss(challenge), spawnPositions[1]));
