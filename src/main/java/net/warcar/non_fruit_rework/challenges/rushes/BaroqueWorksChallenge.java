@@ -23,9 +23,9 @@ public class BaroqueWorksChallenge extends Challenge implements IHasRequirements
     public static final ResourceLocation REWARD = new ResourceLocation(NonFruitReworkMod.MOD_ID, "rewards/baroque_works");
     public static final ChallengeCore<BaroqueWorksChallenge> INSTANCE = new ChallengeCore.Builder("baroque_works", TITLE, OBJECTIVE, ModNPCGroups.BAROQUE_WORKS.getName(), BaroqueWorksChallenge::new)
             .setDifficulty(ChallengeDifficulty.STANDARD).setDifficultyStars(10).addArena(ArenaStyle.SIMPLE, AlabastaDesertSimpleArena.INSTANCE, AlabastaDesertSimpleArena::getChallengerSpawnPos, BaroqueWorksChallenge::getEnemySpawnPos)
-            .setEnemySpawns(BaroqueWorksChallenge::setEnemySpawns).setTargetShowcase(Mr0Challenge::createMr0Showcase, BaroqueWorksChallenge::createMr1Showcase, BaroqueWorksChallenge::createMr3Showcase, BaroqueWorksChallenge::createMr4Showcase).setTimeLimit(30).setRewards(REWARD).build();
+            .setEnemySpawns(BaroqueWorksChallenge::setEnemySpawns).setTargetShowcase(Mr0Challenge::createMr0Showcase, BaroqueWorksChallenge::createMr1Showcase, BaroqueWorksChallenge::createMr2Showcase, BaroqueWorksChallenge::createMr3Showcase).setTimeLimit(30).setRewards(REWARD).build();
 
-    public static LivingEntity createMr4Showcase(World world) {
+    public static LivingEntity createMr2Showcase(World world) {
         return ModEntities.MR4.get().create(world);
     }
 
@@ -52,13 +52,14 @@ public class BaroqueWorksChallenge extends Challenge implements IHasRequirements
     }
 
     public static Set<ChallengeArena.EnemySpawn> setEnemySpawns(InProgressChallenge challenge, ChallengeArena.SpawnPosition[] spawns) {
-        Set<ChallengeArena.EnemySpawn> set = new HashSet();
+        Set<ChallengeArena.EnemySpawn> set = new HashSet<>();
         set.add(new ChallengeArena.EnemySpawn(new Mr0Entity(challenge), spawns[0]));
         set.add(new ChallengeArena.EnemySpawn(new Mr1Entity(challenge), spawns[1]));
-        //Sadly no Mr2
+        // Sadly no Mr2
         set.add(new ChallengeArena.EnemySpawn(new Mr3Entity(challenge), spawns[2]));
-        set.add(new ChallengeArena.EnemySpawn(new Mr4Entity(challenge), spawns[3]));
-        set.add(new ChallengeArena.EnemySpawn(new MissMerryChristmasEntity(challenge), spawns[4]));
+        // WIP by Wynd
+//        set.add(new ChallengeArena.EnemySpawn(new Mr4Entity(challenge), spawns[3]));
+//        set.add(new ChallengeArena.EnemySpawn(new MissMerryChristmasEntity(challenge), spawns[4]));
         set.add(new ChallengeArena.EnemySpawn(new Mr5Entity(challenge), spawns[5]));
         set.add(new ChallengeArena.EnemySpawn(new MissValentineEntity(challenge), spawns[6]));
         return set;

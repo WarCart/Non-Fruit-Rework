@@ -3,6 +3,7 @@ package net.warcar.non_fruit_rework.entities.bosses;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.world.World;
 import net.warcar.non_fruit_rework.entities.goals.TransformationWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.EleclawWrapperGoal;
@@ -16,9 +17,12 @@ import xyz.pixelatedw.mineminenomi.api.challenges.OPBossEntity;
 import xyz.pixelatedw.mineminenomi.api.entities.ai.NPCPhase;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiEmissionWrapperGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiFullbodyHardeningWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiImbuingWrapperGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiInternalDestructionWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.TekkaiWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.phases.SimplePhase;
+import xyz.pixelatedw.mineminenomi.init.ModAttributes;
 import xyz.pixelatedw.mineminenomi.init.ModValues;
 
 public abstract class MinkDukeBoss<E extends MinkDukeBoss<E>> extends OPBossEntity<E> {
@@ -35,16 +39,37 @@ public abstract class MinkDukeBoss<E extends MinkDukeBoss<E>> extends OPBossEnti
         super.initBoss();
         this.entityStats.setFaction(ModValues.PIRATE);
         this.entityStats.setFightingStyle(ModValues.SWORDSMAN);
-        this.entityStats.setDoriki(5000);
-        this.hakiCapability.setKenbunshokuHakiExp(35);
-        this.hakiCapability.setBusoshokuHakiExp(60);
+        if (!this.getChallengeInfo().isDifficultyStandard()) {
+            this.entityStats.setDoriki(10000);
+            this.hakiCapability.setKenbunshokuHakiExp(100);
+            this.hakiCapability.setBusoshokuHakiExp(100);
+
+            //Attributes
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(600);
+            this.getAttribute(Attributes.ARMOR).setBaseValue(20);
+            this.getAttribute(Attributes.ARMOR_TOUGHNESS).setBaseValue(8);
+            ModifiableAttributeInstance attribute = this.getAttribute(Attributes.ATTACK_DAMAGE);
+            attribute.setBaseValue(5 + attribute.getBaseValue());
+            this.getAttribute(ModAttributes.TOUGHNESS.get()).setBaseValue(8);
+        }
+        else {
+            this.entityStats.setDoriki(5000);
+            this.hakiCapability.setKenbunshokuHakiExp(35);
+            this.hakiCapability.setBusoshokuHakiExp(60);
+        }
         //Generics
         EntityHelper.addDefaultBossGoals(this, this.getChallengeInfo());
         this.goalSelector.addGoal(3, new TekkaiWrapperGoal(this));
         //Haki
-        this.basicPhase.addGoal(1, new BusoshokuHakiImbuingWrapperGoal(this));
-        this.sulongPhase.addGoal(1, new BusoshokuHakiImbuingWrapperGoal(this));
-        this.finalPhase.addGoal(1, new BusoshokuHakiEmissionWrapperGoal(this));
+        if (!this.getChallengeInfo().isDifficultyStandard()) {
+            this.goalSelector.addGoal(0, new BusoshokuHakiInternalDestructionWrapperGoal(this));
+            this.goalSelector.addGoal(0, new BusoshokuHakiFullbodyHardeningWrapperGoal(this));
+        }
+        else {
+            this.basicPhase.addGoal(0, new BusoshokuHakiImbuingWrapperGoal(this));
+            this.sulongPhase.addGoal(0, new BusoshokuHakiImbuingWrapperGoal(this));
+            this.finalPhase.addGoal(0, new BusoshokuHakiEmissionWrapperGoal(this));
+        }
         //Electro
         this.goalSelector.addGoal(2, new EleclawWrapperGoal(this));
         this.goalSelector.addGoal(2, new ElectricalLunaWrapperGoal(this));
