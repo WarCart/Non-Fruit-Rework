@@ -6,7 +6,9 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.entities.goals.TransformationWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.*;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
@@ -33,11 +35,10 @@ public class ElectroTrainer extends TrainerEntity implements IHakiTrainer {
     public static final EntityType<ElectroTrainer> INSTANCE = WyRegistry.createEntityType(ElectroTrainer::new).build("");
 
     public ElectroTrainer(EntityType type, World world) {
-        super(type, world);
+        super(type, world, new ResourceLocation[]{new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/entities/pedro.png")});
         if (!world.isClientSide) {
             this.getEntityStats().setFaction(ModValues.CIVILIAN);
             this.getEntityStats().setRace(ModValues.MINK);
-            this.getEntityStats().setSubRace(ModValues.MINK_LION);
             this.setDoriki(2000.0D + WyHelper.randomWithRange(0, 1000));
             this.setBelly(20.0D + WyHelper.randomWithRange(0, 20));
             //Electro

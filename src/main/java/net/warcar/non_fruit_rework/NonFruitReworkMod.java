@@ -17,11 +17,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.non_fruit_rework.config.CommonConfig;
+import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.init.*;
 import net.warcar.non_fruit_rework.renderers.layers.HeadLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.pixelatedw.mineminenomi.mixins.RangedAttributeMixin;
+import xyz.pixelatedw.mineminenomi.mixins.client.ILivingRendererMixin;
+import xyz.pixelatedw.mineminenomi.renderers.layers.MinkFeaturesLayer;
 
 import java.util.Map;
 
@@ -74,6 +77,9 @@ public class NonFruitReworkMod {
                 if (entityRenderer instanceof LivingRenderer) {
                     LivingRenderer renderer = (LivingRenderer) entityRenderer;
                     renderer.addLayer(new HeadLayer<>(renderer));
+                }
+                if (entry.getKey().equals(ElectroTrainer.INSTANCE)) {
+                    ((ILivingRendererMixin) entityRenderer).getLayers().removeIf(layer -> layer instanceof MinkFeaturesLayer);
                 }
             }
             for (Map.Entry<String, PlayerRenderer> entry : mc.getEntityRenderDispatcher().getSkinMap().entrySet()) {

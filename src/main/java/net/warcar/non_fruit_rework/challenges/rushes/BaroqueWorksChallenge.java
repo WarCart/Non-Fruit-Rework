@@ -26,6 +26,8 @@ public class BaroqueWorksChallenge extends Challenge implements IHasRequirements
             .setEnemySpawns(BaroqueWorksChallenge::setEnemySpawns).setTargetShowcase(Mr0Challenge::createMr0Showcase, BaroqueWorksChallenge::createMr1Showcase, BaroqueWorksChallenge::createMr2Showcase, BaroqueWorksChallenge::createMr3Showcase).setTimeLimit(30).setRewards(REWARD).build();
 
     public static LivingEntity createMr2Showcase(World world) {
+        // TODO: Kinda obvious
+        // (if not Mr 2)
         return ModEntities.MR4.get().create(world);
     }
 

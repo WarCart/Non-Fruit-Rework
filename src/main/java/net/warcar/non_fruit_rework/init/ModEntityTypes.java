@@ -28,6 +28,7 @@ import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
+import net.warcar.non_fruit_rework.models.ElectroTrainerModel;
 import net.warcar.non_fruit_rework.models.HackModel;
 import net.warcar.non_fruit_rework.models.VegapunkModel;
 import net.warcar.non_fruit_rework.renderers.AfterimageRenderer;
@@ -110,7 +111,7 @@ public class ModEntityTypes {
         RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new VegapunkModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
         RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HackModel(), 1));
-        RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new ElectroTrainerModel(), 1));
 
         //Seraphims
         RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));

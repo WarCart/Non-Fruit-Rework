@@ -5,6 +5,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.challenges.easy.HodyJonesChallenge;
 import net.warcar.non_fruit_rework.challenges.easy.MinkDukesChallenge;
+import net.warcar.non_fruit_rework.challenges.hard.MinkDukesHardChallenge;
 import net.warcar.non_fruit_rework.challenges.rushes.*;
 import xyz.pixelatedw.mineminenomi.api.ModRegistries;
 import xyz.pixelatedw.mineminenomi.api.challenges.ChallengeCore;
@@ -16,6 +17,7 @@ public class ModChallenges {
         CHALLENGES.register(bus);
         //registerChallenge(KingChallenge.INSTANCE);
         registerChallenge(MinkDukesChallenge.INSTANCE);
+        registerChallenge(MinkDukesHardChallenge.INSTANCE);
         registerChallenge(HodyJonesChallenge.INSTANCE);
         registerChallenge(ArlongParkChallenge.INSTANCE);
         registerChallenge(ArlongParkHardChallenge.INSTANCE);
