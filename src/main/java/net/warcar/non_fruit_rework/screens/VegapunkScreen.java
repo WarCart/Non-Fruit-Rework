@@ -35,7 +35,6 @@ import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.screens.extra.AvailableQuestsListScreenPanel;
 import net.warcar.non_fruit_rework.screens.extra.OptionSlider;
 import net.warcar.non_fruit_rework.screens.extra.PlankToggle;
-import xyz.pixelatedw.mineminenomi.api.enums.StatChangeSource;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
@@ -282,7 +281,6 @@ public class VegapunkScreen extends Screen {
     }
 
     private void finish() {
-        this.entityStats.alterDoriki(-entityStats.getDoriki() * 0.9, StatChangeSource.DEATH);
         if (this.chosenPristineRace() == 0) {
             boolean isHybrid = false;
             String race = "";
@@ -318,7 +316,7 @@ public class VegapunkScreen extends Screen {
                 ModNetwork.sendToServer(new CUpdatePassiveAbilityDataPacket(this.player, ability));
             }
         }
-        QuestHelper.restartPlayer(player);
+        ModNetwork.sendToServer(new CRestartPlayerPacket());
         player.refreshDimensions();
         this.minecraft.setScreen(null);
     }

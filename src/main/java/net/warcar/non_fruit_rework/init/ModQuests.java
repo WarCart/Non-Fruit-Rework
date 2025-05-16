@@ -46,6 +46,7 @@ public class ModQuests {
     public static final List<QuestId<?>> CYBORG_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> GEN_MODIFICATION_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> ROKUSHIKI_QUESTS = new ArrayList<>();
+    public static final List<QuestId<?>> ADV_ROKUSHIKI_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> TEKKAI_KENPO_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> FISHMAN_KARATE_GENERIC_QUESTS = new ArrayList<>();
     public static final List<QuestId<?>> FISHMAN_KARATE_RACIAL_QUESTS = new ArrayList<>();
@@ -97,34 +98,35 @@ public class ModQuests {
         registerQuest(TekkaiQuest.INSTANCE, ROKUSHIKI_QUESTS);
 
         //Advanced
-        registerQuest(KamisoriQuest.INSTANCE, null);
-        registerQuest(TekkaiDamaQuest.INSTANCE, null);
-        registerQuest(ZanshinQuest.INSTANCE, null);
-        registerQuest(SaiDaiRinRokuoganQuest.INSTANCE, null);
+        registerQuest(KamisoriQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(TekkaiDamaQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(ZanshinQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(SaiDaiRinRokuoganQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
         rankyakuPart();
         shiganPart();
         tekkaiPart();
     }
 
     private static void rankyakuPart() {
-        registerQuest(RankyakuRanQuest.INSTANCE, null);
-        registerQuest(RankyakuHakuraiQuest.INSTANCE, null);
-        registerQuest(AmaneDachiQuest.INSTANCE, null);
+        registerQuest(RankyakuRanQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(RankyakuHakuraiQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(AmaneDachiQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
     }
 
     private static void shiganPart() {
-        registerQuest(TobuShiganQuest.INSTANCE, null);
-        registerQuest(ShiganOrenQuest.INSTANCE, null);
-        registerQuest(JushiganQuest.INSTANCE, null);
+        registerQuest(TobuShiganQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(ShiganOrenQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(JushiganQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
     }
 
     private static void tekkaiPart() {
-        registerQuest(TekkaiGoQuest.INSTANCE, null);
-        registerQuest(TekkaiUtsugiQuest.INSTANCE, null);
+        registerQuest(TekkaiGoQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
+        registerQuest(TekkaiUtsugiQuest.INSTANCE, ADV_ROKUSHIKI_QUESTS);
         //Kenpo
         registerQuest(TekkaiKenpoQuest.INSTANCE, TEKKAI_KENPO_QUESTS);
         registerQuest(OkamiHajikiQuest.INSTANCE, TEKKAI_KENPO_QUESTS);
         registerQuest(RokaruAreaNetworkQuest.INSTANCE, TEKKAI_KENPO_QUESTS);
+        ADV_ROKUSHIKI_QUESTS.addAll(TEKKAI_KENPO_QUESTS);
     }
 
     private static void cyborgQuests() {

@@ -12,11 +12,9 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.World;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.modes.TekkaiMode;
 import net.warcar.non_fruit_rework.entities.goals.rokushiki.RokuoganWrapperGoal;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
-import net.warcar.non_fruit_rework.quest.rokushiki.advanced.geppo.KamisoriQuest;
-import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.TekkaiGoQuest;
-import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.TekkaiUtsugiQuest;
 import xyz.pixelatedw.mineminenomi.api.entities.TrainerEntity;
 import xyz.pixelatedw.mineminenomi.api.enums.HakiType;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
@@ -33,7 +31,6 @@ import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
@@ -43,7 +40,7 @@ public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
     private static final DataParameter<Integer> TEKKAI_MODE = EntityDataManager.defineId(CP9Trainer.class, DataSerializers.INT);
 
     public CP9Trainer(EntityType type, World world) {
-        super(type, world);
+        super(type, world, EntityHelper.getTexture("lucci"));
         if (!world.isClientSide) {
             this.getEntityStats().setFaction(ModValues.WORLD_GOVT);
             this.getEntityStats().setRace(ModValues.HUMAN);
@@ -90,29 +87,7 @@ public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
     }
 
     public List<QuestId> getAvailableQuests(PlayerEntity playerEntity) {
-        List<QuestId<?>> toSort = new ArrayList<>(ModQuests.ROKUSHIKI_QUESTS);
-        if (this.hasAdvGeppo()) {
-            toSort.add(KamisoriQuest.INSTANCE);
-        }
-        switch (this.getTekkaiSpecialty()) {
-            case TEKKAI_GO:
-                toSort.add(TekkaiGoQuest.INSTANCE);
-                break;
-            case TEKKAI_KENPO:
-                toSort.addAll(ModQuests.TEKKAI_KENPO_QUESTS);
-                break;
-            case UTSUGI:
-                toSort.add(TekkaiUtsugiQuest.INSTANCE);
-        }
-        return QuestHelper.getQuestsSorted(playerEntity, toSort);
-    }
-
-    private TekkaiMode getTekkaiSpecialty() {
-        return TekkaiMode.values()[this.entityData.get(TEKKAI_MODE)];
-    }
-
-    private boolean hasAdvGeppo() {
-        return this.entityData.get(HAS_ADV_GEPPO);
+        return QuestHelper.getQuestsSorted(playerEntity, ModQuests.ROKUSHIKI_QUESTS, ModQuests.ADV_ROKUSHIKI_QUESTS);
     }
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {

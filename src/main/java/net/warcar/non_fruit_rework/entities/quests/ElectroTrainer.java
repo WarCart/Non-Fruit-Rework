@@ -6,11 +6,10 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.entities.goals.TransformationWrapperGoal;
 import net.warcar.non_fruit_rework.entities.goals.mink.*;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModQuests;
 import xyz.pixelatedw.mineminenomi.abilities.electro.SulongAbility;
@@ -35,7 +34,7 @@ public class ElectroTrainer extends TrainerEntity implements IHakiTrainer {
     public static final EntityType<ElectroTrainer> INSTANCE = WyRegistry.createEntityType(ElectroTrainer::new).build("");
 
     public ElectroTrainer(EntityType type, World world) {
-        super(type, world, new ResourceLocation[]{new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/entities/pedro.png")});
+        super(type, world, EntityHelper.getTexture("pedro"));
         if (!world.isClientSide) {
             this.getEntityStats().setFaction(ModValues.CIVILIAN);
             this.getEntityStats().setRace(ModValues.MINK);

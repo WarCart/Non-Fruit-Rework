@@ -7,6 +7,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import xyz.pixelatedw.mineminenomi.api.challenges.InProgressChallenge;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.DashDodgeTargetGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.SoruWrapperGoal;
 import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.init.ModWeapons;
@@ -42,6 +43,7 @@ public class NekomamushiBoss extends MinkDukeBoss<NekomamushiBoss> {
         super.initBoss();
         //Generics
         this.goalSelector.addGoal(3, new SoruWrapperGoal(this));
+        this.goalSelector.addGoal(1, new DashDodgeTargetGoal(this, 100.0F, 3.0F));
     }
 
     @Override

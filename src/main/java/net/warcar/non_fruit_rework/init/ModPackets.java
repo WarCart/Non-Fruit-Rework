@@ -14,5 +14,6 @@ public class ModPackets {
         ModNetwork.registerPacket(new CSyncNonFruitDataPacket());
         ModNetwork.registerPacket(new SSyncNonFruitDataPacket());
         ModNetwork.registerPacket(new CUpdatePassiveAbilityDataPacket());
+        ModNetwork.registerPacket(new CRestartPlayerPacket());
     }
 }

@@ -1,10 +1,11 @@
 package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.entity.CreatureEntity;
+import net.minecraft.util.ResourceLocation;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import xyz.pixelatedw.mineminenomi.api.challenges.ChallengeInfo;
 import xyz.pixelatedw.mineminenomi.api.helpers.MobsHelper;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.DashDodgeProjectilesGoal;
-import xyz.pixelatedw.mineminenomi.entities.mobs.goals.DashDodgeTargetGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.ImprovedMeleeAttackGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.SprintTowardsTargetGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.LeapWrapperGoal;
@@ -16,7 +17,6 @@ public final class EntityHelper {
 
     public static void addDefaultBossGoals(CreatureEntity entity, ChallengeInfo challenge) {
         entity.goalSelector.addGoal(0, new DashDodgeProjectilesGoal(entity, 200.0F, 3.0F));
-        entity.goalSelector.addGoal(1, new DashDodgeTargetGoal(entity, 100.0F, 3.0F));
         entity.goalSelector.addGoal(1, new ImprovedMeleeAttackGoal(entity, 1.0F, true));
         entity.goalSelector.addGoal(0, new SprintTowardsTargetGoal(entity));
         entity.goalSelector.addGoal(3, new LeapWrapperGoal(entity));
@@ -25,5 +25,9 @@ public final class EntityHelper {
             entity.goalSelector.addGoal(3, new HakaiHoWrapperGoal(entity));
         }
         MobsHelper.addBasicNPCGoals(entity);
+    }
+
+    public static ResourceLocation[] getTexture(String name) {
+        return new ResourceLocation[]{new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/entities/" + name + ".png")};
     }
 }

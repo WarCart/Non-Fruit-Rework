@@ -28,6 +28,7 @@ import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
+import net.warcar.non_fruit_rework.models.CP9TrainerModel;
 import net.warcar.non_fruit_rework.models.ElectroTrainerModel;
 import net.warcar.non_fruit_rework.models.HackModel;
 import net.warcar.non_fruit_rework.models.VegapunkModel;
@@ -109,7 +110,7 @@ public class ModEntityTypes {
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
         //Quest givers
         RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new VegapunkModel(), 1));
-        RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new CP9TrainerModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HackModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new ElectroTrainerModel(), 1));
 
