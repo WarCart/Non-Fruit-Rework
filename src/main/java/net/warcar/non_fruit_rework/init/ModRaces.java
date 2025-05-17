@@ -18,6 +18,11 @@ public class ModRaces {
     public static final RegistryObject<RaceId> HYBRID = registerRace("Hybrid", () ->
             new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
 
+    public static final RegistryObject<RaceId> GIANT = registerRace("Giant", () -> {
+        CharacterCreatorSelectionMap.SelectionInfo info = new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM);
+        return new RaceId(info, false, 5);
+    });
+
     private static RegistryObject<RaceId> registerRace(String name, Supplier<RaceId> supplier) {
         String resourceName = WyHelper.getResourceName(name);
         LangHelper.registerLine("race." + NonFruitReworkMod.MOD_ID + "." + resourceName, name);
