@@ -1,13 +1,14 @@
 package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class NonFruitDataBase implements INonFruitData {
-    private Map<String, Float> genome = new HashMap<>();
+    private Map<ResourceLocation, Float> genome = new HashMap<>();
 
     private int energySteroidTicks;
     private int energySteroidLevel;
@@ -22,12 +23,12 @@ public class NonFruitDataBase implements INonFruitData {
     private LivingEntity dataOwner;
 
     @Override
-    public Map<String, Float> getGenome() {
+    public Map<ResourceLocation, Float> getGenome() {
         return this.genome;
     }
 
     @Override
-    public void setGenome(Map<String, Float> newGenome) {
+    public void setGenome(Map<ResourceLocation, Float> newGenome) {
         this.genome = newGenome;
     }
 

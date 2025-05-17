@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -17,7 +18,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.RegistryObject;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
+import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
@@ -26,6 +29,7 @@ import net.warcar.non_fruit_rework.enums.PacifistaModel;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModEntityTypes;
 import net.warcar.non_fruit_rework.init.ModQuests;
+import net.warcar.non_fruit_rework.init.ModRaces;
 import net.warcar.non_fruit_rework.init.ModTexts;
 import net.warcar.non_fruit_rework.network.ModNetwork;
 import net.warcar.non_fruit_rework.network.packets.client.*;
@@ -35,6 +39,7 @@ import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.screens.extra.AvailableQuestsListScreenPanel;
 import net.warcar.non_fruit_rework.screens.extra.OptionSlider;
 import net.warcar.non_fruit_rework.screens.extra.PlankToggle;
+import xyz.pixelatedw.mineminenomi.api.charactercreator.RaceId;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
@@ -43,6 +48,7 @@ import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.IQuestData;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.QuestDataCapability;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.screens.extra.SequencedString;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.FactionButton;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.PlankButton;
@@ -127,13 +133,13 @@ public class VegapunkScreen extends Screen {
                     if (this.hybridGenesSliders[i].getValueStrict() == 0) {
                         continue;
                     }
-                    if (this.entityStats.getRace().equalsIgnoreCase("hybrid")) {
+                    if (this.entityStats.getRace().equals(ModRaces.HYBRID.getId())) {
                         if (medicalData.getGenome().containsKey(WyHelper.getResourceName(race.name()))) {
                             racialPrice += 1000;
                         } else {
                             racialPrice += 10000;
                         }
-                    } else if (!entityStats.getRace().equalsIgnoreCase(WyHelper.getResourceName(race.name()))) {
+                    } else if (!entityStats.getRace().equals(WyHelper.getResourceName(race.name()))) {
                         racialPrice += 15000;
                     }
                 }
@@ -283,12 +289,12 @@ public class VegapunkScreen extends Screen {
     private void finish() {
         if (this.chosenPristineRace() == 0) {
             boolean isHybrid = false;
-            String race = "";
-            Map<String, Float> genomeMap = new HashMap<>();
+            ResourceLocation race = xyz.pixelatedw.mineminenomi.init.ModRaces.EMPTY.getId();
+            Map<ResourceLocation, Float> genomeMap = new HashMap<>();
 
             for (int i = 0; i < hybridGenesSliders.length; i++) {
                 OptionSlider slider = hybridGenesSliders[i];
-                race = HybridRaces.values()[i].name().toLowerCase();
+                race = HybridRaces.values()[i].race.getId();
                 genomeMap.put(race, (float) slider.getValueStrict());
                 if (slider.getValueStrict() != 1 && slider.getValueStrict() != 0) {
                     isHybrid = true;
@@ -297,7 +303,7 @@ public class VegapunkScreen extends Screen {
                 }
             }
             if (isHybrid) {
-                this.entityStats.setRace("hybrid");
+                this.entityStats.setRace(ModRaces.HYBRID.getId());
                 this.medicalData.setGenome(genomeMap);
             } else {
                 this.entityStats.setRace(race);
@@ -377,7 +383,7 @@ public class VegapunkScreen extends Screen {
                     choosePristineRace(buttonId);
                 }, WIP));
                 this.pristineRaceButtons[i].active = PristineRaces.values()[i - 1].canHave(this.player);
-                if (entityStats.getRace().equalsIgnoreCase(race.name())) {
+                if (entityStats.getRace().equals(race.race)) {
                     hasOtherRace = true;
                     this.pristineRaceButtons[i].active = false;
                 }
@@ -408,13 +414,13 @@ public class VegapunkScreen extends Screen {
     private void initHybridableRaces(int posX, int posY) {
         if (this.hybridGenesSliders.length == 0) {
             this.hybridGenesSliders = new OptionSlider[HybridRaces.values().length];
-            String race = EntityStatsCapability.get(this.player).getRace();
+            ResourceLocation race = EntityStatsCapability.get(this.player).getRace();
             for (int i = 0; i < HybridRaces.values().length; i++) {
                 HybridRaces hybridRace = HybridRaces.values()[i];
                 double val;
-                if (race.equalsIgnoreCase("hybrid")) {
-                    val = this.medicalData.getGenome().computeIfAbsent(hybridRace.toString().toLowerCase(), s -> 0f);
-                } else if (race.equalsIgnoreCase(hybridRace.toString())) {
+                if (race.equals(ModRaces.HYBRID.getId())) {
+                    val = this.medicalData.getGenome().computeIfAbsent(hybridRace.race.getId(), s -> 0f);
+                } else if (race.equals(hybridRace.race.getId())) {
                     val = 1;
                 } else {
                     val = 0;
@@ -610,17 +616,19 @@ public class VegapunkScreen extends Screen {
         }
     }
 
-    public enum HybridRaces implements IExtensibleEnum {
-        HUMAN(null),
-        FISHMAN(FishmanGenesQuest.INSTANCE),
-        MINK(MinkGenesQuest.INSTANCE),
-        GIANT(null),
+    public enum HybridRaces implements IExtensibleEnum, IHasQuestRequirement {
+        HUMAN(xyz.pixelatedw.mineminenomi.init.ModRaces.HUMAN, null),
+        FISHMAN(xyz.pixelatedw.mineminenomi.init.ModRaces.FISHMAN, FishmanGenesQuest.INSTANCE),
+        MINK(xyz.pixelatedw.mineminenomi.init.ModRaces.MINK, MinkGenesQuest.INSTANCE),
+        GIANT(null, null),
         ;
 
+        private final RegistryObject<RaceId> race;
         @Nullable
         private final QuestId<?> requirement;
 
-        HybridRaces(@Nullable QuestId<?> requirement) {
+        HybridRaces(RegistryObject<RaceId> race, @Nullable QuestId<?> requirement) {
+            this.race = race;
             this.requirement = requirement;
         }
 
@@ -628,12 +636,17 @@ public class VegapunkScreen extends Screen {
             if (this.requirement == null || QuestHelper.hasFinishedQuest(entity, this.requirement)) {
                 return true;
             } else {
-                return EntityStatsCapability.get(entity).getRace().equalsIgnoreCase(this.name());
+                return EntityStatsCapability.get(entity).getRace().equals(this.race.getId());
             }
         }
 
-        public static HybridRaces create(String name, QuestId<?> requirement) {
+        public static HybridRaces create(String name, RegistryObject<RaceId> race, QuestId<?> requirement) {
             throw new IllegalStateException(name + "not created");
+        }
+
+        @Override
+        public QuestId<?> getQuest() {
+            return requirement;
         }
     }
 

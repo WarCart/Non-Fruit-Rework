@@ -20,6 +20,7 @@ import xyz.pixelatedw.mineminenomi.data.entity.quests.QuestDataCapability;
 import xyz.pixelatedw.mineminenomi.events.abilities.AbilityProgressionEvents;
 import xyz.pixelatedw.mineminenomi.init.ModAbilities;
 import xyz.pixelatedw.mineminenomi.init.ModTags;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.packets.server.SSyncDevilFruitPacket;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
@@ -54,6 +55,9 @@ public final class QuestHelper {
         Arrays.stream(questss).forEach(quests::addAll);
         return new ArrayList<>(Arrays.asList(quests.stream()
                 .filter(questId -> {
+                    if (player == null) {
+                        return true;
+                    }
                     if (questId.createQuest() instanceof IHasRequirements) {
                         return ((IHasRequirements) questId.createQuest()).canGet(player);
                     } else {
@@ -83,21 +87,21 @@ public final class QuestHelper {
         entityStats.alterDoriki(-entityStats.getDoriki() * 0.9, StatChangeSource.DEATH);
     }
 
-    public static boolean isHybridRace(LivingEntity entity, String race) {
+    public static boolean isHybridRace(LivingEntity entity, ResourceLocation race) {
         return NonFruitDataCapability.get(entity).getGenome().computeIfAbsent(race, s -> 0f) > 0.1 && EntityStatsCapability.get(entity).getRace().equalsIgnoreCase("hybrid");
     }
 
-    public static boolean isTrueRace(LivingEntity entity, String race) {
-        return EntityStatsCapability.get(entity).getRace().equalsIgnoreCase(race) ||
-                (race.equalsIgnoreCase("human") && DevilFruitCapability.get(entity).hasDevilFruit(ModAbilities.HITO_HITO_NO_MI));
+    public static boolean isTrueRace(LivingEntity entity, ResourceLocation race) {
+        return EntityStatsCapability.get(entity).getRace().equals(race) ||
+                (race.equals(ModValues.HUMAN) && DevilFruitCapability.get(entity).hasDevilFruit(ModAbilities.HITO_HITO_NO_MI));
     }
 
-    public static boolean isAnyRace(LivingEntity entity, String race) {
+    public static boolean isAnyRace(LivingEntity entity, ResourceLocation race) {
         return isTrueRace(entity, race) || isHybridRace(entity, race);
     }
 
     public static boolean canUseAdvancedRokushiki(LivingEntity entity) {
-        return QuestHelper.isTrueRace(entity, "human");
+        return QuestHelper.isTrueRace(entity, ModValues.HUMAN);
     }
 
     public static class UnfinishedQuestException extends RuntimeException {

@@ -4,6 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -32,8 +33,8 @@ public class NonFruitDataCapability {
 				props.putInt("sulongBallTicks", instance.getSulongBallTicks());
 
 				CompoundNBT genome = new CompoundNBT();
-				for (String name : instance.getGenome().keySet()) {
-					genome.putFloat(name, instance.getGenome().get(name));
+				for (ResourceLocation name : instance.getGenome().keySet()) {
+					genome.putFloat(name.toString(), instance.getGenome().get(name));
 				}
 				props.put("genome", genome);
 
@@ -54,9 +55,9 @@ public class NonFruitDataCapability {
 				instance.setSulongBallTicks(props.getInt("sulongBallTicks"));
 
 				CompoundNBT genome = props.getCompound("genome");
-				Map<String, Float> genomeMap = new HashMap<>();
+				Map<ResourceLocation, Float> genomeMap = new HashMap<>();
 				for (String name : genome.getAllKeys()) {
-					genomeMap.put(name, genome.getFloat(name));
+					genomeMap.put(new ResourceLocation(name), genome.getFloat(name));
 				}
 
 				instance.getAdditionalInventory().deserializeNBT(props.getCompound("additionalInventory"));

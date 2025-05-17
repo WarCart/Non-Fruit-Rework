@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.init.ModEntityAttributes;
+import net.warcar.non_fruit_rework.init.ModRaces;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityType;
@@ -95,6 +96,6 @@ public class HybridPassiveBonusesAbility extends PassiveStatBonusAbility {
     }
 
     private static boolean canUnlock(LivingEntity entity) {
-        return EntityStatsCapability.get(entity).getRace().equalsIgnoreCase("hybrid");
+        return EntityStatsCapability.get(entity).getRace().equals(ModRaces.HYBRID.getId());
     }
 }

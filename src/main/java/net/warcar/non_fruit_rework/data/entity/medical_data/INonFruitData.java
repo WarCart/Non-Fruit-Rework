@@ -1,14 +1,15 @@
 package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.ItemStackHandler;
 import net.warcar.non_fruit_rework.init.ModDamages;
 
 import java.util.Map;
 
 public interface INonFruitData {
-    Map<String, Float> getGenome();
-    void setGenome(Map<String, Float> newGenome);
+    Map<ResourceLocation, Float> getGenome();
+    void setGenome(Map<ResourceLocation, Float> newGenome);
 
     int getEnergySteroidTicks();
     void setEnergySteroidTicks(int time);

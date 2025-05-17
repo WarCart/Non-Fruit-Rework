@@ -17,11 +17,13 @@ import xyz.pixelatedw.mineminenomi.api.abilities.components.AltModeComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.RangeComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.RepeaterComponent;
 import xyz.pixelatedw.mineminenomi.api.damagesource.SourceHakiNature;
+import xyz.pixelatedw.mineminenomi.api.damagesource.SourceType;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.AbilityProjectileEntity;
 import xyz.pixelatedw.mineminenomi.entities.projectiles.gomu.GomuGomuNoPistolProjectile;
 import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(ShiganAbility.class)
@@ -84,6 +86,9 @@ public abstract class ShiganMixin extends PunchAbility2 {
         if (this.modeComponent.isMode(ShiganMode.TOBU)) {
             List<LivingEntity> targets = this.rangeComponent.getTargetsInLine(entity, 15, 1);
             ModDamageSource source = ModDamageSource.causeAbilityDamage(entity, this).setHakiNature(SourceHakiNature.IMBUING);
+            ArrayList<SourceType> types = source.getSourceTypes();
+            types.remove(SourceType.FIST);
+            source.setSourceTypes(types);
             if (!targets.isEmpty() && this.onHitEffect(entity, targets.get(0), source)) {
                 targets.get(0).hurt(source, this.getPunchDamage());
             }

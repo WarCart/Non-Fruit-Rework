@@ -66,7 +66,7 @@ public abstract class RankyakuMixin extends Ability {
 
     @Unique
     private void startContinuous(LivingEntity livingEntity, IAbility iAbility) {
-        this.repeaterComponent.start(livingEntity, 60, 1);
+        this.repeaterComponent.start(livingEntity, 12, 2);
     }
 
     @Unique
