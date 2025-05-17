@@ -17,7 +17,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
@@ -48,7 +47,6 @@ import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.IQuestData;
 import xyz.pixelatedw.mineminenomi.data.entity.quests.QuestDataCapability;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
-import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.screens.extra.SequencedString;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.FactionButton;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.PlankButton;
@@ -651,18 +649,20 @@ public class VegapunkScreen extends Screen {
     }
 
     public enum PristineRaces implements IExtensibleEnum {
-        LUNARIAN(entity -> Boolean.logicalXor(ModList.get().isLoaded("cartaddon"), ModList.get().isLoaded("addonnomi"))),
-        ONI(entity -> ModList.get().isLoaded("cartaddon")),
-        ANCIENT_GIANT(entity -> false),
+        LUNARIAN(ModRaces.LUNARIAN, entity -> false),
+        ONI(ModRaces.ONI, entity -> false),
+        ANCIENT_GIANT(ModRaces.ANCIENT_GIANT, entity -> false),
         ;
 
         private final Predicate<LivingEntity> requirement;
+        private final RegistryObject<RaceId> race;
 
-        PristineRaces(@Nullable QuestId<?> requirement) {
-            this(requirement == null ? Predicates.alwaysTrue() : QuestHelper.questFinished(requirement)::canUnlock);
+        PristineRaces(RegistryObject<RaceId> race, @Nullable QuestId<?> requirement) {
+            this(race, requirement == null ? Predicates.alwaysTrue() : QuestHelper.questFinished(requirement)::canUnlock);
         }
 
-        PristineRaces(Predicate<LivingEntity> requirement) {
+        PristineRaces(RegistryObject<RaceId> race, Predicate<LivingEntity> requirement) {
+            this.race = race;
             if (requirement == null) {
                 this.requirement = Predicates.alwaysFalse();
             } else {
@@ -674,7 +674,7 @@ public class VegapunkScreen extends Screen {
             return this.requirement.test(entity);
         }
 
-        public static PristineRaces create(String name, QuestId<?> requirement) {
+        public static PristineRaces create(String name, RegistryObject<RaceId> race, QuestId<?> requirement) {
             throw new IllegalStateException(name + "not created");
         }
     }

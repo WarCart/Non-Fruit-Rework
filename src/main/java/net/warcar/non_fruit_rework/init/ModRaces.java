@@ -23,6 +23,16 @@ public class ModRaces {
         return new RaceId(info, false, 5);
     });
 
+
+    public static final RegistryObject<RaceId> LUNARIAN = registerRace("Lunarian", () ->
+            new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
+
+    public static final RegistryObject<RaceId> ONI = registerRace("Oni", () ->
+            new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
+
+    public static final RegistryObject<RaceId> ANCIENT_GIANT = registerRace("Ancient Giant", () ->
+            new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
+
     private static RegistryObject<RaceId> registerRace(String name, Supplier<RaceId> supplier) {
         String resourceName = WyHelper.getResourceName(name);
         LangHelper.registerLine("race." + NonFruitReworkMod.MOD_ID + "." + resourceName, name);

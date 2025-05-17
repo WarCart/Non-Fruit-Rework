@@ -23,6 +23,7 @@ import xyz.pixelatedw.mineminenomi.entities.projectiles.extra.KairosekiBulletPro
 import xyz.pixelatedw.mineminenomi.entities.projectiles.extra.NormalBulletProjectile;
 import xyz.pixelatedw.mineminenomi.init.ModI18n;
 import xyz.pixelatedw.mineminenomi.init.ModItems;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.items.weapons.ModGunItem;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
@@ -47,7 +48,7 @@ public class WeaponsLeftAbility extends Ability {
     }
 
     private static boolean canUnlock(LivingEntity entity) {
-        return QuestHelper.isTrueRace(entity, "cyborg") || QuestHelper.hasFinishedQuest(entity, WeaponsLeftQuest.INSTANCE);
+        return QuestHelper.isTrueRace(entity, ModValues.CYBORG) || QuestHelper.hasFinishedQuest(entity, WeaponsLeftQuest.INSTANCE);
     }
 
     private void changeMode(LivingEntity entity, IAbility ability, Mode mode) {
