@@ -160,7 +160,6 @@ public class HodyJonesBoss extends OPBossEntity<HodyJonesBoss> {
         this.targetSelector.addGoal(1, new FactionHurtByTargetGoal(this, factionScope));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, MobEntity.class, 10, true, true, factionScope));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PlayerEntity.class, 10, true, true, factionScope));
-        this.goalSelector.addGoal(0, new FishmanPassiveBonusesWrapperGoal(this));
         this.goalSelector.addGoal(0, new AlwaysActiveAbilityWrapperGoal<>(this, FishmanPowerAbility.INSTANCE));
         this.goalSelector.addGoal(1, new ImprovedMeleeAttackGoal(this, 1.0, true));
         this.firstPhase.addGoal(1, new SprintTowardsTargetGoal(this));

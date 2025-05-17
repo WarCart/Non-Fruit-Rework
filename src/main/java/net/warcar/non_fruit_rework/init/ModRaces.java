@@ -4,6 +4,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.charactercreator.CharacterCreatorSelectionMap;
 import xyz.pixelatedw.mineminenomi.api.charactercreator.RaceId;
@@ -20,7 +21,7 @@ public class ModRaces {
 
     public static final RegistryObject<RaceId> GIANT = registerRace("Giant", () -> {
         CharacterCreatorSelectionMap.SelectionInfo info = new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM);
-        return new RaceId(info, false, 5);
+        return new RaceId(info, CommonConfig.INSTANCE.isCustomRaces(), 3);
     });
 
 

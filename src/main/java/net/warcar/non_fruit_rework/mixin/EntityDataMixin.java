@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsBase;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 
 @Mixin(EntityStatsBase.class)
 public abstract class EntityDataMixin implements IEntityStats {
@@ -14,6 +15,6 @@ public abstract class EntityDataMixin implements IEntityStats {
 
     @Override
     public boolean isCyborg() {
-        return QuestHelper.hasFinishedQuest(this.owner, CyborgBodyQuest.INSTANCE) || QuestHelper.isTrueRace(this.owner, "cyborg");
+        return QuestHelper.hasFinishedQuest(this.owner, CyborgBodyQuest.INSTANCE) || QuestHelper.isTrueRace(this.owner, ModValues.CYBORG);
     }
 }

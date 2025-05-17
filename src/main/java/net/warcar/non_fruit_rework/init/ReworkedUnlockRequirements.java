@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework.init;
 
+import net.minecraft.util.ResourceLocation;
 import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.mixin.IAbilityCoreMixin;
@@ -21,6 +22,7 @@ import xyz.pixelatedw.mineminenomi.abilities.electro.*;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.*;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 
 public class ReworkedUnlockRequirements {
     public static void init() {
@@ -31,7 +33,7 @@ public class ReworkedUnlockRequirements {
     }
 
     private static void minkAbilities() {
-        addReqs(EleclawAbility.INSTANCE, entity -> QuestHelper.isHybridRace(entity, "mink"));
+        addReqs(EleclawAbility.INSTANCE, entity -> QuestHelper.isHybridRace(entity, ModValues.MINK));
         addReqs(ElectricalLunaAbility.INSTANCE, QuestHelper.questFinished(ElectricalLunaQuest.INSTANCE));
         addReqs(ElectricalMissileAbility.INSTANCE, QuestHelper.questFinished(ElectricalMissileQuest.INSTANCE));
         addReqs(ElectricalShowerAbility.INSTANCE, QuestHelper.questFinished(ElectricalShowerQuest.INSTANCE));
@@ -60,13 +62,13 @@ public class ReworkedUnlockRequirements {
     }
 
     private static void cyborgAbilities() {
-        setReqs(StrongRightAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(StrongRightQuest.INSTANCE)));
-        setReqs(FreshFireAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(FreshFireQuest.INSTANCE)));
-        setReqs(CoupDeBooAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(PressurizedTanksQuest.INSTANCE)));
-        setReqs(CoupDeVentAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(PressurizedTanksQuest.INSTANCE)));
-        setReqs(RadicalBeamAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(RadicalBeamQuest.INSTANCE)));
-        setReqs(ColaOverdriveAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
-        setReqs(SouthlandSuplexAbility.INSTANCE, isTrueRace("cyborg").or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
+        setReqs(StrongRightAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(StrongRightQuest.INSTANCE)));
+        setReqs(FreshFireAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(FreshFireQuest.INSTANCE)));
+        setReqs(CoupDeBooAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(PressurizedTanksQuest.INSTANCE)));
+        setReqs(CoupDeVentAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(PressurizedTanksQuest.INSTANCE)));
+        setReqs(RadicalBeamAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(RadicalBeamQuest.INSTANCE)));
+        setReqs(ColaOverdriveAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
+        setReqs(SouthlandSuplexAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
     }
 
     private static void setReqs(AbilityCore<?> core, AbilityCore.ICanUnlock check) {
@@ -81,7 +83,7 @@ public class ReworkedUnlockRequirements {
         }
     }
 
-    private static AbilityCore.ICanUnlock isTrueRace(String race) {
+    private static AbilityCore.ICanUnlock isTrueRace(ResourceLocation race) {
         return entity -> QuestHelper.isTrueRace(entity, race);
     }
 }

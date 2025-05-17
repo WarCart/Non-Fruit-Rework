@@ -9,11 +9,13 @@ public class CommonConfig {
 
     private final ForgeConfigSpec.BooleanValue fullQuest;
     private final ForgeConfigSpec.BooleanValue keepZoan;
+    private final ForgeConfigSpec.BooleanValue customRaces;
 
     public CommonConfig(ForgeConfigSpec.Builder builder) {
         builder.push("Racial");
         this.fullQuest = builder.comment("Completely removes ability to gain racial abilities without quests").define("Disable Doriki Progresstion", false);
         this.keepZoan = builder.comment("Allows to keep zoan type devil fruits on cloning").define("Keep Zoan", true);
+        this.customRaces = builder.comment("Replaces Cyborg with giant in character creator book").define("Custom Races", true);
     }
 
     public boolean isFullQuest() {
@@ -22,6 +24,10 @@ public class CommonConfig {
 
     public boolean isKeepZoan() {
         return keepZoan.get();
+    }
+
+    public boolean isCustomRaces() {
+        return customRaces.get();
     }
 
     static {

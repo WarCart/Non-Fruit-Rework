@@ -7,6 +7,7 @@ import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.FishmanKarateHelper;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.MurasameAbility;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.quests.objectives.KillEntityObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.SharedKillChecks;
@@ -25,6 +26,6 @@ public class YarinamiQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.isAnyRace(player, "fishman");
+        return QuestHelper.isAnyRace(player, ModValues.FISHMAN);
     }
 }

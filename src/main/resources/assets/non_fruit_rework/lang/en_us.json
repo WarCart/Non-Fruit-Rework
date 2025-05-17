@@ -123,7 +123,6 @@
 	"quest.objective.mineminenomi.collect_%s_%s": "Collect %s %s",
 	"quest.objective.mineminenomi.defeat_hody_jones": "Defeat Hody Jones",
 	"quest.objective.mineminenomi.defeat_mink_dukes": "Defeat Mink dukes",
-	"quest.objective.mineminenomi.dodge_%s_damage": "Dodge %s Damage",
 	"quest.objective.mineminenomi.get_%s_doriki_strong": "Get %s Doriki Strong",
 	"quest.objective.mineminenomi.hit_%s_enemies_using_eleclaw": "Hit %s enemies using Eleclaw",
 	"quest.objective.mineminenomi.hit_%s_entities_while_in_water": "Hit %s entities while in water",
@@ -163,9 +162,9 @@
 	"quest.objective.mineminenomi.use_shigan_oren_for_%s_seconds_total": "Use Shigan: Oren for %s seconds total",
 	"quest.objective.mineminenomi.use_tekkai_for_%s_seconds": "Use tekkai for %s seconds",
 
-	"race.ancient_giant": "Ancient giant",
-	"race.giant": "Giant",
-	"race.hybrid": "Hybrid",
-	"race.lunarian": "Lunarian",
-	"race.oni": "Oni"
+	"race.non_fruit_rework.ancient_giant": "Ancient Giant",
+	"race.non_fruit_rework.giant": "Giant",
+	"race.non_fruit_rework.hybrid": "Hybrid",
+	"race.non_fruit_rework.lunarian": "Lunarian",
+	"race.non_fruit_rework.oni": "Oni"
 }

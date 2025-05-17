@@ -11,6 +11,7 @@ import xyz.pixelatedw.mineminenomi.abilities.electro.ElectricalTempestaAbility;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.api.quests.objectives.Objective;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.quests.objectives.KillEntityObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.SharedKillChecks;
@@ -35,6 +36,6 @@ public class ElectricalShowerQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.isAnyRace(player, "mink");
+        return QuestHelper.isAnyRace(player, ModValues.MINK);
     }
 }

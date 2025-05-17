@@ -1,8 +1,11 @@
 package net.warcar.non_fruit_rework.quest.rokushiki.advanced.rokuogan;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.AmaneDachiAbility;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.modes.ShiganMode;
+import net.warcar.non_fruit_rework.helpers.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.quest.objectives.TimedAbilityUseObjective;
 import net.warcar.non_fruit_rework.quest.rokushiki.RokuoganQuest;
 import net.warcar.non_fruit_rework.quest.rokushiki.advanced.geppo.KamisoriQuest;
@@ -27,7 +30,7 @@ import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.SharedKillChecks;
 import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 
-public class SaiDaiRinRokuoganQuest extends Quest {
+public class SaiDaiRinRokuoganQuest extends Quest implements IHasRequirements {
     public static final QuestId<SaiDaiRinRokuoganQuest> INSTANCE = new QuestId.Builder<>("Trial: Sai Dai Rin Rokuogan", SaiDaiRinRokuoganQuest::new)
             .addRequirements(TekkaiDamaQuest.INSTANCE, TekkaiGoQuest.INSTANCE, KamisoriQuest.INSTANCE, ZanshinQuest.INSTANCE, ShiganOrenQuest.INSTANCE,
                     AmaneDachiQuest.INSTANCE, RokuoganQuest.INSTANCE).build();
@@ -57,5 +60,10 @@ public class SaiDaiRinRokuoganQuest extends Quest {
 
         WyNetwork.sendToAllTrackingAndSelf(new SSyncAbilityDataPacket(player.getId(), props), player);
         return true;
+    }
+
+    @Override
+    public boolean canGet(LivingEntity player) {
+        return QuestHelper.canUseAdvancedRokushiki(player);
     }
 }

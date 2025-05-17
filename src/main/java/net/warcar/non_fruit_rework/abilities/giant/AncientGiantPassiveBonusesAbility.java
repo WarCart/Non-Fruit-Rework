@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.init.ModEntityAttributes;
+import net.warcar.non_fruit_rework.init.ModRaces;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityType;
@@ -36,7 +37,7 @@ public class AncientGiantPassiveBonusesAbility extends PassiveStatBonusAbility {
     }
 
     private static boolean canUnlock(LivingEntity entity) {
-        return QuestHelper.isTrueRace(entity, "ancient_giant");
+        return QuestHelper.isTrueRace(entity, ModRaces.ANCIENT_GIANT.getId());
     }
 
     @Override

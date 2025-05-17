@@ -7,6 +7,7 @@ import net.warcar.non_fruit_rework.quest.objectives.RunObjective;
 import xyz.pixelatedw.mineminenomi.abilities.electro.EleclawAbility;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.quests.objectives.HitEntityObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.SharedHitChecks;
 
@@ -21,6 +22,6 @@ public class ElectricalMissileQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.isAnyRace(player, "mink");
+        return QuestHelper.isAnyRace(player, ModValues.MINK);
     }
 }

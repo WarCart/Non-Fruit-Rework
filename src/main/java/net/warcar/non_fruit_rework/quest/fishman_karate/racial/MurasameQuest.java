@@ -9,6 +9,7 @@ import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.UchimizuAbility;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.api.quests.objectives.Objective;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.quests.objectives.HitEntityObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.KillEntityObjective;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ReachDorikiObjective;
@@ -32,6 +33,6 @@ public class MurasameQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.isAnyRace(player, "fishman");
+        return QuestHelper.isAnyRace(player, ModValues.FISHMAN);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.init.ModQuests;
+import net.warcar.non_fruit_rework.init.ModRaces;
 import net.warcar.non_fruit_rework.mixin.IReachDorikiMixin;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.enums.StatChangeSource;
@@ -41,7 +42,7 @@ public final class QuestHelper {
             if (entity instanceof PlayerEntity) {
                 Quest questDefaultInstance = quest.createQuest();
                 if (questDefaultInstance instanceof IHasRequirements) {
-                    return ((IHasRequirements) questDefaultInstance).canGet((PlayerEntity) entity) && QuestDataCapability.get((PlayerEntity) entity).hasFinishedQuest(quest);
+                    return ((IHasRequirements) questDefaultInstance).canGet(entity) && QuestDataCapability.get((PlayerEntity) entity).hasFinishedQuest(quest);
                 }
                 return QuestDataCapability.get((PlayerEntity) entity).hasFinishedQuest(quest);
             }
@@ -88,7 +89,7 @@ public final class QuestHelper {
     }
 
     public static boolean isHybridRace(LivingEntity entity, ResourceLocation race) {
-        return NonFruitDataCapability.get(entity).getGenome().computeIfAbsent(race, s -> 0f) > 0.1 && EntityStatsCapability.get(entity).getRace().equalsIgnoreCase("hybrid");
+        return NonFruitDataCapability.get(entity).getGenome().computeIfAbsent(race, s -> 0f) > 0.1 && EntityStatsCapability.get(entity).getRace().equals(ModRaces.HYBRID.getId());
     }
 
     public static boolean isTrueRace(LivingEntity entity, ResourceLocation race) {

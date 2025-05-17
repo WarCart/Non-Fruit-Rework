@@ -56,6 +56,7 @@ public class NonFruitReworkMod {
         ModEntityTypes.register(bus);
         ModParticles.register(bus);
         ModItems.register(bus);
+        ModRaces.register(bus);
         ModTexts.init();
         ModChallenges.register(bus);
         ModDamages.init();

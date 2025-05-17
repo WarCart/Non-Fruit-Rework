@@ -10,6 +10,7 @@
     "IReachDorikiMixin",
     "ItemsHelperMixin",
     "PacifistaMixin",
+    "RaceIdMixin",
     "WyHelperMixin",
     "advanced_rokushiki.GeppoMixin",
     "advanced_rokushiki.KamieMixin",
