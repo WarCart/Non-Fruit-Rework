@@ -7,6 +7,8 @@ import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.warcar.non_fruit_rework.helpers.MiscHelper;
+import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.RokaruAreaNetworkQuest;
 import xyz.pixelatedw.mineminenomi.api.abilities.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.DealDamageComponent;
@@ -22,7 +24,7 @@ import java.util.Set;
 
 public class RokaruAreaNetworkAbility extends Ability {
     public static final AbilityCore<RokaruAreaNetworkAbility> INSTANCE = new AbilityCore.Builder<>("Tekkai Kenpo: Rokaru Area Network", AbilityCategory.RACIAL, RokaruAreaNetworkAbility::new)
-            .setSourceHakiNature(SourceHakiNature.HARDENING).setSourceType(SourceType.FIST).build();
+            .setUnlockCheck(QuestHelper.questFinished(RokaruAreaNetworkQuest.INSTANCE)).setSourceHakiNature(SourceHakiNature.HARDENING).setSourceType(SourceType.FIST).build();
 
     private final ContinuousComponent continuousComponent = new ContinuousComponent(this).addTickEvent(this::onTick).addEndEvent(this::onStop);
     private final DealDamageComponent damageComponent = new DealDamageComponent(this);

@@ -52,6 +52,7 @@ import xyz.pixelatedw.mineminenomi.screens.extra.buttons.FactionButton;
 import xyz.pixelatedw.mineminenomi.screens.extra.buttons.PlankButton;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.HashMap;
@@ -377,7 +378,7 @@ public class VegapunkScreen extends Screen {
             for (int i = 1; i < pristineRaceButtons.length; i++) {
                 int buttonId = i;
                 PristineRaces race = PristineRaces.values()[i - 1];
-                this.pristineRaceButtons[i] = this.addButton(new PlankButton(posX - 180, posY + 30 * i - 50, 120, 20, new TranslationTextComponent("race." + WyHelper.getResourceName(race.name())), btn -> {
+                this.pristineRaceButtons[i] = this.addButton(new PlankButton(posX - 180, posY + 30 * i - 50, 120, 20, new TranslationTextComponent("race." + getRaceName(race.race)), btn -> {
                     choosePristineRace(buttonId);
                 }, WIP));
                 this.pristineRaceButtons[i].active = PristineRaces.values()[i - 1].canHave(this.player);
@@ -423,7 +424,7 @@ public class VegapunkScreen extends Screen {
                 } else {
                     val = 0;
                 }
-                TranslationTextComponent raceName = new TranslationTextComponent("race." + WyHelper.getResourceName(hybridRace.toString()));
+                TranslationTextComponent raceName = new TranslationTextComponent("race." + getRaceName(hybridRace.race));
                 Button.ITooltip tooltip;
                 if (!hybridRace.canModify(this.player)) {
                     tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, new TranslationTextComponent(ModTexts.GENOME_NOT_INCLUDED.getKey(), raceName.getString(), hybridRace.requirement == null ? null : hybridRace.requirement.getLocalizedTitle()), mouseX, mouseY);
@@ -449,6 +450,10 @@ public class VegapunkScreen extends Screen {
                 this.addButton(slider);
             }
         }
+    }
+
+    private static String getRaceName(RegistryObject<RaceId> race) {
+        return race.getId().toString().replace(':', '.');
     }
 
     private void registerCustomSeraphim(int posX, int posY) {
@@ -618,14 +623,14 @@ public class VegapunkScreen extends Screen {
         HUMAN(xyz.pixelatedw.mineminenomi.init.ModRaces.HUMAN, null),
         FISHMAN(xyz.pixelatedw.mineminenomi.init.ModRaces.FISHMAN, FishmanGenesQuest.INSTANCE),
         MINK(xyz.pixelatedw.mineminenomi.init.ModRaces.MINK, MinkGenesQuest.INSTANCE),
-        GIANT(null, null),
+        GIANT(ModRaces.GIANT, null),
         ;
 
         private final RegistryObject<RaceId> race;
         @Nullable
         private final QuestId<?> requirement;
 
-        HybridRaces(RegistryObject<RaceId> race, @Nullable QuestId<?> requirement) {
+        HybridRaces(@Nonnull RegistryObject<RaceId> race, @Nullable QuestId<?> requirement) {
             this.race = race;
             this.requirement = requirement;
         }

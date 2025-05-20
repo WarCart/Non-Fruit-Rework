@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework.init;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
@@ -47,6 +48,7 @@ public class ModAbilities {
     private static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {
         String resourceName = WyHelper.getResourceName(instance.getUnlocalizedName());
         ABILITIES.register(resourceName, () -> instance);
+        instance.setIcon(new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/abilities/" + resourceName + ".png"));
         LangHelper.registerLine(String.format("ability.%s.%s", NonFruitReworkMod.MOD_ID, resourceName), instance.getUnlocalizedName());
     }
 

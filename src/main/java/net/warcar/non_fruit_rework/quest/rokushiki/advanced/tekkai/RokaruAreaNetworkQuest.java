@@ -3,10 +3,10 @@ package net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.OkamiHajikiAbility;
+import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.RokaruAreaNetworkAbility;
 import net.warcar.non_fruit_rework.helpers.IHasRequirements;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.quest.objectives.CustomUseAbilityObjective;
-import xyz.pixelatedw.mineminenomi.abilities.rokushiki.KamieAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.ShiganAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.SoruAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityUnlock;
@@ -41,7 +41,7 @@ public class RokaruAreaNetworkQuest extends Quest implements IHasRequirements {
     public boolean giveReward(PlayerEntity player) {
         IAbilityData props = AbilityDataCapability.get(player);
 
-        props.addUnlockedAbility(KamieAbility.INSTANCE, AbilityUnlock.PROGRESSION);
+        props.addUnlockedAbility(RokaruAreaNetworkAbility.INSTANCE, AbilityUnlock.PROGRESSION);
 
         WyNetwork.sendToAllTrackingAndSelf(new SSyncAbilityDataPacket(player.getId(), props), player);
         return true;
