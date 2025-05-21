@@ -22,6 +22,7 @@ import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.*;
 import xyz.pixelatedw.mineminenomi.api.damagesource.AbilityDamageSource;
+import xyz.pixelatedw.mineminenomi.init.ModAnimations;
 import xyz.pixelatedw.mineminenomi.init.ModAttributes;
 import xyz.pixelatedw.mineminenomi.init.ModEffects;
 
@@ -65,6 +66,7 @@ public abstract class TekkaiMixin extends Ability {
             this.statsComponent.addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.fromString("7d355019-7ef9-4beb-bcba-8b2608a73380"), "Tekkai knockback resistance", 0.5F, AttributeModifier.Operation.ADDITION));
         }
         if (this.modeComponent.isMode(TekkaiMode.TEKKAI_GO)) {
+            this.animationComponent.start(entity, ModAnimations.CROSSED_ARMS);
             this.statsComponent.addAttributeModifier(ModAttributes.DAMAGE_REDUCTION.get(), new AttributeModifier("7b3a9108-6a36-11eb-9439-0242ac130002", 0.5, AttributeModifier.Operation.ADDITION));
         } else if (!this.modeComponent.isMode(TekkaiMode.UTSUGI)) {
             this.statsComponent.addAttributeModifier(ModAttributes.DAMAGE_REDUCTION.get(), new AttributeModifier("7b3a9108-6a36-11eb-9439-0242ac130002", 0.25, AttributeModifier.Operation.ADDITION));
