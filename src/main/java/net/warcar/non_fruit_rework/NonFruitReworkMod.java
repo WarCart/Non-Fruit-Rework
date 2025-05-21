@@ -35,9 +35,11 @@ import java.util.Map;
  * <p>
  * Models/textures
  * <p>
- * Berserk for humans
- * <p>
  * Genetic Modification and cloning
+ * <p>
+ * Adv. Fishman karate / jujutsu
+ * <p>
+ * Mink's perfected sulong for true minks
  */
 @Mod(NonFruitReworkMod.MOD_ID)
 public class NonFruitReworkMod {
@@ -87,6 +89,7 @@ public class NonFruitReworkMod {
                 PlayerRenderer renderer = entry.getValue();
                 renderer.addLayer(new HeadLayer<>(renderer));
             }
+            ModAnims.clientInit();
         });
     }
 

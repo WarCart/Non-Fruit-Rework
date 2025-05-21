@@ -7,8 +7,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.modes.TekkaiMode;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
-import net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai.TekkaiGoQuest;
+import net.warcar.non_fruit_rework.init.ModAnims;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -58,9 +57,6 @@ public abstract class TekkaiMixin extends Ability {
 
     @Inject(method = "onContinuityStart", at = @At("HEAD"), remap = false, cancellable = true)
     private void onContinuityStart(LivingEntity entity, IAbility ability, CallbackInfo ci) {
-        if (!QuestHelper.hasFinishedQuest(entity, TekkaiGoQuest.INSTANCE)) {
-            ci.cancel();
-        }
         this.statsComponent.clearAttributeModifiers();
         if (!this.modeComponent.isMode(TekkaiMode.TEKKAI_KENPO)) {
             this.statsComponent.addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.fromString("7d355019-7ef9-4beb-bcba-8b2608a73380"), "Tekkai knockback resistance", 0.5F, AttributeModifier.Operation.ADDITION));
@@ -70,8 +66,11 @@ public abstract class TekkaiMixin extends Ability {
             this.statsComponent.addAttributeModifier(ModAttributes.DAMAGE_REDUCTION.get(), new AttributeModifier("7b3a9108-6a36-11eb-9439-0242ac130002", 0.5, AttributeModifier.Operation.ADDITION));
         } else if (!this.modeComponent.isMode(TekkaiMode.UTSUGI)) {
             this.statsComponent.addAttributeModifier(ModAttributes.DAMAGE_REDUCTION.get(), new AttributeModifier("7b3a9108-6a36-11eb-9439-0242ac130002", 0.25, AttributeModifier.Operation.ADDITION));
+        } else {
+            this.animationComponent.start(entity, ModAnims.OPEN_ARMS);
         }
         this.statsComponent.applyModifiers(entity);
+        ci.cancel();
     }
 
     @Inject(method = "onContinuityTick", at = @At("HEAD"), remap = false, cancellable = true)
