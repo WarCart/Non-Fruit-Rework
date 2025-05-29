@@ -4,11 +4,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.helpers.DFHelper;
+import xyz.pixelatedw.mineminenomi.api.helpers.MobsHelper;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiEmissionWrapperGoal;
-import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiImbuingWrapperGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiFullbodyHardeningWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.*;
 import xyz.pixelatedw.mineminenomi.init.ModAbilities;
+import xyz.pixelatedw.mineminenomi.init.ModValues;
 import xyz.pixelatedw.mineminenomi.init.ModWeapons;
 import xyz.pixelatedw.mineminenomi.wypi.WyRegistry;
 
@@ -17,13 +18,11 @@ public class SHawkEntity extends SeraphimEntity {
 
     public SHawkEntity(EntityType<SHawkEntity> type, World world) {
         super(type, world);
-        this.getEntityStats().setFaction("marine");
-        this.getEntityStats().setRace("human");
-        this.getEntityStats().setFightingStyle("swordsman");
-        //this.getDevilFruit().setDevilFruit(ModAbilities.SUPA_SUPA_NO_MI);
+        this.getEntityStats().setFaction(ModValues.MARINE);
+        this.getEntityStats().setRace(ModValues.CYBORG);
+        this.getEntityStats().setFightingStyle(ModValues.SWORDSMAN);
         this.getHakiData().setBusoshokuHakiExp(70);
         this.getHakiData().setKenbunshokuHakiExp(50);
-        //registerGoals();
         ItemStack yoru = new ItemStack(ModWeapons.YORU.get());
         yoru.getOrCreateTag().putBoolean("isClone", true);
         this.setItemSlot(EquipmentSlotType.MAINHAND, yoru);
@@ -33,10 +32,10 @@ public class SHawkEntity extends SeraphimEntity {
     public void registerGoals() {
         super.registerGoals();
         //Df
-        DFHelper.addDfMoves(this, ModAbilities.SUPA_SUPA_NO_MI);
+        MobsHelper.getDevilFruitAbilities(this, ModAbilities.SUPA_SUPA_NO_MI.getRegistryName()).ifPresent(abl -> abl.forEach(a -> goalSelector.addGoal(2, a)));
         //Haki
         this.goalSelector.addGoal(1, new BusoshokuHakiEmissionWrapperGoal(this));
-        this.goalSelector.addGoal(1, new BusoshokuHakiImbuingWrapperGoal(this));
+        this.goalSelector.addGoal(1, new BusoshokuHakiFullbodyHardeningWrapperGoal(this));
         //Swordsman Abilities
         this.goalSelector.addGoal(2, new HiryuKaenWrapperGoal(this));
         this.goalSelector.addGoal(2, new ShiShishiSonsonWrapperGoal(this));

@@ -93,9 +93,9 @@ public class HodyJonesBoss extends OPBossEntity<HodyJonesBoss> {
         this.firstPhase = new SimplePhase<>("First Phase", this);
         this.secondPhase = new SimplePhase<>("Second Phase", this, this::startSecondPhaseEvent);
         this.waterPhase = new SimplePhase<>("Water Phase", this, this::startWaterPhaseEvent, this::stopWaterPhaseEvent);
-        this.entityStats.setFaction("pirate");
-        this.entityStats.setRace("fishman");
-        this.entityStats.setFightingStyle("brawler");
+        this.entityStats.setFaction(ModValues.PIRATE);
+        this.entityStats.setRace(ModValues.FISHMAN);
+        this.entityStats.setFightingStyle(ModValues.BRAWLER);
         ExtendedWorldData worldData = ExtendedWorldData.get();
         worldData.addTemporaryCrewMember(ModNPCGroups.ARLONG_PIRATES, this);
         this.getAttribute(ModAttributes.TOUGHNESS.get()).setBaseValue(2.0);

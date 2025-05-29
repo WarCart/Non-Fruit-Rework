@@ -5,7 +5,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.world.World;
-import net.warcar.non_fruit_rework.entities.goals.lunarian.DisasterFlamesWrapperGoal;
 import xyz.pixelatedw.mineminenomi.abilities.CommandAbility;
 import xyz.pixelatedw.mineminenomi.api.entities.ICommandReceiver;
 import xyz.pixelatedw.mineminenomi.api.entities.IThreatLevel;
@@ -18,6 +17,11 @@ import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.data.entity.haki.HakiDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.haki.IHakiData;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.DashDodgeProjectilesGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.DashDodgeTargetGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.ImprovedMeleeAttackGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.JumpOutOfHoleGoal;
+import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.GapCloserGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.cyborg.RadicalBeamWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.GeppoWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.rokushiki.SoruWrapperGoal;
@@ -28,7 +32,7 @@ import javax.annotation.Nullable;
 public class SeraphimEntity extends OPEntity implements ICommandReceiver, IThreatLevel {
     private long lastCommandTime;
     private LivingEntity lastCommandSender;
-    private NPCCommand currentCommand = NPCCommand.IDLE;
+    private NPCCommand currentCommand;
 
     public SeraphimEntity(EntityType<? extends SeraphimEntity> type, World world) {
         super(type, world);
@@ -41,11 +45,8 @@ public class SeraphimEntity extends OPEntity implements ICommandReceiver, IThrea
         if (!frendly) {
             return false;
         }
-        if (this.getCurrentCommand() != NPCCommand.IDLE && this.getLastCommandSender() != livingEntity && this.getLastCommandSender() != null && (this.getEntityStats().isMarine() || this.getEntityStats().isRevolutionary())) {
-            IEntityStats senderProps = EntityStatsCapability.get(this.getLastCommandSender());
-            if (this.getEntityStats().isMarine() && senderProps.getMarineRank().ordinal() >= props.getMarineRank().ordinal()) {
-                return false;
-            } else return !this.getEntityStats().isRevolutionary() || senderProps.getRevolutionaryRank().ordinal() < props.getRevolutionaryRank().ordinal();
+        if (this.getCurrentCommand() != NPCCommand.IDLE && this.getLastCommandSender() != null) {
+            //TODO: Sophisticated hierarchy chips system
         }
         return true;
     }
@@ -83,10 +84,14 @@ public class SeraphimEntity extends OPEntity implements ICommandReceiver, IThrea
         //Generic
         MobsHelper.addBasicNPCGoals(this);
         CommandAbility.addCommandGoals(this);
+        this.goalSelector.addGoal(0, new JumpOutOfHoleGoal(this));
+        this.goalSelector.addGoal(0, new GapCloserGoal(this));
+        this.goalSelector.addGoal(0, new DashDodgeProjectilesGoal(this, 200.0F, 2.5F));
+        this.goalSelector.addGoal(0, new DashDodgeTargetGoal(this, 250.0F, 2.5F));
+        this.goalSelector.addGoal(1, new ImprovedMeleeAttackGoal(this, 1.0F, true));
         this.goalSelector.addGoal(3, new SoruWrapperGoal(this));
         this.goalSelector.addGoal(3, new GeppoWrapperGoal(this));
         this.goalSelector.addGoal(2, new RadicalBeamWrapperGoal(this));
-        this.goalSelector.addGoal(3, new DisasterFlamesWrapperGoal(this));
     }
 
     protected IDevilFruit getDevilFruit() {

@@ -510,7 +510,7 @@ public class VegapunkScreen extends Screen {
             this.addButton(modelButton);
         }
         Button.ITooltip tooltip = WIP;
-        boolean genome = /*QuestHelper.hasFinishedQuest(this.player, LunarianGenesQuest.INSTANCE)*/false;
+        boolean genome = /*QuestHelper.hasFinishedQuest(this.player, LunarianGenesQuest.INSTANCE)*/true;
         if (!genome) {
             tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, this.minecraft.font.split(new TranslationTextComponent(ModTexts.GENOME_NOT_INCLUDED.getKey(), "Lunarian", LunarianGenesQuest.INSTANCE.getLocalizedTitle()), Math.max(this.width / 2 - 43, 170)), mouseX, mouseY);
         }

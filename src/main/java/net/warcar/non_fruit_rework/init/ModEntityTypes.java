@@ -69,6 +69,7 @@ public class ModEntityTypes {
     }
 
     private static <T extends SeraphimEntity> void registerSeraphim(String name, EntityType<T> type) {
+        LangHelper.registerLine(String.format("entity.%s.%s", NonFruitReworkMod.MOD_ID, WyHelper.getResourceName(name)), name);
         /*RegistryObject<EntityType<T>> reg = registerEntity(name, type);
         ModItems.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#272727").getRGB(), WyHelper.hexToRGB("#ff0000").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
         SERAPHIMS.add(type);*/

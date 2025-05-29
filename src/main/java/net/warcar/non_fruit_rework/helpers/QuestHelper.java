@@ -10,6 +10,7 @@ import net.warcar.non_fruit_rework.init.ModRaces;
 import net.warcar.non_fruit_rework.mixin.IReachDorikiMixin;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.enums.StatChangeSource;
+import xyz.pixelatedw.mineminenomi.api.helpers.DevilFruitHelper;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
@@ -79,8 +80,9 @@ public final class QuestHelper {
         }
         IDevilFruit fruitData = DevilFruitCapability.get(player);
         if (!fruitData.getDevilFruitItem().is(ModTags.Items.ZOAN) || !CommonConfig.INSTANCE.isKeepZoan()) {
-            fruitData.setDevilFruit((ResourceLocation) null);
             fruitData.setAwakenedFruit(false);
+            DevilFruitHelper.respawnDevilFruit(player, fruitData);
+            fruitData.setDevilFruit((ResourceLocation) null);
             AbilityProgressionEvents.checkForDevilFruitUnlocks(player);
             WyNetwork.sendToAllTrackingAndSelf(new SSyncDevilFruitPacket(player.getId(), fruitData), player);
         }
