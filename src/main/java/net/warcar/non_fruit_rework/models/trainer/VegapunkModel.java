@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.models;
+package net.warcar.non_fruit_rework.models.trainer;
 // Made with Blockbench 4.12.4
 // Exported for Minecraft version 1.15 - 1.16 with Mojang mappings
 // Paste this class into your mod and generate all required imports

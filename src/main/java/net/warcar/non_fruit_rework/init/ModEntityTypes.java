@@ -17,6 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.entities.AfterimageEntity;
 import net.warcar.non_fruit_rework.entities.bosses.HodyJonesBoss;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
@@ -28,10 +29,13 @@ import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
-import net.warcar.non_fruit_rework.models.CP9TrainerModel;
-import net.warcar.non_fruit_rework.models.ElectroTrainerModel;
-import net.warcar.non_fruit_rework.models.HackModel;
-import net.warcar.non_fruit_rework.models.VegapunkModel;
+import net.warcar.non_fruit_rework.models.boss.HodyJonesModel;
+import net.warcar.non_fruit_rework.models.boss.InuarashiModel;
+import net.warcar.non_fruit_rework.models.boss.NekomamushiModel;
+import net.warcar.non_fruit_rework.models.trainer.CP9TrainerModel;
+import net.warcar.non_fruit_rework.models.trainer.ElectroTrainerModel;
+import net.warcar.non_fruit_rework.models.trainer.HackModel;
+import net.warcar.non_fruit_rework.models.trainer.VegapunkModel;
 import net.warcar.non_fruit_rework.renderers.AfterimageRenderer;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
 import xyz.pixelatedw.mineminenomi.models.entities.mobs.humanoids.HumanoidModel;
@@ -69,10 +73,13 @@ public class ModEntityTypes {
     }
 
     private static <T extends SeraphimEntity> void registerSeraphim(String name, EntityType<T> type) {
-        LangHelper.registerLine(String.format("entity.%s.%s", NonFruitReworkMod.MOD_ID, WyHelper.getResourceName(name)), name);
-        /*RegistryObject<EntityType<T>> reg = registerEntity(name, type);
-        ModItems.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#272727").getRGB(), WyHelper.hexToRGB("#ff0000").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
-        SERAPHIMS.add(type);*/
+        if (CommonConfig.INSTANCE.seraphims()) {
+            RegistryObject<EntityType<T>> reg = registerEntity(name, type);
+            ModItems.registerSpawnEggItem(name, () -> new ForgeSpawnEggItem(reg, WyHelper.hexToRGB("#272727").getRGB(), WyHelper.hexToRGB("#ff0000").getRGB(), (new Item.Properties()).tab(ItemGroup.TAB_MISC)));
+            SERAPHIMS.add(type);
+        } else {
+            LangHelper.registerLine(String.format("entity.%s.%s", NonFruitReworkMod.MOD_ID, WyHelper.getResourceName(name)), name);
+        }
     }
 
     public static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType<T> type) {
@@ -119,9 +126,9 @@ public class ModEntityTypes {
         RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
 
         //Bosses
-        RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "nekomamushi"));
-        RenderingRegistry.registerEntityRenderingHandler(InuarashiBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "inuarashi"));
-        RenderingRegistry.registerEntityRenderingHandler(HodyJonesBoss.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1, "hody_jones"));
+        RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new NekomamushiModel(), 1, "nekomamushi"));
+        RenderingRegistry.registerEntityRenderingHandler(InuarashiBoss.INSTANCE, new HumanoidRenderer.Factory(new InuarashiModel(), 1, "inuarashi"));
+        RenderingRegistry.registerEntityRenderingHandler(HodyJonesBoss.INSTANCE, new HumanoidRenderer.Factory(new HodyJonesModel(), 1, "hody_jones"));
 
         //Misc
         RenderingRegistry.registerEntityRenderingHandler(AfterimageEntity.INSTANCE, new AfterimageRenderer.Factory());

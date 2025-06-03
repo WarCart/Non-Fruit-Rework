@@ -30,6 +30,10 @@ public class CommonConfig {
         return customRaces.get();
     }
 
+    public boolean seraphims() {
+        return true; //TODO: Turn off to official release
+    }
+
     static {
         Pair<CommonConfig, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
         SPEC = pair.getRight();

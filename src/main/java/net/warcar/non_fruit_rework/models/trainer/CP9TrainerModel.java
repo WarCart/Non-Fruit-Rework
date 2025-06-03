@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.models;
+package net.warcar.non_fruit_rework.models.trainer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

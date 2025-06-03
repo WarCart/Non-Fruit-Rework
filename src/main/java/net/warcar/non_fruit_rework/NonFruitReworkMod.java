@@ -1,5 +1,6 @@
 package net.warcar.non_fruit_rework;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.warcar.non_fruit_rework.config.CommonConfig;
+import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
 import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.init.*;
 import net.warcar.non_fruit_rework.renderers.layers.HeadLayer;
@@ -26,6 +28,7 @@ import xyz.pixelatedw.mineminenomi.mixins.RangedAttributeMixin;
 import xyz.pixelatedw.mineminenomi.mixins.client.ILivingRendererMixin;
 import xyz.pixelatedw.mineminenomi.renderers.layers.MinkFeaturesLayer;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +75,8 @@ public class NonFruitReworkMod {
         ModCapabilities.init();
     }
 
+    public static final List<EntityType<?>> NON_FEATURE_MINKS = ImmutableList.of(ElectroTrainer.INSTANCE, InuarashiBoss.INSTANCE);
+
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             Minecraft mc = Minecraft.getInstance();
@@ -81,7 +86,7 @@ public class NonFruitReworkMod {
                     LivingRenderer renderer = (LivingRenderer) entityRenderer;
                     renderer.addLayer(new HeadLayer<>(renderer));
                 }
-                if (entry.getKey().equals(ElectroTrainer.INSTANCE)) {
+                if (NON_FEATURE_MINKS.contains(entry.getKey())) {
                     ((ILivingRendererMixin) entityRenderer).getLayers().removeIf(layer -> layer instanceof MinkFeaturesLayer);
                 }
             }

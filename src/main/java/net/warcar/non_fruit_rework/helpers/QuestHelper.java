@@ -13,6 +13,7 @@ import xyz.pixelatedw.mineminenomi.api.enums.StatChangeSource;
 import xyz.pixelatedw.mineminenomi.api.helpers.DevilFruitHelper;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
+import xyz.pixelatedw.mineminenomi.config.GeneralConfig;
 import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.IDevilFruit;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
@@ -42,8 +43,11 @@ public final class QuestHelper {
         try {
             if (entity instanceof PlayerEntity) {
                 Quest questDefaultInstance = quest.createQuest();
-                if (questDefaultInstance instanceof IHasRequirements) {
-                    return ((IHasRequirements) questDefaultInstance).canGet(entity) && QuestDataCapability.get((PlayerEntity) entity).hasFinishedQuest(quest);
+                if (questDefaultInstance instanceof IHasRequirements && !((IHasRequirements) questDefaultInstance).canGet(entity)) {
+                    return false;
+                }
+                if (!GeneralConfig.ENABLE_STYLES_PROGRESSION.get()) {
+                    return false;
                 }
                 return QuestDataCapability.get((PlayerEntity) entity).hasFinishedQuest(quest);
             }

@@ -47,6 +47,9 @@ public class BerserkModeAbility extends Ability {
     }
 
     private void startContinuous(LivingEntity livingEntity, IAbility iAbility) {
+        if (this.isClientSide()) {
+            return;
+        }
         IAbilityData abilityData = AbilityDataCapability.get(livingEntity);
         abilityData.getEquippedAbilities().forEach(ability -> {
             if (ability.getCore() != GeppoAbility.INSTANCE && ability.getCore() != SoruAbility.INSTANCE) {
@@ -59,7 +62,7 @@ public class BerserkModeAbility extends Ability {
                 });
             }
         });
-        if (livingEntity instanceof ServerPlayerEntity) {
+        if (livingEntity instanceof PlayerEntity) {
             WyNetwork.sendTo(new SAddScreenShaderPacket(new ResourceLocation(NonFruitReworkMod.MOD_ID, "shaders/post/berserk.json")), (PlayerEntity) livingEntity);
         }
     }
