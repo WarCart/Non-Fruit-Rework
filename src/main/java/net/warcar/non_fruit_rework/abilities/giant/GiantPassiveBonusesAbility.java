@@ -4,7 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.ForgeMod;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.init.ModEntityAttributes;
 import net.warcar.non_fruit_rework.init.ModRaces;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
@@ -37,7 +37,7 @@ public class GiantPassiveBonusesAbility extends PassiveStatBonusAbility {
     }
 
     private static boolean canUnlock(LivingEntity entity) {
-        return QuestHelper.isTrueRace(entity, ModRaces.GIANT.getId());
+        return EntityHelper.isTrueRace(entity, ModRaces.GIANT.getId());
     }
 
     @Override

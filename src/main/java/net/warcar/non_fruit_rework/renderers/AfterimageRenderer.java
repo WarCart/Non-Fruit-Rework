@@ -14,7 +14,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.warcar.non_fruit_rework.entities.AfterimageEntity;
-import net.warcar.non_fruit_rework.mixin.ILivingRendererMixin;
+import net.warcar.non_fruit_rework.mixin.client.ILivingRendererMixin;
 import xyz.pixelatedw.mineminenomi.abilities.haki.KenbunshokuHakiAuraAbility;
 import xyz.pixelatedw.mineminenomi.api.helpers.MorphHelper;
 import xyz.pixelatedw.mineminenomi.api.morph.MorphInfo;

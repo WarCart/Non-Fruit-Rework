@@ -2,8 +2,10 @@ package net.warcar.non_fruit_rework.mixin.advanced_rokushiki;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.modes.SoruMode;
+import net.warcar.non_fruit_rework.helpers.DescriptionsHelper;
 import net.warcar.non_fruit_rework.helpers.MiscHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,15 +18,18 @@ import xyz.pixelatedw.mineminenomi.abilities.rokushiki.SoruAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.TekkaiAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
+import xyz.pixelatedw.mineminenomi.api.abilities.AbilityDescriptionLine;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
-import xyz.pixelatedw.mineminenomi.api.abilities.components.AltModeComponent;
-import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
-import xyz.pixelatedw.mineminenomi.api.abilities.components.RangeComponent;
-import xyz.pixelatedw.mineminenomi.api.abilities.components.StackComponent;
+import xyz.pixelatedw.mineminenomi.api.abilities.components.*;
 import xyz.pixelatedw.mineminenomi.api.helpers.AbilityHelper;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.init.ModAbilityKeys;
 import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
+
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Mixin(SoruAbility.class)
 public abstract class SoruMixin extends Ability {
@@ -46,6 +51,10 @@ public abstract class SoruMixin extends Ability {
     @Unique private final ContinuousComponent continuousComponent = new ContinuousComponent(this).addTickEvent(this::onTick).addEndEvent(this::endContinuous);
 
     @Shadow protected abstract void onStacksChange(LivingEntity entity, IAbility ability, int stacks);
+
+    @Shadow @Final public static AbilityCore<SoruAbility> INSTANCE;
+
+    @Shadow @Final private static ITextComponent[] DESCRIPTION;
 
     private SoruMixin(AbilityCore<? extends IAbility> core) {
         super(core);
@@ -95,5 +104,31 @@ public abstract class SoruMixin extends Ability {
     @Unique
     private void endContinuous(LivingEntity livingEntity, IAbility iAbility) {
         cooldownComponent.startCooldown(livingEntity, 300);
+    }
+
+    @Unique
+    private static Map<SoruMode, ITextComponent[]> getDescriptionMap() {
+        Map<SoruMode, ITextComponent[]> map = new HashMap<>();
+        for (SoruMode mode : SoruMode.values()) {
+            map.put(mode, mode.getDescription());
+        }
+        return map;
+    }
+
+    @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
+    private static void onClinit(CallbackInfo ci) {
+        Set<AbilityDescriptionLine> newDescription = new LinkedHashSet<>();
+        DescriptionsHelper.addDescription(newDescription, DESCRIPTION);
+        newDescription.add(AbilityDescriptionLine.of(AbilityDescriptionLine.NEW_LINE));
+        DescriptionsHelper.addDescriptionByModes(newDescription, getDescriptionMap(), false);
+        newDescription.add(AbilityDescriptionLine.of((entity, ability) -> {
+            Enum<?> mode = ability.getComponent(ModAbilityKeys.ALT_MODE).map(AltModeComponent::getCurrentMode).orElse(null);
+            if (mode == SoruMode.TEKKAI_DAMA) {
+                return CooldownComponent.getTooltip(300).expand(entity, ability);
+            }
+            return AbilityHelper.createShortLongCooldownStat(10, 200).expand(entity, ability);
+        }, true));
+        DescriptionsHelper.addDescription(newDescription, true, DescriptionsHelper.modeWrapper(SoruMode.TEKKAI_DAMA, RangeComponent.getTooltip(1.8f, RangeComponent.RangeType.AOE)));
+        INSTANCE.setDescription(newDescription);
     }
 }

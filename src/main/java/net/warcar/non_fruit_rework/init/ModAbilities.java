@@ -8,7 +8,6 @@ import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.cyborg.CyborgHeavyPlatingAbility;
 import net.warcar.non_fruit_rework.abilities.cyborg.WeaponsLeftAbility;
 import net.warcar.non_fruit_rework.abilities.fishman.FishmanPowerAbility;
-import net.warcar.non_fruit_rework.abilities.fishman.advanced.SosharkAbility;
 import net.warcar.non_fruit_rework.abilities.giant.AncientGiantPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.giant.GiantPassiveBonusesAbility;
 import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
@@ -45,7 +44,7 @@ public class ModAbilities {
 
         registerGroup("TEKKAI_KENPO", OkamiHajikiAbility.INSTANCE, RokaruAreaNetworkAbility.INSTANCE);
 
-        registerAbility(SosharkAbility.INSTANCE);
+        //registerAbility(SosharkAbility.INSTANCE);
     }
 
     private static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {

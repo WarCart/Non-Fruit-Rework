@@ -25,7 +25,8 @@
   },
   "refmap": "non_fruit_rework.refmap.json",
   "client": [
-    "ILivingRendererMixin",
-    "PlayerInventoryScreenMixin"
+    "client.ILivingRendererMixin",
+    "client.PlayerInventoryScreenMixin",
+    "client.SelectHotbarAbilitiesScreenMixin"
   ]
 }

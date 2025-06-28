@@ -2,6 +2,7 @@ package net.warcar.non_fruit_rework.init;
 
 import net.minecraft.util.ResourceLocation;
 import net.warcar.non_fruit_rework.config.CommonConfig;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.mixin.IAbilityCoreMixin;
 import net.warcar.non_fruit_rework.quest.cyborg.*;
@@ -33,7 +34,7 @@ public class ReworkedUnlockRequirements {
     }
 
     private static void minkAbilities() {
-        addReqs(EleclawAbility.INSTANCE, entity -> QuestHelper.isHybridRace(entity, ModValues.MINK));
+        addReqs(EleclawAbility.INSTANCE, entity -> EntityHelper.isHybridRace(entity, ModValues.MINK));
         addReqs(ElectricalLunaAbility.INSTANCE, QuestHelper.questFinished(ElectricalLunaQuest.INSTANCE));
         addReqs(ElectricalMissileAbility.INSTANCE, QuestHelper.questFinished(ElectricalMissileQuest.INSTANCE));
         addReqs(ElectricalShowerAbility.INSTANCE, QuestHelper.questFinished(ElectricalShowerQuest.INSTANCE));
@@ -84,6 +85,6 @@ public class ReworkedUnlockRequirements {
     }
 
     private static AbilityCore.ICanUnlock isTrueRace(ResourceLocation race) {
-        return entity -> QuestHelper.isTrueRace(entity, race);
+        return entity -> EntityHelper.isTrueRace(entity, race);
     }
 }

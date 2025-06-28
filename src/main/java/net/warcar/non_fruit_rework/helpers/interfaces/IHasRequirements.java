@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.helpers;
+package net.warcar.non_fruit_rework.helpers.interfaces;
 
 import net.minecraft.entity.LivingEntity;
 

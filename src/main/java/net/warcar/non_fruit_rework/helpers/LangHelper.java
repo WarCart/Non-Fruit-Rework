@@ -17,10 +17,12 @@ public final class LangHelper {
         return langMap;
     }
 
+    @SafeVarargs
     public static IFormattableTextComponent[] registerDescriptionText(String abilityName, Pair<String, Object[]>... pairs) {
         return registerDescriptionText(NonFruitReworkMod.MOD_ID, abilityName, pairs);
     }
 
+    @SafeVarargs
     public static IFormattableTextComponent[] registerDescriptionText(String modid, String abilityName, Pair<String, Object[]>... pairs) {
         IFormattableTextComponent[] components = new IFormattableTextComponent[pairs.length];
 
@@ -32,7 +34,7 @@ public final class LangHelper {
                 for(int j = 0; j < args.length; ++j) {
                     Object o = args[j];
                     if (o instanceof RegistryObject) {
-                        args[j] = new ReferenceTextComponent((RegistryObject)o);
+                        args[j] = new ReferenceTextComponent((RegistryObject<?>)o);
                     }
                 }
             } else {

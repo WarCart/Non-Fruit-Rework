@@ -1,8 +1,8 @@
 package net.warcar.non_fruit_rework.quest.fishman_karate.racial;
 
 import net.minecraft.entity.LivingEntity;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.FishmanKarateHelper;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.MurasameAbility;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
@@ -26,6 +26,6 @@ public class YarinamiQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.isAnyRace(player, ModValues.FISHMAN);
+        return EntityHelper.isAnyRace(player, ModValues.FISHMAN);
     }
 }

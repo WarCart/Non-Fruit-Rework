@@ -1,6 +1,7 @@
 package net.warcar.non_fruit_rework.mixin;
 
 import net.minecraft.entity.LivingEntity;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.quest.cyborg.CyborgBodyQuest;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +16,6 @@ public abstract class EntityDataMixin implements IEntityStats {
 
     @Override
     public boolean isCyborg() {
-        return QuestHelper.hasFinishedQuest(this.owner, CyborgBodyQuest.INSTANCE) || QuestHelper.isTrueRace(this.owner, ModValues.CYBORG);
+        return QuestHelper.hasFinishedQuest(this.owner, CyborgBodyQuest.INSTANCE) || EntityHelper.isTrueRace(this.owner, ModValues.CYBORG);
     }
 }

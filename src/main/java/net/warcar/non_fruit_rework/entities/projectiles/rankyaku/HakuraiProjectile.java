@@ -20,6 +20,7 @@ public class HakuraiProjectile extends AbilityProjectileEntity {
         this.setMaxLife(40);
         this.setBlocksAffectedLimit(1024);
         this.setPassThroughEntities();
+        this.setArmorPiercing(0.15f);
         this.onBlockImpactEvent = this::onBlockImpactEvent;
     }
 

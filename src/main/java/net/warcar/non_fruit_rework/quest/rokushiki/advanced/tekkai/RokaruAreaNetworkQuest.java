@@ -4,8 +4,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.OkamiHajikiAbility;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.RokaruAreaNetworkAbility;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.CustomUseAbilityObjective;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.ShiganAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.SoruAbility;
@@ -35,7 +35,7 @@ public class RokaruAreaNetworkQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.canUseAdvancedRokushiki(player);
+        return EntityHelper.canUseAdvancedRokushiki(player);
     }
 
     public boolean giveReward(PlayerEntity player) {

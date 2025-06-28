@@ -1,8 +1,8 @@
 package net.warcar.non_fruit_rework.quest.rokushiki.advanced.shigan;
 
 import net.minecraft.entity.LivingEntity;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.rokushiki.ShiganQuest;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.ShiganAbility;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
@@ -21,6 +21,6 @@ public class TobuShiganQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.canUseAdvancedRokushiki(player);
+        return EntityHelper.canUseAdvancedRokushiki(player);
     }
 }

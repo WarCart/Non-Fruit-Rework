@@ -4,8 +4,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.tekkai_kenpo.OkamiHajikiAbility;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.TekkaiAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityUnlock;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
@@ -34,7 +34,7 @@ public class OkamiHajikiQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.canUseAdvancedRokushiki(player);
+        return EntityHelper.canUseAdvancedRokushiki(player);
     }
 
     private boolean check(PlayerEntity player) {

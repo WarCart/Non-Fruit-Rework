@@ -31,7 +31,7 @@ public class CommonConfig {
     }
 
     public boolean seraphims() {
-        return true; //TODO: Turn off to official release
+        return false; //TODO: Turn off to official release
     }
 
     static {

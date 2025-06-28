@@ -20,6 +20,7 @@ public class AmaneDachiProjectile extends AbilityProjectileEntity {
         this.setMaxLife(40);
         this.setBlocksAffectedLimit(4096);
         this.setPassThroughEntities();
+        this.setArmorPiercing(0.5f);
         this.onBlockImpactEvent = this::onBlockImpactEvent;
     }
 

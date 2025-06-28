@@ -1,4 +1,4 @@
-package net.warcar.non_fruit_rework.mixin;
+package net.warcar.non_fruit_rework.mixin.client;
 
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;

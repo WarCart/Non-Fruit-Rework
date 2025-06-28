@@ -1,8 +1,10 @@
 package net.warcar.non_fruit_rework.abilities;
 
 import net.minecraft.entity.LivingEntity;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasTexture;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.AltModeComponent;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 
@@ -32,6 +34,8 @@ public interface IHasQuestRequirement extends IHasRequirements {
             if (!e.canGet(livingEntity)) {
                 component.setMode(livingEntity, IHasQuestRequirement.next(e));
                 e.throwUnfinishedQuest();
+            } else if (e instanceof IHasTexture && iAbility instanceof Ability) {
+                ((Ability) iAbility).setDisplayIcon(((IHasTexture) e).getTexture());
             }
         });
     }

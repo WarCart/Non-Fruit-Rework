@@ -1,12 +1,15 @@
 package net.warcar.non_fruit_rework.mixin.advanced_rokushiki;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.ITextComponent;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.abilities.human.advanced_rokushiki.modes.KamieMode;
 import net.warcar.non_fruit_rework.entities.AfterimageEntity;
+import net.warcar.non_fruit_rework.helpers.DescriptionsHelper;
 import net.warcar.non_fruit_rework.helpers.MiscHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,13 +22,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.KamieAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
+import xyz.pixelatedw.mineminenomi.api.abilities.AbilityDescriptionLine;
 import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.AltModeComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
 
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
 @Mixin(KamieAbility.class)
 public abstract class KamieMixin extends Ability {
     @Shadow @Final private ContinuousComponent continuousComponent;
+    @Shadow @Final private static ITextComponent[] DESCRIPTION;
+    @Shadow @Final public static AbilityCore<KamieAbility> INSTANCE;
     @Unique private final AltModeComponent<KamieMode> modeComponent = new AltModeComponent<>(this, KamieMode.class, KamieMode.SIMPLE);
 
     private KamieMixin(AbilityCore<? extends IAbility> core) {
@@ -52,7 +63,7 @@ public abstract class KamieMixin extends Ability {
             this.continuousComponent.stopContinuity(entity);
             AfterimageEntity afterimageEntity = MiscHelper.spawnAfterimage(entity);
             LivingEntity source = (LivingEntity) damageSource.getEntity();
-            Vector3d position = source.position().add(entity.getLookAngle());
+            Vector3d position = source.position().subtract(source.getLookAngle());
             entity.teleportToWithTicket(position.x, position.y, position.z);
             if (source instanceof MobEntity) {
                 ((MobEntity) source).setTarget(afterimageEntity);
@@ -66,5 +77,29 @@ public abstract class KamieMixin extends Ability {
             ci.cancel();
             this.cooldownComponent.startCooldown(entity, 600);
         }
+    }
+
+    @Unique
+    private static Map<KamieMode, Pair<Float, Float>> getCooldownMap() {
+        Map<KamieMode, Pair<Float, Float>> cooldownMap = new HashMap<>();
+        cooldownMap.put(KamieMode.SIMPLE, new Pair<>(100.0F, 450.0F));
+        cooldownMap.put(KamieMode.ZANSHIN, new Pair<>(600.0F, 600.0F));
+        return cooldownMap;
+    }
+
+    @Unique
+    private static Map<KamieMode, ITextComponent[]> getDescMap() {
+        Map<KamieMode, ITextComponent[]> descMap = new HashMap<>();
+        descMap.put(KamieMode.SIMPLE, DESCRIPTION);
+        descMap.put(KamieMode.ZANSHIN, KamieMode.ZANSHIN.getDescription());
+        return descMap;
+    }
+
+    @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
+    private static void onClinit(CallbackInfo ci) {
+        Set<AbilityDescriptionLine> newDescription = new LinkedHashSet<>();
+        DescriptionsHelper.addDescriptionByModes(newDescription, getDescMap(), false);
+        newDescription.add(AbilityDescriptionLine.of(DescriptionsHelper.getCDTooltip(getCooldownMap()), true));
+        INSTANCE.setDescription(newDescription);
     }
 }

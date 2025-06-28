@@ -7,8 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.CustomObtainItemObjective;
 import net.warcar.non_fruit_rework.quest.objectives.TakeDamageObjective;
 import net.warcar.non_fruit_rework.quest.rokushiki.TekkaiQuest;
@@ -38,7 +38,7 @@ public class TekkaiGoQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.canUseAdvancedRokushiki(player);
+        return EntityHelper.canUseAdvancedRokushiki(player);
     }
 
     public boolean giveReward(PlayerEntity player) {

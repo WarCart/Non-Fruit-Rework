@@ -1,8 +1,8 @@
 package net.warcar.non_fruit_rework.quest.electro;
 
 import net.minecraft.entity.LivingEntity;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.CustomUseAbilityObjective;
 import xyz.pixelatedw.mineminenomi.abilities.electro.ElectricalMissileAbility;
 import xyz.pixelatedw.mineminenomi.abilities.electro.ElectricalTempestaAbility;
@@ -27,6 +27,6 @@ public class ElectricalLunaQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.isAnyRace(player, ModValues.MINK);
+        return EntityHelper.isAnyRace(player, ModValues.MINK);
     }
 }

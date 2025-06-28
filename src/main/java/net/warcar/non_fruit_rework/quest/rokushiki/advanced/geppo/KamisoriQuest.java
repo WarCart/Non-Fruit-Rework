@@ -1,8 +1,8 @@
 package net.warcar.non_fruit_rework.quest.rokushiki.advanced.geppo;
 
 import net.minecraft.entity.LivingEntity;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.CustomSurvivalObjective;
 import net.warcar.non_fruit_rework.quest.objectives.CustomUseAbilityObjective;
 import net.warcar.non_fruit_rework.quest.objectives.RunObjective;
@@ -30,6 +30,6 @@ public class KamisoriQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.canUseAdvancedRokushiki(player);
+        return EntityHelper.canUseAdvancedRokushiki(player);
     }
 }

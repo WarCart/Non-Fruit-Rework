@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import xyz.pixelatedw.mineminenomi.api.challenges.*;
 import xyz.pixelatedw.mineminenomi.challenges.arenas.AlabastaDesertSimpleArena;

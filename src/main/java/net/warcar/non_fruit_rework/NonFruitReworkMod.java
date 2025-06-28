@@ -41,8 +41,6 @@ import java.util.Map;
  * Genetic Modification and cloning
  * <p>
  * Adv. Fishman karate / jujutsu
- * <p>
- * Mink's perfected sulong for true minks
  */
 @Mod(NonFruitReworkMod.MOD_ID)
 public class NonFruitReworkMod {

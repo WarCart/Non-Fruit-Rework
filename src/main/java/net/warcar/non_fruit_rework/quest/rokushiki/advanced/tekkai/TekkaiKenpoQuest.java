@@ -3,8 +3,8 @@ package net.warcar.non_fruit_rework.quest.rokushiki.advanced.tekkai;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
-import net.warcar.non_fruit_rework.helpers.IHasRequirements;
-import net.warcar.non_fruit_rework.helpers.QuestHelper;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
+import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.quest.objectives.TakeDamageObjective;
 import net.warcar.non_fruit_rework.quest.objectives.TimedAbilityUseObjective;
 import net.warcar.non_fruit_rework.quest.rokushiki.TekkaiQuest;
@@ -28,7 +28,7 @@ public class TekkaiKenpoQuest extends Quest implements IHasRequirements {
 
     @Override
     public boolean canGet(LivingEntity player) {
-        return QuestHelper.canUseAdvancedRokushiki(player);
+        return EntityHelper.canUseAdvancedRokushiki(player);
     }
 
     private boolean checkDamage(PlayerEntity player, float amount, DamageSource source) {

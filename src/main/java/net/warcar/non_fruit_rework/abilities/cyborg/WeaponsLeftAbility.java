@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import net.warcar.non_fruit_rework.quest.cyborg.WeaponsLeftQuest;
 import xyz.pixelatedw.mineminenomi.abilities.cyborg.CyborgHelper;
@@ -48,7 +49,7 @@ public class WeaponsLeftAbility extends Ability {
     }
 
     private static boolean canUnlock(LivingEntity entity) {
-        return QuestHelper.isTrueRace(entity, ModValues.CYBORG) || QuestHelper.hasFinishedQuest(entity, WeaponsLeftQuest.INSTANCE);
+        return EntityHelper.isTrueRace(entity, ModValues.CYBORG) || QuestHelper.hasFinishedQuest(entity, WeaponsLeftQuest.INSTANCE);
     }
 
     private void changeMode(LivingEntity entity, IAbility ability, Mode mode) {
