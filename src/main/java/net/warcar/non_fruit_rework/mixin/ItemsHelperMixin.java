@@ -19,7 +19,7 @@ public class ItemsHelperMixin {
     private static World world;
     private static Vector3d pos;
 
-    @Inject(method = "lambda$dropWantedPosters$12", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = "lambda$dropWantedPosters$13", at = @At("HEAD"), cancellable = true, remap = false)
     private static void modifyRules(ChallengeCore core, CallbackInfoReturnable<Boolean> cir) {
         Challenge challenge = core.createChallenge();
         if (challenge instanceof IHasRequirements) {
