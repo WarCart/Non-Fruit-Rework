@@ -38,6 +38,7 @@ public class ElectroTrainer extends TrainerEntity implements IHakiTrainer {
         if (!world.isClientSide) {
             this.getEntityStats().setFaction(ModValues.CIVILIAN);
             this.getEntityStats().setRace(ModValues.MINK);
+            this.getEntityStats().setSubRace(ModValues.MINK_LION);
             this.setDoriki(2000.0D + WyHelper.randomWithRange(0, 1000));
             this.setBelly(20.0D + WyHelper.randomWithRange(0, 20));
             //Electro

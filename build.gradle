@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.0.1-pre-release'
+version = '0.0.1.1'
 group = 'net.warcar.non_fruit_rework' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'non_fruit_rework'
 
@@ -118,7 +118,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
-    add sourceSets.main, 'non_fruit_rework.refmap.json'
+    //add sourceSets.main, 'non_fruit_rework.refmap.json'
     config 'non_fruit_rework.mixin.json'
     debug.verbose = true
     debug.export = true

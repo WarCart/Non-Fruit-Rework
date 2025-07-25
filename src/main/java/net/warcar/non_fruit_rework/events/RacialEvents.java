@@ -26,7 +26,7 @@ public class RacialEvents {
                 float size = Math.abs(MathHelper.clamp((float) entity.getAttributeValue(ModEntityAttributes.SIZE), -100f, 100f));
                 event.setNewSize(event.getNewSize().scale(size), true);
                 event.setNewEyeHeight(event.getNewSize().height * 0.85f);
-            } catch (NullPointerException ignored) {
+            } catch (NullPointerException | IllegalArgumentException ignored) {
             }
         }
     }

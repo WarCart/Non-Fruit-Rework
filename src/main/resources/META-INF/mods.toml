@@ -17,23 +17,23 @@ license="All rights reserved"
 # The modid of the mod
 modId="non_fruit_rework" #mandatory
 # The version number of the mod
-version="0.3.1.2" #mandatory
+version="0.0.1" #mandatory
 # A display name for the mod
-displayName="Non-Fruit Rework Mine Mine no mi" #mandatory
+displayName="Non-Fruit Rework Mine Mine no mi (Reworked)" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+displayURL="https://discord.gg/tNzUPJMMr7" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="examplemod.png" #optional
+logoFile="icon.png" #optional
 # A text field displayed in the mod UI
-#credits="" #optional
+credits="Thanks to Neppall for the designing work (Textures, Models, ect.), Thanks to Aristalix for models of entities, Special thanks to Wynd for his mod that makes me evolve to make my addons to it better, and thanks to all of you who tested my mod :)" #optional
 # A text field displayed in the mod UI
 authors="Warcar" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-'''
+Mod that aims to rework some of features of mmnm that probably ain't suited for mmnm itself'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.non_fruit_rework]] #optional
 # the modid of the dependency
@@ -60,6 +60,6 @@ side="BOTH"
 [[dependencies.non_fruit_rework]]
 modId="mineminenomi"
 mandatory=true
-versionRange="[0.10.0, )"
+versionRange="[0.10.6, )"
 ordering="NONE"
 side="BOTH"

@@ -133,12 +133,12 @@ public class VegapunkScreen extends Screen {
                         continue;
                     }
                     if (this.entityStats.getRace().equals(ModRaces.HYBRID.getId())) {
-                        if (medicalData.getGenome().containsKey(WyHelper.getResourceName(race.name()))) {
+                        if (medicalData.getGenome().containsKey(race.getId())) {
                             racialPrice += 1000;
                         } else {
                             racialPrice += 10000;
                         }
-                    } else if (!entityStats.getRace().equals(WyHelper.getResourceName(race.name()))) {
+                    } else if (!entityStats.getRace().equals(race.getId())) {
                         racialPrice += 15000;
                     }
                 }
@@ -293,7 +293,7 @@ public class VegapunkScreen extends Screen {
 
             for (int i = 0; i < hybridGenesSliders.length; i++) {
                 OptionSlider slider = hybridGenesSliders[i];
-                race = HybridRaces.values()[i].race.getId();
+                race = HybridRaces.values()[i].getId();
                 genomeMap.put(race, (float) slider.getValueStrict());
                 if (slider.getValueStrict() != 1 && slider.getValueStrict() != 0) {
                     isHybrid = true;
@@ -310,7 +310,7 @@ public class VegapunkScreen extends Screen {
             ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));
             ModNetwork.sendToServer(new CSyncNonFruitDataPacket(this.player.getId(), this.medicalData));
         } else {
-            this.entityStats.setRace(PristineRaces.values()[chosenPristineRace() - 1].name());
+            this.entityStats.setRace(PristineRaces.values()[chosenPristineRace() - 1].getId());
             ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));
         }
         IAbilityData abilityData = AbilityDataCapability.get(player);
@@ -418,8 +418,8 @@ public class VegapunkScreen extends Screen {
                 HybridRaces hybridRace = HybridRaces.values()[i];
                 double val;
                 if (race.equals(ModRaces.HYBRID.getId())) {
-                    val = this.medicalData.getGenome().computeIfAbsent(hybridRace.race.getId(), s -> 0f);
-                } else if (race.equals(hybridRace.race.getId())) {
+                    val = this.medicalData.getGenome().computeIfAbsent(hybridRace.getId(), s -> 0f);
+                } else if (race.equals(hybridRace.getId())) {
                     val = 1;
                 } else {
                     val = 0;
@@ -643,6 +643,10 @@ public class VegapunkScreen extends Screen {
             }
         }
 
+        public ResourceLocation getId() {
+            return this.race.getId();
+        }
+
         public static HybridRaces create(String name, RegistryObject<RaceId> race, QuestId<?> requirement) {
             throw new IllegalStateException(name + "not created");
         }
@@ -673,6 +677,10 @@ public class VegapunkScreen extends Screen {
             } else {
                 this.requirement = requirement;
             }
+        }
+
+        public ResourceLocation getId() {
+            return this.race.getId();
         }
 
         public boolean canHave(LivingEntity entity) {

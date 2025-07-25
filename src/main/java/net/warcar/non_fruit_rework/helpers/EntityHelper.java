@@ -98,6 +98,13 @@ public final class EntityHelper {
     }
 
     public static boolean canUseAdvancedRokushiki(LivingEntity entity) {
-        return isTrueRace(entity, ModValues.HUMAN) && noGeneModifications(entity);
+        switch (CommonConfig.INSTANCE.getAdvancedRokushikiUnlock()) {
+            case TRUE_HUMAN:
+                return isTrueRace(entity, ModValues.HUMAN) && noGeneModifications(entity);
+            case HUMAN:
+                return isAnyRace(entity, ModValues.HUMAN);
+            default:
+                return true;
+        }
     }
 }

@@ -2,6 +2,8 @@ package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.common.MinecraftForge;
+import net.warcar.non_fruit_rework.api.events.CanUnlockQuestEvent;
 import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.mixin.IReachDorikiMixin;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
@@ -26,8 +28,12 @@ public final class QuestHelper {
         try {
             if (entity instanceof PlayerEntity) {
                 Quest questDefaultInstance = quest.createQuest();
-                if (questDefaultInstance instanceof IHasRequirements && !((IHasRequirements) questDefaultInstance).canGet(entity)) {
-                    return false;
+                if (questDefaultInstance instanceof IHasRequirements) {
+                    CanUnlockQuestEvent event = new CanUnlockQuestEvent(entity, quest);
+                    MinecraftForge.EVENT_BUS.post(event);
+                    if (event.getResult() == CanUnlockQuestEvent.Result.DENY || (event.getResult() == CanUnlockQuestEvent.Result.DEFAULT && !((IHasRequirements) questDefaultInstance).canGet(entity))) {
+                        return false;
+                    }
                 }
                 if (!GeneralConfig.ENABLE_STYLES_PROGRESSION.get()) {
                     return false;
@@ -48,6 +54,13 @@ public final class QuestHelper {
                         return true;
                     }
                     if (questId.createQuest() instanceof IHasRequirements) {
+                        CanUnlockQuestEvent event = new CanUnlockQuestEvent(player, questId);
+                        MinecraftForge.EVENT_BUS.post(event);
+                        if (event.getResult() == CanUnlockQuestEvent.Result.ALLOW) {
+                            return true;
+                        } else if (event.getResult() == CanUnlockQuestEvent.Result.DENY) {
+                            return false;
+                        }
                         return ((IHasRequirements) questId.createQuest()).canGet(player);
                     } else {
                         return true;

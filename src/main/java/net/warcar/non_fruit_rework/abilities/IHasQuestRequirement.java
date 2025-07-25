@@ -1,6 +1,8 @@
 package net.warcar.non_fruit_rework.abilities;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraftforge.common.MinecraftForge;
+import net.warcar.non_fruit_rework.api.events.CanUseAbilityModeEvent;
 import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.helpers.interfaces.IHasTexture;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
@@ -31,12 +33,23 @@ public interface IHasQuestRequirement extends IHasRequirements {
 
     static <E extends Enum<E> & IHasQuestRequirement> void addAltModeEvent(AltModeComponent<E> component) {
         component.addChangeModeEvent((livingEntity, iAbility, e) -> {
-            if (!e.canGet(livingEntity)) {
+            if (!trueUnlock(livingEntity, e)) {
                 component.setMode(livingEntity, IHasQuestRequirement.next(e));
                 e.throwUnfinishedQuest();
             } else if (e instanceof IHasTexture && iAbility instanceof Ability) {
                 ((Ability) iAbility).setDisplayIcon(((IHasTexture) e).getTexture());
             }
         });
+    }
+
+    static <E extends Enum<E> & IHasQuestRequirement> boolean trueUnlock(LivingEntity livingEntity, E e) {
+        CanUseAbilityModeEvent event = new CanUseAbilityModeEvent(livingEntity, e);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.getResult() == CanUseAbilityModeEvent.Result.ALLOW) {
+            return true;
+        } else if (event.getResult() == CanUseAbilityModeEvent.Result.DENY) {
+            return false;
+        }
+        return e.canGet(livingEntity);
     }
 }

@@ -1,3 +1,7 @@
 {
-
+  "mappings": {
+    "net/warcar/non_fruit_rework/mixin/client/ILivingRendererMixin": {
+      "model": "field_77045_g"
+    }
+  }
 }

@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -17,6 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
 import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
@@ -52,7 +55,9 @@ public class NonFruitReworkMod {
         bus.addListener(this::setup);
         bus.addListener(this::enqueueIMC);
         bus.addListener(this::onLoadComplete);
-        bus.addListener(this::clientSetup);
+        if (FMLEnvironment.dist.isClient()) {
+            bus.addListener(this::clientSetup);
+        }
         ReworkedUnlockRequirements.init();
         ModQuests.register(bus);
         ModAbilities.register(bus);
@@ -75,6 +80,7 @@ public class NonFruitReworkMod {
 
     public static final List<EntityType<?>> NON_FEATURE_MINKS = ImmutableList.of(ElectroTrainer.INSTANCE, InuarashiBoss.INSTANCE);
 
+    @OnlyIn(Dist.CLIENT)
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             Minecraft mc = Minecraft.getInstance();
