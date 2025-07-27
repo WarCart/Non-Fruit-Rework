@@ -89,6 +89,9 @@ public final class EntityHelper {
 
     public static boolean noGeneModifications(LivingEntity entity) {
         GenesAbility ability = AbilityDataCapability.get(entity).getPassiveAbility(GenesAbility.INSTANCE);
+        if (ability == null) {
+            return true;
+        }
         for (ModifiableAttributes attribute : ModifiableAttributes.values()) {
             if (ability.getGenes().get(attribute) != 0) {
                 return false;
