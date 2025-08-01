@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.0.1.1'
+version = '0.0.1.2-pre_release'
 group = 'net.warcar.non_fruit_rework' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'non_fruit_rework'
 
