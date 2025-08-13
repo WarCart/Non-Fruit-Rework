@@ -25,7 +25,9 @@ import net.warcar.non_fruit_rework.entities.bosses.NekomamushiBoss;
 import net.warcar.non_fruit_rework.entities.quests.CP9Trainer;
 import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.entities.quests.FishmanTrainer;
+import net.warcar.non_fruit_rework.entities.quests.mads.CaesarEntity;
 import net.warcar.non_fruit_rework.entities.quests.mads.JudgeEntity;
+import net.warcar.non_fruit_rework.entities.quests.mads.QueenEntity;
 import net.warcar.non_fruit_rework.entities.quests.mads.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SHawkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
@@ -58,6 +60,8 @@ public class ModEntityTypes {
         //Quest givers
         registerFactionlessWithSpawnEgg("Vegapunk", VegapunkEntity.INSTANCE);
         registerFactionlessWithSpawnEgg("Judge", JudgeEntity.INSTANCE);
+        registerFactionlessWithSpawnEgg("Caesar Clown", CaesarEntity.INSTANCE);
+        registerFactionlessWithSpawnEgg("Queen", QueenEntity.INSTANCE);
         registerFactionlessWithSpawnEgg("CP9 Trainer", CP9Trainer.INSTANCE);
         registerFactionlessWithSpawnEgg("Fishman Trainer", FishmanTrainer.INSTANCE);
         registerFactionlessWithSpawnEgg("Electro Trainer", ElectroTrainer.INSTANCE);
@@ -100,6 +104,8 @@ public class ModEntityTypes {
         //Quest givers
         event.put(VegapunkEntity.INSTANCE, VegapunkEntity.createAttributes().build());
         event.put(JudgeEntity.INSTANCE, JudgeEntity.createAttributes().build());
+        event.put(CaesarEntity.INSTANCE, CaesarEntity.createAttributes().build());
+        event.put(QueenEntity.INSTANCE, QueenEntity.createAttributes().build());
         event.put(CP9Trainer.INSTANCE, CP9Trainer.createAttributes().build());
         event.put(FishmanTrainer.INSTANCE, FishmanTrainer.createAttributes().build());
         event.put(ElectroTrainer.INSTANCE, ElectroTrainer.createAttributes().build());
@@ -122,6 +128,8 @@ public class ModEntityTypes {
         //Quest givers
         RenderingRegistry.registerEntityRenderingHandler(VegapunkEntity.INSTANCE, new HumanoidRenderer.Factory(new VegapunkModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(JudgeEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(CaesarEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        RenderingRegistry.registerEntityRenderingHandler(QueenEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
         RenderingRegistry.registerEntityRenderingHandler(CP9Trainer.INSTANCE, new HumanoidRenderer.Factory(new CP9TrainerModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(FishmanTrainer.INSTANCE, new HumanoidRenderer.Factory(new HackModel(), 1));
         RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new ElectroTrainerModel(), 1));

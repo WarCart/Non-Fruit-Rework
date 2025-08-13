@@ -147,6 +147,7 @@ dependencies {
     //implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:6835601")
     implementation fg.deobf("blank:cartaddon:0.7.11")
     implementation fg.deobf("blank:mine-mine-no-mi-1.16.5:0.10.7")
+    implementation fg.deobf("blank:fruit_progression-reloaded:1.2.0")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.1.0.0")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..

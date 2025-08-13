@@ -18,10 +18,10 @@ import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.init.ModStructures;
 import xyz.pixelatedw.mineminenomi.blocks.tileentities.CustomSpawnerTileEntity;
 import xyz.pixelatedw.mineminenomi.init.ModBlocks;
 import xyz.pixelatedw.mineminenomi.init.ModEntities;
-import xyz.pixelatedw.mineminenomi.init.ModStructures;
 
 import java.util.Random;
 
@@ -32,7 +32,7 @@ public class CP9TentPiece extends TemplateStructurePiece
 
 	public CP9TentPiece(TemplateManager template, CompoundNBT nbt)
 	{
-		super(ModStructures.Pieces.SWORDSMAN_DOJO_PIECE, nbt);
+		super(ModStructures.Pieces.CP_9_TENT_PIECE, nbt);
         this.resourceLocation = new ResourceLocation(nbt.getString("Template"));
         this.rotation = Rotation.valueOf(nbt.getString("Rot"));
         this.build(template);
@@ -40,7 +40,7 @@ public class CP9TentPiece extends TemplateStructurePiece
 	
 	public CP9TentPiece(TemplateManager template, BlockPos pos, Rotation rot)
 	{
-		super(ModStructures.Pieces.SWORDSMAN_DOJO_PIECE, 0);
+		super(ModStructures.Pieces.CP_9_TENT_PIECE, 0);
 		this.templatePosition = pos;
 		this.rotation = rot;
 		this.resourceLocation = new ResourceLocation(NonFruitReworkMod.MOD_ID, "cp9/small_tent");

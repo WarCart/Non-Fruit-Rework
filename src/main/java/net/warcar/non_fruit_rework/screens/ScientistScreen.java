@@ -23,7 +23,9 @@ import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
+import net.warcar.non_fruit_rework.entities.quests.mads.CaesarEntity;
 import net.warcar.non_fruit_rework.entities.quests.mads.JudgeEntity;
+import net.warcar.non_fruit_rework.entities.quests.mads.QueenEntity;
 import net.warcar.non_fruit_rework.entities.quests.mads.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
@@ -105,6 +107,10 @@ public class ScientistScreen extends Screen {
             this.type = Type.VEGAPUNK;
         } else if (trainer instanceof JudgeEntity) {
             this.type = Type.JUDGE;
+        } else if (trainer instanceof CaesarEntity) {
+            this.type = Type.CAESAR;
+        } else if (trainer instanceof QueenEntity) {
+            this.type = Type.QUEEN;
         } else {
             this.type = null;
         }

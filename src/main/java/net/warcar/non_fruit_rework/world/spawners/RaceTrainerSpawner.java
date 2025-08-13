@@ -27,7 +27,7 @@ public class RaceTrainerSpawner {
     private static final Predicate<Entity> TRAINER_CHECK = (target) -> target instanceof ITrainer;
     private final Random random = new Random();
     private static final EntityType[] TRAINERS = new EntityType[] {ElectroTrainer.INSTANCE, FishmanTrainer.INSTANCE};
-    private int cooldown = CommonConfig.INSTANCE.getTimeBetweenTrainerSpawns() / 2;
+    private int cooldown = CommonConfig.INSTANCE.getTimeBetweenTrainerSpawns() / 2 * 3;
 
     public void tick(ServerWorld world) {
         world.getProfiler().push("racialTrainerSpawnerTick");

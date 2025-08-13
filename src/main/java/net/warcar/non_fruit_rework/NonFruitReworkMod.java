@@ -25,6 +25,7 @@ import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
 import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.init.*;
+import net.warcar.non_fruit_rework.integrations.AbilityProgressionIntegration;
 import net.warcar.non_fruit_rework.integrations.CartAddonIntegration;
 import net.warcar.non_fruit_rework.renderers.layers.HeadLayer;
 import org.apache.logging.log4j.LogManager;
@@ -75,6 +76,10 @@ public class NonFruitReworkMod {
 
         if (ModList.get().isLoaded("cartaddon")) {
             CartAddonIntegration.init();
+        }
+
+        if (ModList.get().isLoaded("ability_progression")) {
+            AbilityProgressionIntegration.register(bus);
         }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
