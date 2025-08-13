@@ -24,7 +24,7 @@ public abstract class Product {
     protected abstract void onBought();
 
     public boolean buy(IEntityStats stats) {
-        if (stats.getBelly() > price) {
+        if (stats.getBelly() >= price) {
             stats.alterBelly(-price, StatChangeSource.STORE);
             onBought();
             return true;

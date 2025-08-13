@@ -8,6 +8,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.gui.ScrollPanel;
+import net.warcar.non_fruit_rework.network.ModNetwork;
+import net.warcar.non_fruit_rework.network.packets.client.CSyncEntityStatsPacket;
 import net.warcar.non_fruit_rework.screens.ScientistScreen;
 import org.lwjgl.opengl.GL11;
 import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
@@ -98,12 +100,19 @@ public class ShopScreenPanel extends ScrollPanel {
 
                 for(Iterator<IReorderingProcessor> var15 = splittedText.iterator(); var15.hasNext(); y += 10.0F) {
                     IReorderingProcessor string = var15.next();
-                    WyHelper.drawStringWithBorder(this.font, matrixStack, string, (int)x - 80, (int)y + 16, WyHelper.hexToRGB(questColor).getRGB());
+                    WyHelper.drawStringWithBorder(this.font, matrixStack, string, (int)x - 80, (int)y + 8, WyHelper.hexToRGB(questColor).getRGB());
                 }
 
                 RenderSystem.popMatrix();
             }
-            product.drawIcon(matrixStack, (int)x - 80, (int)y + 16);
+            product.drawIcon(matrixStack, (int)x - 100, (int)y + 16);
+            int color;
+            if (this.props.getBelly() < product.getPrice()) {
+                color = 0xFF0000;
+            } else {
+                color = 0xFFFFFF;
+            }
+            WyHelper.drawStringWithBorder(this.font, matrixStack, String.valueOf(product.getPrice()), (int)x - 80, (int)y + 26, color);
 
             relativeY = (int)((double)relativeY + 55.0);
         }
@@ -115,6 +124,7 @@ public class ShopScreenPanel extends ScrollPanel {
             return false;
         } else {
             quest.buy(props);
+            ModNetwork.sendToServer(new CSyncEntityStatsPacket(Minecraft.getInstance().player.getId(), props));
             this.updateAvailableProducts(this.availableProducts);
             return super.mouseClicked(mouseX, mouseY, button);
         }
