@@ -9,7 +9,7 @@ import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.gui.ScrollPanel;
-import net.warcar.non_fruit_rework.screens.VegapunkScreen;
+import net.warcar.non_fruit_rework.screens.ScientistScreen;
 import org.lwjgl.opengl.GL11;
 import xyz.pixelatedw.mineminenomi.api.quests.Quest;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
@@ -26,12 +26,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AvailableQuestsListScreenPanel extends ScrollPanel {
-    private final VegapunkScreen parent;
+    private final ScientistScreen parent;
     private final IQuestData props;
     private final List<QuestId<?>> availableQuests = new ArrayList<>();
     private final FontRenderer font;
 
-    public AvailableQuestsListScreenPanel(VegapunkScreen parent, IQuestData abilityProps, List<QuestId<?>> quests) {
+    public AvailableQuestsListScreenPanel(ScientistScreen parent, IQuestData abilityProps, List<QuestId<?>> quests) {
         super(parent.getMinecraft(), 200, 180, parent.height / 2 - 110, parent.width / 2 - 190);
         this.parent = parent;
         this.props = abilityProps;

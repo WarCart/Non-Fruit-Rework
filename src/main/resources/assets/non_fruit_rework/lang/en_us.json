@@ -13,7 +13,6 @@
 	"ability.non_fruit_rework.rankyaku.ran.description.0": "Rapid fire version that creates barrage of slashes",
 	"ability.non_fruit_rework.rankyaku_amane_dachi": "Rankyaku: Amane Dachi",
 	"ability.non_fruit_rework.soru.tekkai_dama.description.0": "After building up sufficient speed user tenses their body using tekkai to deal crushing damage on hit",
-	"ability.non_fruit_rework.soshark": "Soshark",
 	"ability.non_fruit_rework.tekkai_kenpo_okami_hajiki": "Tekkai Kenpo: Okami Hajiki",
 	"ability.non_fruit_rework.tekkai_kenpo_rokaru_area_network": "Tekkai Kenpo: Rokaru Area Network",
 	"ability.non_fruit_rework.weapons_left": "Weapons Left",
@@ -57,7 +56,6 @@
 	"gui.gene.skin_toughness": "Skin toughness",
 	"gui.gene.strength": "Strength",
 	"gui.gene.toughness": "Toughness",
-	"gui.text.buy_pacifista": "Buy Pacifista (10000-500000 belly)",
 	"gui.text.buy_pacifista_lvl": "Buy %s (%s belly)",
 	"gui.text.buy_seraphim": "Buy Seraphim (1000000-50000000 belly)",
 	"gui.text.buy_seraphim_lvl": "Buy %s (1000000 belly)",
@@ -73,6 +71,7 @@
 	"gui.text.not_enough_money": "You don't have enough moneys for that",
 	"gui.text.quests_cyborg": "Cyborg Upgrades",
 	"gui.text.quests_genetics": "Genetic Collection",
+	"gui.text.shop": "Shop",
 	"gui.text.wip": "WIP",
 
 	"item.non_fruit_rework.cp9_trainer_spawn_egg": "Spawn CP9 Trainer",
@@ -151,6 +150,7 @@
 	"quest.objective.mineminenomi.kill_%s_enemies_while_in_water": "Kill %s enemies while in water",
 	"quest.objective.mineminenomi.kill_%s_entities_in_water": "Kill %s entities in water",
 	"quest.objective.mineminenomi.kill_%s_entities_while_in_water_using_murasame": "Kill %s entities while in water using Murasame",
+	"quest.objective.mineminenomi.obtain_%s_belly": "Obtain %s belly",
 	"quest.objective.mineminenomi.obtain_protection_ii_armor_piece": "Obtain Protection II Armor Piece",
 	"quest.objective.mineminenomi.obtain_protection_iv_armor_piece": "Obtain Protection IV Armor Piece",
 	"quest.objective.mineminenomi.obtain_thorns_armor_piece": "Obtain Thorns Armor Piece",
@@ -171,7 +171,5 @@
 
 	"race.non_fruit_rework.ancient_giant": "Ancient Giant",
 	"race.non_fruit_rework.giant": "Giant",
-	"race.non_fruit_rework.hybrid": "Hybrid",
-	"race.non_fruit_rework.lunarian": "Lunarian",
-	"race.non_fruit_rework.oni": "Oni"
+	"race.non_fruit_rework.hybrid": "Hybrid"
 }

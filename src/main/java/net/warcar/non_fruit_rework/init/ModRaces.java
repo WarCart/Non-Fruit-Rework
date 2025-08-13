@@ -26,13 +26,6 @@ public class ModRaces {
         return new RaceId(info, CommonConfig.INSTANCE.isCustomRaces(), 3);
     });
 
-
-    public static final RegistryObject<RaceId> LUNARIAN = registerRace("Lunarian", () ->
-            new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
-
-    public static final RegistryObject<RaceId> ONI = registerRace("Oni", () ->
-            new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
-
     public static final RegistryObject<RaceId> ANCIENT_GIANT = registerRace("Ancient Giant", () ->
             new RaceId(new CharacterCreatorSelectionMap.SelectionInfo(ModResources.RANDOM), false));
 

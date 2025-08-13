@@ -9,6 +9,7 @@
     "IAbilityCoreMixin",
     "IReachDorikiMixin",
     "ItemsHelperMixin",
+    "ModAttributesMixin",
     "PacifistaMixin",
     "RaceIdMixin",
     "WyHelperMixin",
@@ -27,6 +28,7 @@
   "client": [
     "client.ILivingRendererMixin",
     "client.PlayerInventoryScreenMixin",
+    "client.QuestTrackerScreenMixin",
     "client.SelectHotbarAbilitiesScreenMixin"
   ]
 }

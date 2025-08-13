@@ -98,7 +98,7 @@ public class WeaponsLeftAbility extends Ability {
     }
 
     private void startContinuityEvent(LivingEntity entity, IAbility ability) {
-        this.repeaterComponent.start(entity, 40, 5);
+        this.repeaterComponent.start(entity, 40, 2);
     }
 
     private void duringContinuityEvent(LivingEntity entity, IAbility ability) {
@@ -118,7 +118,7 @@ public class WeaponsLeftAbility extends Ability {
 
     private void endContinuityEvent(LivingEntity entity, IAbility ability) {
         this.repeaterComponent.stop(entity);
-        this.cooldownComponent.startCooldown(entity, 300.0F);
+        this.cooldownComponent.startCooldown(entity, continuousComponent.getContinueTime() * 4);
     }
 
     private void triggerRepeaterEvent(LivingEntity entity, IAbility ability) {
@@ -131,7 +131,7 @@ public class WeaponsLeftAbility extends Ability {
             innacuracy = 0.0F;
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             this.projectileComponent.shootWithSpread(entity, 3.0F, innacuracy, 2);
             this.bulletStack.shrink(1);
         }

@@ -11,10 +11,8 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.server.ServerWorld;
-import net.warcar.non_fruit_rework.entities.quests.CP9Trainer;
 import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.entities.quests.FishmanTrainer;
-import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
 import xyz.pixelatedw.mineminenomi.api.entities.ITrainer;
 import xyz.pixelatedw.mineminenomi.config.CommonConfig;
 import xyz.pixelatedw.mineminenomi.wypi.WyDebug;
@@ -28,8 +26,7 @@ import java.util.function.Predicate;
 public class RaceTrainerSpawner {
     private static final Predicate<Entity> TRAINER_CHECK = (target) -> target instanceof ITrainer;
     private final Random random = new Random();
-    private static final EntityType[] TRAINERS = new EntityType[]{VegapunkEntity.INSTANCE, CP9Trainer.INSTANCE,
-            ElectroTrainer.INSTANCE, FishmanTrainer.INSTANCE};
+    private static final EntityType[] TRAINERS = new EntityType[] {ElectroTrainer.INSTANCE, FishmanTrainer.INSTANCE};
     private int cooldown = CommonConfig.INSTANCE.getTimeBetweenTrainerSpawns() / 2;
 
     public void tick(ServerWorld world) {

@@ -25,7 +25,7 @@ public class GeppoQuest extends Quest {
         super(core);
         ReachDorikiObjective objective = new ReachDorikiObjective("Get %s Doriki Strong", 510);
         this.addObjective(objective);
-        collectObjective = new CustomObtainItemObjective<>(2, () -> Items.RABBIT_FOOT);
+        collectObjective = new CustomObtainItemObjective<>(2, Items.RABBIT_FOOT);
         this.addObjective(collectObjective.addRequirement(objective));
         this.addObjective(new CustomSurvivalObjective(300).addRequirement(objective));
         this.addObjective(new CustomUseAbilityObjective(10, SoruAbility.INSTANCE).addRequirement(objective));

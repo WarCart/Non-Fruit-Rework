@@ -1,6 +1,10 @@
 package net.warcar.non_fruit_rework.init;
 
+import net.MrMagicalCart.cartaddon.abilities.cyborgextra.*;
+import net.MrMagicalCart.cartaddon.abilities.electroextra.*;
+import net.MrMagicalCart.cartaddon.abilities.fishmankarateextra.*;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.ModList;
 import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
@@ -23,6 +27,8 @@ import xyz.pixelatedw.mineminenomi.abilities.electro.*;
 import xyz.pixelatedw.mineminenomi.abilities.fishmankarate.*;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
+import xyz.pixelatedw.mineminenomi.data.entity.entitystats.EntityStatsCapability;
+import xyz.pixelatedw.mineminenomi.data.entity.entitystats.IEntityStats;
 import xyz.pixelatedw.mineminenomi.init.ModValues;
 
 public class ReworkedUnlockRequirements {
@@ -31,6 +37,49 @@ public class ReworkedUnlockRequirements {
         humanAbilities();
         fishmanAbilities();
         minkAbilities();
+        if (ModList.get().isLoaded("cartaddon")) {
+            cartAbilities();
+        }
+    }
+
+    private static void cartAbilities() {
+        cartCyborg();
+        cartMink();
+        cartFishman();
+    }
+
+    private static void cartCyborg() {
+        setReqs(CartStrongRightAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(StrongRightQuest.INSTANCE)));
+        setReqs(ReworkedFreshFireAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(FreshFireQuest.INSTANCE)));
+        setReqs(CartCoupDeBooAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(PressurizedTanksQuest.INSTANCE)));
+        setReqs(ReworkedCoupDeVentAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(PressurizedTanksQuest.INSTANCE)));
+        setReqs(CartRadicalBeamAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(RadicalBeamQuest.INSTANCE)));
+        setReqs(ReworkedColaOverdriveAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
+        setReqs(CartSouthlandSuplexAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
+        setReqs(IronBoxingAbility.INSTANCE, isTrueRace(ModValues.CYBORG).or(QuestHelper.questFinished(HeavyArmorQuest.INSTANCE)));
+        setReqs(WeaponsLeftAbility.INSTANCE, alwaysFalse());
+        setReqs(GeneralFrankyAbility.INSTANCE, isTrueRace(ModValues.CYBORG).and(doriki(3000))
+                .or(QuestHelper.questFinished(GeneralFrankyQuest.INSTANCE)));
+    }
+
+    private static void cartMink() {
+        addReqs(CartEleclawAbility.INSTANCE, entity -> EntityHelper.isHybridRace(entity, ModValues.MINK));
+        addReqs(CartElectricalLunaAbility.INSTANCE, QuestHelper.questFinished(ElectricalLunaQuest.INSTANCE));
+        addReqs(CartElectricalMissileAbility.INSTANCE, QuestHelper.questFinished(ElectricalMissileQuest.INSTANCE));
+        addReqs(CartElectricalShowerAbility.INSTANCE, QuestHelper.questFinished(ElectricalShowerQuest.INSTANCE));
+        addReqs(CartElectricalTempestaAbility.INSTANCE, QuestHelper.questFinished(ElectricalTempestaQuest.INSTANCE));
+    }
+
+    private static void cartFishman() {
+        addReqs(ReworkedKachiageHaisokuAbility.INSTANCE, QuestHelper.questFinished(KachiageHaisokuQuest.INSTANCE));
+        addReqs(ReworkedKarakusagawaraSeikenAbility.INSTANCE, QuestHelper.questFinished(KarakusagawaraSeikenQuest.INSTANCE));
+        addReqs(ReworkedSamehadaShoteiAbility.INSTANCE, QuestHelper.questFinished(SamehadaShoteiQuest.INSTANCE));
+        addReqs(ReworkedTwoFishEngineAbility.INSTANCE, QuestHelper.questFinished(TwoFishEngineQuest.INSTANCE));
+
+        addReqs(ReworkedMurasameAbility.INSTANCE, QuestHelper.questFinished(MurasameQuest.INSTANCE));
+        addReqs(ReworkedUchimizuAbility.INSTANCE, QuestHelper.questFinished(UchimizuQuest.INSTANCE));
+        addReqs(ReworkedYarinamiAbility.INSTANCE, QuestHelper.questFinished(YarinamiQuest.INSTANCE));
+        //TODO: still some moves left to cover
     }
 
     private static void minkAbilities() {
@@ -86,5 +135,16 @@ public class ReworkedUnlockRequirements {
 
     private static AbilityCore.ICanUnlock isTrueRace(ResourceLocation race) {
         return entity -> EntityHelper.isTrueRace(entity, race);
+    }
+
+    private static AbilityCore.ICanUnlock doriki(int doriki) {
+        return e -> {
+            IEntityStats stats = EntityStatsCapability.get(e);
+            return stats.getDoriki() >= doriki;
+        };
+    }
+
+    private static AbilityCore.ICanUnlock alwaysFalse() {
+        return e -> false;
     }
 }

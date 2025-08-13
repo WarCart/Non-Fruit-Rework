@@ -7,28 +7,28 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
-import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
+import net.warcar.non_fruit_rework.entities.quests.mads.ScientistEntity;
 import net.warcar.non_fruit_rework.network.packets.IPacket;
-import net.warcar.non_fruit_rework.screens.VegapunkScreen;
+import net.warcar.non_fruit_rework.screens.ScientistScreen;
 
 import java.util.function.Supplier;
 
-public class SOpenVegapunkMenuPacket implements IPacket<SOpenVegapunkMenuPacket> {
+public class SOpenScientistMenuPacket implements IPacket<SOpenScientistMenuPacket> {
     private int id;
 
-    public SOpenVegapunkMenuPacket(int id) {
+    public SOpenScientistMenuPacket(int id) {
         this.id = id;
     }
 
-    public SOpenVegapunkMenuPacket() {
+    public SOpenScientistMenuPacket() {
     }
 
     public void encode(PacketBuffer buffer) {
         buffer.writeInt(id);
     }
 
-    public SOpenVegapunkMenuPacket decode(PacketBuffer buffer) {
-        SOpenVegapunkMenuPacket packet = new SOpenVegapunkMenuPacket();
+    public SOpenScientistMenuPacket decode(PacketBuffer buffer) {
+        SOpenScientistMenuPacket packet = new SOpenScientistMenuPacket();
         packet.id = buffer.readInt();
         return packet;
     }
@@ -42,10 +42,10 @@ public class SOpenVegapunkMenuPacket implements IPacket<SOpenVegapunkMenuPacket>
 
     public static class ClientHandler {
         @OnlyIn(Dist.CLIENT)
-        public static void handle(SOpenVegapunkMenuPacket message) {
+        public static void handle(SOpenScientistMenuPacket message) {
             PlayerEntity player = Minecraft.getInstance().player;
-            VegapunkEntity questGiver = (VegapunkEntity) Minecraft.getInstance().level.getEntity(message.id);
-            Minecraft.getInstance().setScreen(new VegapunkScreen(player, questGiver));
+            ScientistEntity questGiver = (ScientistEntity) Minecraft.getInstance().level.getEntity(message.id);
+            Minecraft.getInstance().setScreen(new ScientistScreen(player, questGiver));
         }
     }
 }

@@ -45,6 +45,7 @@ public final class QuestHelper {
         return false;
     }
 
+    @SafeVarargs
     public static List<QuestId> getQuestsSorted(PlayerEntity player, List<QuestId<?>>... questss) {
         List<QuestId<?>> quests = new ArrayList<>();
         Arrays.stream(questss).forEach(quests::addAll);

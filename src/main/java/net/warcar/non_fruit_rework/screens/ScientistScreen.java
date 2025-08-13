@@ -18,10 +18,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.fml.RegistryObject;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
+import net.warcar.non_fruit_rework.entities.quests.mads.JudgeEntity;
+import net.warcar.non_fruit_rework.entities.quests.mads.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
 import net.warcar.non_fruit_rework.enums.PacifistaModel;
@@ -31,13 +34,19 @@ import net.warcar.non_fruit_rework.init.ModQuests;
 import net.warcar.non_fruit_rework.init.ModRaces;
 import net.warcar.non_fruit_rework.init.ModTexts;
 import net.warcar.non_fruit_rework.network.ModNetwork;
-import net.warcar.non_fruit_rework.network.packets.client.*;
+import net.warcar.non_fruit_rework.network.packets.client.CRestartPlayerPacket;
+import net.warcar.non_fruit_rework.network.packets.client.CSyncEntityStatsPacket;
+import net.warcar.non_fruit_rework.network.packets.client.CSyncNonFruitDataPacket;
+import net.warcar.non_fruit_rework.network.packets.client.CUpdatePassiveAbilityDataPacket;
 import net.warcar.non_fruit_rework.quest.genetic_materials.FishmanGenesQuest;
-import net.warcar.non_fruit_rework.quest.genetic_materials.LunarianGenesQuest;
 import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.screens.extra.AvailableQuestsListScreenPanel;
 import net.warcar.non_fruit_rework.screens.extra.OptionSlider;
 import net.warcar.non_fruit_rework.screens.extra.PlankToggle;
+import net.warcar.non_fruit_rework.screens.shop.EntityProduct;
+import net.warcar.non_fruit_rework.screens.shop.PacifistaProduct;
+import net.warcar.non_fruit_rework.screens.shop.Product;
+import net.warcar.non_fruit_rework.screens.shop.ShopScreenPanel;
 import xyz.pixelatedw.mineminenomi.api.charactercreator.RaceId;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
@@ -55,13 +64,14 @@ import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
 @OnlyIn(Dist.CLIENT)
-public class VegapunkScreen extends Screen {
+public class ScientistScreen extends Screen {
     public final Button.ITooltip WIP = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, ModTexts.WIP, mouseX, mouseY);
     private final PlayerEntity player;
     private final IQuestData questData;
@@ -69,19 +79,21 @@ public class VegapunkScreen extends Screen {
     private final INonFruitData medicalData;
     private final IAbilityData abilityData;
     private final LivingEntity trainer;
+    private final Type type;
     private float animationTime = 0.0F;
     private float animationTranslation = 100.0F;
     private State guiState = State.INTRO;
     private GeneticModsState geneticState = GeneticModsState.HYBRID_RACES;
     private SequencedString startMessage = new SequencedString("", 0, 0);
     private AvailableQuestsListScreenPanel availableQuestsPanel;
+    private ShopScreenPanel shopScreenPanel;
     private OptionSlider[] hybridGenesSliders = {};
     private OptionSlider[] otherGenesSliders = {};
     private PlankButton[] pristineRaceButtons = {};
     private PlankToggle germaGenes;
     private FactionButton finishButton;
 
-    public VegapunkScreen(PlayerEntity player, LivingEntity trainer) {
+    public ScientistScreen(PlayerEntity player, LivingEntity trainer) {
         super(new StringTextComponent(""));
         this.player = player;
         this.questData = QuestDataCapability.get(player);
@@ -89,6 +101,13 @@ public class VegapunkScreen extends Screen {
         this.medicalData = NonFruitDataCapability.get(player);
         this.abilityData = AbilityDataCapability.get(player);
         this.trainer = trainer;
+        if (trainer instanceof VegapunkEntity) {
+            this.type = Type.VEGAPUNK;
+        } else if (trainer instanceof JudgeEntity) {
+            this.type = Type.JUDGE;
+        } else {
+            this.type = null;
+        }
     }
 
     @Override
@@ -173,8 +192,8 @@ public class VegapunkScreen extends Screen {
             case CYBORG_QUESTS:
                 this.renderQuestList(matrixStack, mouseX, mouseY, partialTicks);
                 break;
-            case BUY_PACIFISTA:
-            case BUY_SERAPHIM:
+            case SHOP:
+                this.renderShop(matrixStack, mouseX, mouseY , partialTicks);
                 break;
             case CUSTOM_SERAPHIM:
         }
@@ -187,6 +206,15 @@ public class VegapunkScreen extends Screen {
         }
         matrixStack.popPose();
         super.render(matrixStack, mouseX, mouseY, partialTicks);
+    }
+
+    private void renderShop(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        matrixStack.pushPose();
+        matrixStack.translate(-this.animationTranslation, 0.0, 0.0);
+        RenderSystem.enableBlend();
+        this.shopScreenPanel.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.shopScreenPanel.isMouseOver(mouseX, mouseY);
+        matrixStack.popPose();
     }
 
     public void renderMessage(MatrixStack matrixStack) {
@@ -222,7 +250,6 @@ public class VegapunkScreen extends Screen {
         this.availableQuestsPanel.render(matrixStack, mouseX, mouseY, partialTicks);
         this.availableQuestsPanel.isMouseOver(mouseX, mouseY);
         matrixStack.popPose();
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     public void init(Minecraft mc, int width, int height) {
@@ -236,11 +263,8 @@ public class VegapunkScreen extends Screen {
             case GENETIC_QUESTS:
                 registerQuestState(ModQuests.GEN_MODIFICATION_QUESTS, posX, posY);
                 break;
-            case BUY_PACIFISTA:
+            case SHOP:
                 registerBuyPacifistaState(posX, posY);
-                break;
-            case BUY_SERAPHIM:
-                registerBuySeraphim(posX, posY);
                 break;
             case CUSTOM_SERAPHIM:
                 registerCustomSeraphim(posX, posY);
@@ -255,10 +279,7 @@ public class VegapunkScreen extends Screen {
     }
 
     private void registerGeneticModifications(int posX, int posY) {
-        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
-            this.guiState = State.INTRO;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
+        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), changeState(State.INTRO));
         this.addButton(backButton);
         for (int i = 0; i < GeneticModsState.values().length; i++) {
             GeneticModsState state = GeneticModsState.values()[i];
@@ -457,73 +478,24 @@ public class VegapunkScreen extends Screen {
     }
 
     private void registerCustomSeraphim(int posX, int posY) {
-        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
-            this.guiState = State.BUY_SERAPHIM;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
-        this.addButton(backButton);
-    }
-
-    private void registerBuySeraphim(int posX, int posY) {
-        for (int i = 0; i < ModEntityTypes.SERAPHIMS.size(); i++) {
-            EntityType<SeraphimEntity> model = (EntityType<SeraphimEntity>) ModEntityTypes.SERAPHIMS.get(i);
-            int modelId = i;
-            Button.ITooltip tooltip = Button.NO_TOOLTIP;
-            if (this.entityStats.getBelly() < 1000000) {
-                tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, this.minecraft.font.split(ModTexts.BROKE, Math.max(this.width / 2 - 43, 170)), mouseX, mouseY);
-            }
-            FactionButton modelButton = new FactionButton(posX - 180, posY + 15 * i - 50, 100, 10, new TranslationTextComponent(ModTexts.BUY_SERAPHIM_LVL.getKey(), model.getDescription()), btn -> {
-                if (this.entityStats.getBelly() >= 1000000) {
-                    ModNetwork.sendToServer(new CSpawnSeraphimModelPacket(modelId, 1000000));
-                    this.minecraft.setScreen(null);
-                }
-            }, tooltip);
-            modelButton.active = this.entityStats.getBelly() >= 1000000;
-            this.addButton(modelButton);
-        }
-        FactionButton customSeraphim = new FactionButton(posX - 180, posY + 15 * ModEntityTypes.SERAPHIMS.size() - 35, 200, 20, ModTexts.CUSTOM_SERAPHIM, (btn) -> {
-            this.guiState = State.CUSTOM_SERAPHIM;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
-        this.addButton(customSeraphim);
-        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
-            this.guiState = State.BUY_PACIFISTA;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
+        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), changeState(State.SHOP));
         this.addButton(backButton);
     }
 
     private void registerBuyPacifistaState(int posX, int posY) {
-        for (int i = 0; i < PacifistaModel.values().length; i++) {
-            PacifistaModel model = PacifistaModel.values()[i];
-            Button.ITooltip tooltip = Button.NO_TOOLTIP;
-            if (this.entityStats.getBelly() < model.getPrice()) {
-                tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, this.minecraft.font.split(ModTexts.BROKE, Math.max(this.width / 2 - 43, 170)), mouseX, mouseY);
+        ArrayList<Product> products = new ArrayList<>();
+        if (this.type == Type.VEGAPUNK) {
+            for (PacifistaModel pacifistaModel : PacifistaModel.values()) {
+                products.add(new PacifistaProduct(pacifistaModel));
             }
-            FactionButton modelButton = new FactionButton(posX - 180, posY + 15 * i - 50, 100, 10, new TranslationTextComponent(ModTexts.BUY_PACIFISTA_LVL.getKey(), model.getLocalizedName(), model.getPrice()), btn -> {
-                if (this.entityStats.getBelly() >= model.getPrice()) {
-                    ModNetwork.sendToServer(new CSpawnPacifistaModelPacket(model));
-                    this.minecraft.setScreen(null);
-                }
-            }, tooltip);
-            modelButton.active = this.entityStats.getBelly() >= model.getPrice();
-            this.addButton(modelButton);
+            for (EntityType<? extends SeraphimEntity> seraphim : ModEntityTypes.SERAPHIMS) {
+                products.add(new EntityProduct(1000000, seraphim));
+            }
         }
-        Button.ITooltip tooltip = WIP;
-        boolean genome = /*QuestHelper.hasFinishedQuest(this.player, LunarianGenesQuest.INSTANCE)*/true;
-        if (!genome) {
-            tooltip = (btn, matrix, mouseX, mouseY) -> this.renderTooltip(matrix, this.minecraft.font.split(new TranslationTextComponent(ModTexts.GENOME_NOT_INCLUDED.getKey(), "Lunarian", LunarianGenesQuest.INSTANCE.getLocalizedTitle()), Math.max(this.width / 2 - 43, 170)), mouseX, mouseY);
-        }
-        FactionButton seraphimButton = new FactionButton(posX - 180, posY + 15 * PacifistaModel.values().length - 35, 100, 10, ModTexts.BUY_SERAPHIM, btn -> {
-            this.guiState = State.BUY_SERAPHIM;
-            this.init(this.getMinecraft(), this.width, this.height);
-        }, tooltip);
-        seraphimButton.active = genome;
-        this.addButton(seraphimButton);
-        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
-            this.guiState = State.INTRO;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
+        this.shopScreenPanel = new ShopScreenPanel(this, this.entityStats, products);
+        this.children.add(shopScreenPanel);
+        this.setFocused(shopScreenPanel);
+        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), changeState(State.INTRO));
         this.addButton(backButton);
     }
 
@@ -531,70 +503,63 @@ public class VegapunkScreen extends Screen {
         this.availableQuestsPanel = new AvailableQuestsListScreenPanel(this, this.questData, cyborgQuests);
         this.children.add(this.availableQuestsPanel);
         this.setFocused(this.availableQuestsPanel);
-        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), (btn) -> {
-            this.guiState = State.INTRO;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
+        FactionButton backButton = new FactionButton(posX - 180, posY + 80, 200, 20, new TranslationTextComponent("gui.cancel"), changeState(State.INTRO));
         this.addButton(backButton);
     }
 
     private void registerIntroState(int posX, int posY) {
-        FactionButton cyborgButton = new FactionButton(posX - 180, posY - 50, 100, 20, ModTexts.CYBORG_UPGRADES, (btn) -> {
-            boolean hasQuests = false;
+        NonFruitReworkMod.LOGGER.info(this.buttons.size());
+        if (this.type == Type.JUDGE) {
+            createButton(posX, posY, ModTexts.GENETIC_COLLECTION, onQuestPress(ModQuests.GEN_MODIFICATION_QUESTS, changeState(State.GENETIC_QUESTS)));
+            createButton(posX, posY, ModTexts.MODIFY_ME, changeState(State.GENETIC_MODIFICATIONS));
+        } else if (this.type == Type.QUEEN) {
+            createButton(posX, posY, ModTexts.CYBORG_UPGRADES, onQuestPress(ModQuests.CYBORG_QUESTS, changeState(State.CYBORG_QUESTS)));
+        }
+        createButton(posX, posY, ModTexts.SHOP, changeState(State.SHOP));
+    }
 
-            for (int i = 0; i <= ModQuests.CYBORG_QUESTS.size() - 1; ++i) {
-                QuestId<?> quest = ModQuests.CYBORG_QUESTS.get(i);
-                if (!this.questData.hasFinishedQuest(quest)) {
-                    hasQuests = true;
-                    break;
-                }
-            }
-
-            if (hasQuests) {
-                this.guiState = State.CYBORG_QUESTS;
-                this.init(this.getMinecraft(), this.width, this.height);
-            } else {
-                String message = (new TranslationTextComponent(ModI18n.TRAINER_NO_TRIALS_AVAILABLE)).getString();
-                this.startMessage = new SequencedString(message, 250, this.font.width(message) / 2);
-            }
-
-        });
+    private void createButton(int posX, int posY, ITextComponent text, Button.IPressable onPress) {
+        FactionButton cyborgButton = new FactionButton(posX - 180, posY - 50 + this.buttons.size() * 20, 100, 20, text, onPress);
         this.addButton(cyborgButton);
-        FactionButton geneticsButton = new FactionButton(posX - 180, posY - 20, 100, 20, ModTexts.GENETIC_COLLECTION, (btn) -> {
-            boolean hasQuests = false;
-
-            for (int i = 0; i <= ModQuests.GEN_MODIFICATION_QUESTS.size() - 1; ++i) {
-                QuestId<?> quest = ModQuests.GEN_MODIFICATION_QUESTS.get(i);
-                if (!this.questData.hasFinishedQuest(quest)) {
-                    hasQuests = true;
-                    break;
-                }
-            }
-
-            if (hasQuests) {
-                this.guiState = State.GENETIC_QUESTS;
-                this.init(this.getMinecraft(), this.width, this.height);
-            } else {
-                String message = (new TranslationTextComponent(ModI18n.TRAINER_NO_TRIALS_AVAILABLE)).getString();
-                this.startMessage = new SequencedString(message, 250, this.font.width(message) / 2);
-            }
-
-        });
-        this.addButton(geneticsButton);
-        FactionButton pacifistaButton = new FactionButton(posX - 180, posY + 10, 100, 20, ModTexts.BUY_PACIFISTA, btn->{
-            this.guiState = State.BUY_PACIFISTA;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
-        this.addButton(pacifistaButton);
-        FactionButton genModButton = new FactionButton(posX - 180, posY + 40, 100, 20, ModTexts.MODIFY_ME, btn->{
-            this.guiState = State.GENETIC_MODIFICATIONS;
-            this.init(this.getMinecraft(), this.width, this.height);
-        });
-        this.addButton(genModButton);
     }
 
     public boolean isAnimationComplete() {
         return this.animationTime >= 5.0F;
+    }
+
+    private Button.IPressable onQuestPress(List<QuestId<?>> quests, Button.IPressable onHasQuests) {
+        return (btn) -> {
+            boolean hasQuests = false;
+
+            for (int i = 0; i <= quests.size() - 1; ++i) {
+                QuestId<?> quest = quests.get(i);
+                if (!this.questData.hasFinishedQuest(quest)) {
+                    hasQuests = true;
+                    break;
+                }
+            }
+
+            if (hasQuests) {
+                onHasQuests.onPress(btn);
+            } else {
+                String message = (new TranslationTextComponent(ModI18n.TRAINER_NO_TRIALS_AVAILABLE)).getString();
+                this.startMessage = new SequencedString(message, 250, this.font.width(message) / 2);
+            }
+        };
+    }
+
+    private Button.IPressable changeState(State state) {
+        return (btn) -> {
+            this.guiState = state;
+            this.init(this.getMinecraft(), this.width, this.height);
+        };
+    }
+
+    public enum Type {
+        VEGAPUNK,
+        CAESAR,
+        JUDGE,
+        QUEEN
     }
 
     private enum State {
@@ -602,8 +567,7 @@ public class VegapunkScreen extends Screen {
         CYBORG_QUESTS,
         GENETIC_QUESTS,
         GENETIC_MODIFICATIONS,
-        BUY_PACIFISTA,
-        BUY_SERAPHIM,
+        SHOP,
         CUSTOM_SERAPHIM
     }
 
@@ -658,8 +622,6 @@ public class VegapunkScreen extends Screen {
     }
 
     public enum PristineRaces implements IExtensibleEnum {
-        LUNARIAN(ModRaces.LUNARIAN, entity -> false),
-        ONI(ModRaces.ONI, entity -> false),
         ANCIENT_GIANT(ModRaces.ANCIENT_GIANT, entity -> false),
         ;
 
@@ -687,7 +649,7 @@ public class VegapunkScreen extends Screen {
             return this.requirement.test(entity);
         }
 
-        public static PristineRaces create(String name, RegistryObject<RaceId> race, QuestId<?> requirement) {
+        public static PristineRaces create(String name, RegistryObject<RaceId> race, Predicate<LivingEntity> requirement) {
             throw new IllegalStateException(name + "not created");
         }
     }

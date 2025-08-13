@@ -42,7 +42,7 @@ public class CP9Trainer extends TrainerEntity implements IHakiTrainer {
     public CP9Trainer(EntityType type, World world) {
         super(type, world, EntityHelper.getTexture("lucci"));
         if (!world.isClientSide) {
-            this.getEntityStats().setFaction(ModValues.WORLD_GOVT);
+            this.getEntityStats().setFaction(ModValues.MARINE);
             this.getEntityStats().setRace(ModValues.HUMAN);
             this.setDoriki(2000.0D + WyHelper.randomWithRange(0, 1000));
             this.setBelly(20.0D + WyHelper.randomWithRange(0, 20));

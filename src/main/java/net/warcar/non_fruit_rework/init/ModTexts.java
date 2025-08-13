@@ -11,7 +11,7 @@ import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 import java.util.function.Function;
 
 public class ModTexts {
-    public static final ITextComponent BUY_PACIFISTA = LangHelper.registerLine("gui.text.buy_pacifista", "Buy Pacifista (10000-500000 belly)");
+    public static final ITextComponent SHOP = LangHelper.registerLine("gui.text.shop", "Shop");
     public static final TranslationTextComponent BUY_PACIFISTA_LVL = LangHelper.registerLine("gui.text.buy_pacifista_lvl", "Buy %s (%s belly)");
     public static final ITextComponent BUY_SERAPHIM = LangHelper.registerLine("gui.text.buy_seraphim", "Buy Seraphim (1000000-50000000 belly)");
     public static final TranslationTextComponent BUY_SERAPHIM_LVL = LangHelper.registerLine("gui.text.buy_seraphim_lvl", "Buy %s (1000000 belly)");

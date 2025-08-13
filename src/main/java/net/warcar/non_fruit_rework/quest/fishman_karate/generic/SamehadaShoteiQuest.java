@@ -34,7 +34,7 @@ public class SamehadaShoteiQuest extends Quest {
         SwimObjective objective3 = new SwimObjective(1200);
         objective3.addRequirement(objective2);
         this.addObjective(objective3);
-        collectObjective = new CustomObtainItemObjective<>(2, () -> Items.SCUTE);
+        collectObjective = new CustomObtainItemObjective<>(2, Items.SCUTE);
         collectObjective.addRequirements(objective2, objective3);
         this.addObjective(collectObjective);
         this.addObjective(new ObtainItemObjective<>("Obtain Protection II Armor Piece", 1, (itemStack) -> EnchantmentHelper.getItemEnchantmentLevel(Enchantments.ALL_DAMAGE_PROTECTION, itemStack) > 1 && itemStack.getItem() instanceof ArmorItem)

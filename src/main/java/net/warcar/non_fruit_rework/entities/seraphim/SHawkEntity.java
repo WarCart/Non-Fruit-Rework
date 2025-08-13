@@ -3,8 +3,10 @@ package net.warcar.non_fruit_rework.entities.seraphim;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import xyz.pixelatedw.mineminenomi.api.helpers.MobsHelper;
+import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiEmissionWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiFullbodyHardeningWrapperGoal;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.swordsman.*;
@@ -33,6 +35,7 @@ public class SHawkEntity extends SeraphimEntity {
         super.registerGoals();
         //Df
         MobsHelper.getDevilFruitAbilities(this, ModAbilities.SUPA_SUPA_NO_MI.getRegistryName()).ifPresent(abl -> abl.forEach(a -> goalSelector.addGoal(2, a)));
+        DevilFruitCapability.get(this).setDevilFruit((ResourceLocation) null);
         //Haki
         this.goalSelector.addGoal(1, new BusoshokuHakiEmissionWrapperGoal(this));
         this.goalSelector.addGoal(1, new BusoshokuHakiFullbodyHardeningWrapperGoal(this));

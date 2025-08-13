@@ -29,7 +29,7 @@ public class TekkaiGoQuest extends Quest implements IHasRequirements {
         this.addObjective(objective1);
         TakeDamageObjective objective2 = (TakeDamageObjective) new TakeDamageObjective("Take %s Damage", 400).addRequirement(objective1);
         this.addObjective(objective2);
-        collectObjective = new CustomObtainItemObjective<>(5, () -> Items.SCUTE);
+        collectObjective = new CustomObtainItemObjective<>(5, Items.SCUTE);
         collectObjective.addRequirement(objective2);
         this.addObjective(collectObjective);
         this.addObjective(new ObtainItemObjective<>("Obtain Protection IV Armor Piece", 1, (itemStack) -> EnchantmentHelper.getItemEnchantmentLevel(Enchantments.ALL_DAMAGE_PROTECTION, itemStack) > 3 && itemStack.getItem() instanceof ArmorItem).addRequirement(collectObjective));

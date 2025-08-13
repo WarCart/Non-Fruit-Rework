@@ -8,9 +8,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.warcar.non_fruit_rework.entities.quests.VegapunkEntity;
+import net.warcar.non_fruit_rework.entities.quests.mads.ScientistEntity;
 
-public class VegapunkModel extends BipedModel<VegapunkEntity> {
+public class VegapunkModel extends BipedModel<ScientistEntity> {
 	private final ModelRenderer Head;
 	private final ModelRenderer cube_r1;
 	private final ModelRenderer cube_r2;

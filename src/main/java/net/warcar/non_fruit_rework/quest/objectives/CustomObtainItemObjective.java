@@ -3,7 +3,6 @@ package net.warcar.non_fruit_rework.quest.objectives;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import xyz.pixelatedw.mineminenomi.quests.objectives.ObtainItemObjective;
 
 import java.util.function.Supplier;
@@ -16,6 +15,10 @@ public class CustomObtainItemObjective<I extends Item> extends ObtainItemObjecti
         super("Collect %s %s", count, itemTarget);
         this.count = count;
         this.itemTarget = itemTarget;
+    }
+
+    public CustomObtainItemObjective(int count, I itemTarget) {
+        this(count, () -> itemTarget);
     }
 
     @Override

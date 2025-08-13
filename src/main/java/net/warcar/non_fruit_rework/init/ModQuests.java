@@ -1,6 +1,7 @@
 package net.warcar.non_fruit_rework.init;
 
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
@@ -137,6 +138,9 @@ public class ModQuests {
         registerQuest(RadicalBeamQuest.INSTANCE, CYBORG_QUESTS);
         registerQuest(StrongRightQuest.INSTANCE, CYBORG_QUESTS);
         registerQuest(WeaponsLeftQuest.INSTANCE, CYBORG_QUESTS);
+        if (ModList.get().isLoaded("cartaddon")) {
+            registerQuest(GeneralFrankyQuest.INSTANCE, CYBORG_QUESTS);
+        }
     }
 
     private static <Q extends Quest> void registerQuest(QuestId<Q> instance, List<QuestId<?>> group) {

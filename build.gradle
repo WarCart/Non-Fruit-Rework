@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.0.1.2-pre_release'
+version = '0.0.2'
 group = 'net.warcar.non_fruit_rework' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'non_fruit_rework'
 
@@ -132,6 +132,9 @@ repositories {
     maven {
         url "https://cursemaven.com"
     }
+    maven {
+        url "https://maven.theillusivec4.top"
+    }
 }
 
 dependencies {
@@ -141,9 +144,10 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    //implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:6558607")
-    runtimeOnly fg.deobf("blank:cartaddon:0.6.3")
+    //implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:6835601")
+    implementation fg.deobf("blank:cartaddon:0.7.11")
     implementation fg.deobf("blank:mine-mine-no-mi-1.16.5:0.10.7")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.1.0.0")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
