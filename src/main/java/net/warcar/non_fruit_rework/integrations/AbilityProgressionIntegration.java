@@ -14,13 +14,16 @@ import net.warcar.fruit_progression.requirements.Requirement;
 import net.warcar.fruit_progression.requirements.RequirementSetInstance;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.api.events.CanUnlockQuestEvent;
+import net.warcar.non_fruit_rework.api.events.CanUseAbilityModeEvent;
 import net.warcar.non_fruit_rework.integrations.requirements.AnyRaceRequirement;
 import net.warcar.non_fruit_rework.integrations.requirements.HybridRaceRequirement;
 import net.warcar.non_fruit_rework.integrations.requirements.NoGenesModifiedRequirement;
+import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 
 public class AbilityProgressionIntegration {
     public static final DeferredRegister<Requirement> REQUIREMENTS = DeferredRegister.create(ModRegistry.REQUIREMENTS, NonFruitReworkMod.MOD_ID);
     public static final AbilityDataReader<RequirementSetInstance> QUESTS = new AbilityDataReader<>("quests", RequirementSetInstance::getRequirementSetInstance);
+    public static final AbilityDataReader<RequirementSetInstance> MODES = new AbilityDataReader<>("modes", RequirementSetInstance::getRequirementSetInstance);
 
     public static void register(IEventBus bus) {
         REQUIREMENTS.register(bus);
@@ -33,6 +36,7 @@ public class AbilityProgressionIntegration {
     @SubscribeEvent
     public static void addReloadListeners(AddReloadListenerEvent event) {
         event.addListener(QUESTS);
+        event.addListener(MODES);
     }
 
     @SubscribeEvent
@@ -47,6 +51,23 @@ public class AbilityProgressionIntegration {
                 } else {
                     event.setResult(Event.Result.DENY);
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onModesCheck(CanUseAbilityModeEvent event) {
+        LivingEntity entity = event.getEntityLiving();
+        Enum<?> unlockable = event.getUnlockable();
+        AbilityCore<?> core = event.getCore();
+        ResourceLocation loc = core.getRegistryName();
+        ResourceLocation location = new ResourceLocation(loc.getNamespace(), loc.getPath() + "/" + unlockable.toString().toLowerCase());
+        if (MODES.map.containsKey(location)) {
+            RequirementSetInstance requirementSetInstance = MODES.map.get(location);
+            if (requirementSetInstance.isFulfilled(entity, core)) {
+                event.setResult(Event.Result.ALLOW);
+            } else {
+                event.setResult(Event.Result.DENY);
             }
         }
     }

@@ -7,6 +7,7 @@ import net.warcar.non_fruit_rework.helpers.interfaces.IHasRequirements;
 import net.warcar.non_fruit_rework.helpers.interfaces.IHasTexture;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
 import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
+import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.AltModeComponent;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 
@@ -33,7 +34,7 @@ public interface IHasQuestRequirement extends IHasRequirements {
 
     static <E extends Enum<E> & IHasQuestRequirement> void addAltModeEvent(AltModeComponent<E> component) {
         component.addChangeModeEvent((livingEntity, iAbility, e) -> {
-            if (!trueUnlock(livingEntity, e)) {
+            if (!trueUnlock(livingEntity, e, component.getAbility().getCore())) {
                 component.setMode(livingEntity, IHasQuestRequirement.next(e));
                 e.throwUnfinishedQuest();
             } else if (e instanceof IHasTexture && iAbility instanceof Ability) {
@@ -42,8 +43,8 @@ public interface IHasQuestRequirement extends IHasRequirements {
         });
     }
 
-    static <E extends Enum<E> & IHasQuestRequirement> boolean trueUnlock(LivingEntity livingEntity, E e) {
-        CanUseAbilityModeEvent event = new CanUseAbilityModeEvent(livingEntity, e);
+    static <E extends Enum<E> & IHasQuestRequirement> boolean trueUnlock(LivingEntity livingEntity, E e, AbilityCore<?> core) {
+        CanUseAbilityModeEvent event = new CanUseAbilityModeEvent(livingEntity, e, core);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.getResult() == CanUseAbilityModeEvent.Result.ALLOW) {
             return true;
