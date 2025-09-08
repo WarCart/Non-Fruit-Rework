@@ -27,7 +27,6 @@
   "refmap": "non_fruit_rework.refmap.json",
   "client": [
     "client.ILivingRendererMixin",
-    "client.PlayerInventoryScreenMixin",
     "client.QuestTrackerScreenMixin",
     "client.SelectHotbarAbilitiesScreenMixin"
   ]

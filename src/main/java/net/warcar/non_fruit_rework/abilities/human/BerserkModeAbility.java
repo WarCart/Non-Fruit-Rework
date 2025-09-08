@@ -7,13 +7,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.init.ModTexts;
+import xyz.pixelatedw.mineminenomi.ModMain;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.GeppoAbility;
-import xyz.pixelatedw.mineminenomi.abilities.rokushiki.RokuoganAbility;
 import xyz.pixelatedw.mineminenomi.abilities.rokushiki.SoruAbility;
-import xyz.pixelatedw.mineminenomi.api.abilities.Ability;
-import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCategory;
-import xyz.pixelatedw.mineminenomi.api.abilities.AbilityCore;
-import xyz.pixelatedw.mineminenomi.api.abilities.IAbility;
+import xyz.pixelatedw.mineminenomi.api.abilities.*;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.BonusOperation;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ChangeStatsComponent;
 import xyz.pixelatedw.mineminenomi.api.abilities.components.ContinuousComponent;
@@ -27,7 +25,8 @@ import xyz.pixelatedw.mineminenomi.wypi.WyNetwork;
 import java.util.UUID;
 
 public class BerserkModeAbility extends Ability {
-    public static final AbilityCore<BerserkModeAbility> INSTANCE = new AbilityCore.Builder<>("Berserk Mode", AbilityCategory.RACIAL, BerserkModeAbility::new).build();
+    public static final AbilityCore<BerserkModeAbility> INSTANCE = new AbilityCore.Builder<>("Berserk Mode", AbilityCategory.RACIAL, BerserkModeAbility::new)
+            .setUnlockCheck(RageMeterAbility::canUnlock).setIcon(new ResourceLocation(ModMain.PROJECT_ID, "textures/abilities/rokuogan.png")).build();
 
     private final ContinuousComponent continuousComponent = new ContinuousComponent(this, true)
             .addStartEvent(this::startContinuous).addEndEvent(this::endContinuous);
@@ -39,7 +38,16 @@ public class BerserkModeAbility extends Ability {
         this.isNew = true;
         this.addComponents(continuousComponent, statsComponent);
         this.addUseEvent(this::onUse);
-        this.setDisplayIcon(RokuoganAbility.INSTANCE);
+        this.addCanUseCheck(this::canUse);
+    }
+
+    private AbilityUseResult canUse(LivingEntity entity, IAbility iAbility) {
+        IAbilityData data = AbilityDataCapability.get(entity);
+        RageMeterAbility ability = data.getPassiveAbility(RageMeterAbility.INSTANCE);
+        if (ability != null && ability.getRage() == 100) {
+            return AbilityUseResult.success();
+        }
+        return AbilityUseResult.fail(ModTexts.REQUIRES_RAGE);
     }
 
     private void onUse(LivingEntity entity, IAbility ability) {
@@ -47,7 +55,7 @@ public class BerserkModeAbility extends Ability {
     }
 
     private void startContinuous(LivingEntity livingEntity, IAbility iAbility) {
-        if (this.isClientSide()) {
+        if (livingEntity.level.isClientSide) {
             return;
         }
         IAbilityData abilityData = AbilityDataCapability.get(livingEntity);

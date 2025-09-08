@@ -3,12 +3,15 @@ package net.warcar.non_fruit_rework.data.entity.medical_data;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.LazyOptional;
+import net.warcar.non_fruit_rework.experiments.ExperimentResult;
+import net.warcar.non_fruit_rework.init.ModRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,7 +41,13 @@ public class NonFruitDataCapability {
 				}
 				props.put("genome", genome);
 
-				props.put("additionalInventory", instance.getAdditionalInventory().serializeNBT());
+				ListNBT experiments = new ListNBT();
+				for (ExperimentResult experiment : instance.getExperiments()) {
+					CompoundNBT experimentProps = experiment.save(new CompoundNBT());
+					experimentProps.putString("type", experiment.getRegistryName().toString());
+					experiments.add(experimentProps);
+				}
+				props.put("experiments", experiments);
 
 				return props;
 			}
@@ -60,9 +69,16 @@ public class NonFruitDataCapability {
 					genomeMap.put(new ResourceLocation(name), genome.getFloat(name));
 				}
 
-				instance.getAdditionalInventory().deserializeNBT(props.getCompound("additionalInventory"));
-
 				instance.setGenome(genomeMap);
+
+				ListNBT experiments = props.getList("experiments", 10);
+				for (int i = 0; i < experiments.size(); ++i) {
+					CompoundNBT experimentProps = experiments.getCompound(i);
+					ResourceLocation key = ResourceLocation.tryParse(experimentProps.getString("type"));
+					ExperimentResult result = ModRegistries.EXPERIMENT_RESULTS.getValue(key);
+					result.load(experimentProps);
+					instance.getExperiments().add(result);
+				}
 			}
 		}, NonFruitDataBase::new);
 	}

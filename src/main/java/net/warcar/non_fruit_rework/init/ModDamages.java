@@ -8,6 +8,8 @@ import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
 
 public class ModDamages {
     public static final DamageSource OVERDOSE = register(new ModDamageSource("old_age").setUnavoidable().setSourceTypes(Lists.newArrayList(SourceType.UNKNOWN)).setInternal().bypassInvul(), "%s died of old age");
+    public static final DamageSource SAPPHIRE_SCALES = register(new ModDamageSource("sapphire_scales").setUnavoidable().setSourceTypes(Lists.newArrayList(SourceType.UNKNOWN)).setInternal().bypassInvul(), "%s succumbed to the sapphire scales decease");
+    public static final DamageSource STONE = register(new ModDamageSource("stone_transformation").setUnavoidable().setSourceTypes(Lists.newArrayList(SourceType.UNKNOWN)).setInternal().bypassInvul(), "%s turned into stone");
 
     public static void init() {}
 

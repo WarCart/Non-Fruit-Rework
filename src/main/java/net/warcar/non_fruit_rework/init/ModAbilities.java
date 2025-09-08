@@ -47,10 +47,12 @@ public class ModAbilities {
         //registerAbility(SosharkAbility.INSTANCE);
     }
 
-    private static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {
+    public static <A extends IAbility> void registerAbility(AbilityCore<A> instance) {
         String resourceName = WyHelper.getResourceName(instance.getUnlocalizedName());
         ABILITIES.register(resourceName, () -> instance);
-        instance.setIcon(new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/abilities/" + resourceName + ".png"));
+        if (instance.getIcon() == null) {
+            instance.setIcon(new ResourceLocation(NonFruitReworkMod.MOD_ID, "textures/abilities/" + resourceName + ".png"));
+        }
         LangHelper.registerLine(String.format("ability.%s.%s", NonFruitReworkMod.MOD_ID, resourceName), instance.getUnlocalizedName());
     }
 

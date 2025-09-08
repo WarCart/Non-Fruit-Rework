@@ -23,11 +23,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.entities.bosses.InuarashiBoss;
+import net.warcar.non_fruit_rework.entities.bosses.NekomamushiBoss;
 import net.warcar.non_fruit_rework.entities.quests.ElectroTrainer;
 import net.warcar.non_fruit_rework.init.*;
 import net.warcar.non_fruit_rework.integrations.AbilityProgressionIntegration;
 import net.warcar.non_fruit_rework.integrations.CartAddonIntegration;
-import net.warcar.non_fruit_rework.renderers.layers.HeadLayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import xyz.pixelatedw.mineminenomi.mixins.RangedAttributeMixin;
@@ -73,6 +73,8 @@ public class NonFruitReworkMod {
         ModDamages.init();
         ModEntityAttributes.register(bus);
         ModStructures.register(bus);
+        ModEntityEffects.register(bus);
+        ModExperimentResults.register(bus);
 
         if (ModList.get().isLoaded("cartaddon")) {
             CartAddonIntegration.init();
@@ -92,7 +94,7 @@ public class NonFruitReworkMod {
         ModStructures.setupStructures();
     }
 
-    public static final List<EntityType<?>> NON_FEATURE_MINKS = ImmutableList.of(ElectroTrainer.INSTANCE, InuarashiBoss.INSTANCE);
+    public static final List<EntityType<?>> NON_FEATURE_MINKS = ImmutableList.of(ElectroTrainer.INSTANCE, InuarashiBoss.INSTANCE, NekomamushiBoss.INSTANCE);
 
     @OnlyIn(Dist.CLIENT)
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -102,7 +104,6 @@ public class NonFruitReworkMod {
                 EntityRenderer entityRenderer = entry.getValue();
                 if (entityRenderer instanceof LivingRenderer) {
                     LivingRenderer renderer = (LivingRenderer) entityRenderer;
-                    renderer.addLayer(new HeadLayer<>(renderer));
                 }
                 if (NON_FEATURE_MINKS.contains(entry.getKey())) {
                     ((ILivingRendererMixin) entityRenderer).getLayers().removeIf(layer -> layer instanceof MinkFeaturesLayer);
@@ -110,7 +111,6 @@ public class NonFruitReworkMod {
             }
             for (Map.Entry<String, PlayerRenderer> entry : mc.getEntityRenderDispatcher().getSkinMap().entrySet()) {
                 PlayerRenderer renderer = entry.getValue();
-                renderer.addLayer(new HeadLayer<>(renderer));
             }
             ModAnims.clientInit();
         });

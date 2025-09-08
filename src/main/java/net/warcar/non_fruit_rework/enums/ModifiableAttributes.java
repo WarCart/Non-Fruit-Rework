@@ -24,16 +24,16 @@ public enum ModifiableAttributes implements IExtensibleEnum {
     private final AttributeLink[] links;
     private final double min;
     private final double max;
-    private final double step;
+    private final int step;
 
-    ModifiableAttributes(double min, double max, double step, AttributeLink... supplier) {
+    ModifiableAttributes(double min, double max, int step, AttributeLink... supplier) {
         this.links = supplier;
         this.min = min;
         this.max = max;
         this.step = step;
     }
 
-    public static ModifiableAttributes create(String name, double min, double max, double step, AttributeLink... supplier) {
+    public static ModifiableAttributes create(String name, double min, double max, int step, AttributeLink... supplier) {
         throw new IllegalStateException(name + " not created");
     }
 
@@ -49,7 +49,7 @@ public enum ModifiableAttributes implements IExtensibleEnum {
         return max;
     }
 
-    public double getSteps() {
+    public int getSteps() {
         return step;
     }
 

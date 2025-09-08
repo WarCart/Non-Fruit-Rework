@@ -2,10 +2,10 @@ package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.items.ItemStackHandler;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
+import net.warcar.non_fruit_rework.experiments.ExperimentResult;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class NonFruitDataBase implements INonFruitData {
     private Map<ResourceLocation, Float> genome = new HashMap<>();
@@ -18,7 +18,7 @@ public class NonFruitDataBase implements INonFruitData {
 
     private int sulongBallTicks;
 
-    private final ItemStackHandler additionalInventory = new ItemStackHandler(1);
+    private final List<ExperimentResult> experiments = new ArrayList<>();
 
     private LivingEntity dataOwner;
 
@@ -93,8 +93,24 @@ public class NonFruitDataBase implements INonFruitData {
     }
 
     @Override
-    public ItemStackHandler getAdditionalInventory() {
-        return this.additionalInventory;
+    public List<ExperimentResult> getExperiments() {
+        return this.experiments;
+    }
+
+    public void addExperiment(ExperimentResult experiment) {
+        for (ExperimentResult experimentResult : this.experiments) {
+            if (experimentResult.getRegistryName().equals(experiment.getRegistryName())) {
+                return;
+            }
+        }
+        this.experiments.add(experiment);
+        experiment.apply(this.dataOwner);
+        NonFruitReworkMod.LOGGER.info("Added experiment: {}", experiment.getRegistryName());
+    }
+
+    public void removeExperiment(ExperimentResult experiment) {
+        this.experiments.remove(experiment);
+        experiment.remove(this.dataOwner);
     }
 
     public LivingEntity getDataOwner() {

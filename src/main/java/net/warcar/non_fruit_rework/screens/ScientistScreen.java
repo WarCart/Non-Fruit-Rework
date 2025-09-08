@@ -18,7 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
 import net.minecraftforge.fml.RegistryObject;
-import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.abilities.IHasQuestRequirement;
 import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
@@ -30,11 +29,9 @@ import net.warcar.non_fruit_rework.entities.quests.mads.VegapunkEntity;
 import net.warcar.non_fruit_rework.entities.seraphim.SeraphimEntity;
 import net.warcar.non_fruit_rework.enums.ModifiableAttributes;
 import net.warcar.non_fruit_rework.enums.PacifistaModel;
+import net.warcar.non_fruit_rework.experiments.ExperimentResult;
 import net.warcar.non_fruit_rework.helpers.QuestHelper;
-import net.warcar.non_fruit_rework.init.ModEntityTypes;
-import net.warcar.non_fruit_rework.init.ModQuests;
-import net.warcar.non_fruit_rework.init.ModRaces;
-import net.warcar.non_fruit_rework.init.ModTexts;
+import net.warcar.non_fruit_rework.init.*;
 import net.warcar.non_fruit_rework.network.ModNetwork;
 import net.warcar.non_fruit_rework.network.packets.client.CRestartPlayerPacket;
 import net.warcar.non_fruit_rework.network.packets.client.CSyncEntityStatsPacket;
@@ -45,11 +42,9 @@ import net.warcar.non_fruit_rework.quest.genetic_materials.MinkGenesQuest;
 import net.warcar.non_fruit_rework.screens.extra.AvailableQuestsListScreenPanel;
 import net.warcar.non_fruit_rework.screens.extra.OptionSlider;
 import net.warcar.non_fruit_rework.screens.extra.PlankToggle;
-import net.warcar.non_fruit_rework.screens.shop.EntityProduct;
-import net.warcar.non_fruit_rework.screens.shop.PacifistaProduct;
-import net.warcar.non_fruit_rework.screens.shop.Product;
-import net.warcar.non_fruit_rework.screens.shop.ShopScreenPanel;
+import net.warcar.non_fruit_rework.screens.shop.*;
 import xyz.pixelatedw.mineminenomi.api.charactercreator.RaceId;
+import xyz.pixelatedw.mineminenomi.api.enums.StatChangeSource;
 import xyz.pixelatedw.mineminenomi.api.quests.QuestId;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.AbilityDataCapability;
 import xyz.pixelatedw.mineminenomi.data.entity.ability.IAbilityData;
@@ -71,6 +66,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @OnlyIn(Dist.CLIENT)
 public class ScientistScreen extends Screen {
@@ -136,7 +133,7 @@ public class ScientistScreen extends Screen {
             for (ModifiableAttributes attribute : ModifiableAttributes.values()) {
                 OptionSlider slider = this.otherGenesSliders[attribute.ordinal()];
                 double delta = slider.getValueStrict() - slider.unapplyValue(ability.getGenes().getOrDefault(attribute, 0d));
-                long powed = (long) Math.max(Math.pow(4, Math.abs(delta * 10)), 10000);
+                long powed = (long) Math.pow(1.7, 15 * Math.abs(delta + 1)) + 10000;
                 if (delta != 0) {
                     price += powed;
                 }
@@ -189,7 +186,7 @@ public class ScientistScreen extends Screen {
         int posY = this.height / 2;
         switch (this.guiState) {
             case GENETIC_MODIFICATIONS:
-                this.renderMessage(matrixStack);
+                this.renderMessage(matrixStack, posX, posY);
                 break;
             case INTRO:
                 this.renderMenu(matrixStack, mouseX, mouseY, partialTicks);
@@ -223,9 +220,7 @@ public class ScientistScreen extends Screen {
         matrixStack.popPose();
     }
 
-    public void renderMessage(MatrixStack matrixStack) {
-        int posX = this.width / 2;
-        int posY = this.height / 2;
+    public void renderMessage(MatrixStack matrixStack, int posX, int posY) {
         if (isGenomeDamaged()) {
             WyHelper.drawStringWithBorder(this.minecraft.font, matrixStack, ModTexts.GENOME_DAMAGED, posX - 150, posY - 75, Color.RED.getRGB());
         }
@@ -269,6 +264,9 @@ public class ScientistScreen extends Screen {
             case GENETIC_QUESTS:
                 registerQuestState(ModQuests.GEN_MODIFICATION_QUESTS, posX, posY);
                 break;
+            case EXPERIMENT:
+                registerExperimentState(posX, posY);
+                break;
             case SHOP:
                 registerBuyPacifistaState(posX, posY);
                 break;
@@ -282,6 +280,9 @@ public class ScientistScreen extends Screen {
             default:
                 registerIntroState(posX, posY);
         }
+    }
+
+    private void registerExperimentState(int posX, int posY) {
     }
 
     private void registerGeneticModifications(int posX, int posY) {
@@ -341,12 +342,12 @@ public class ScientistScreen extends Screen {
             ModNetwork.sendToServer(new CSyncEntityStatsPacket(this.player.getId(), this.entityStats));
         }
         IAbilityData abilityData = AbilityDataCapability.get(player);
-        for (int i = 0; i < this.otherGenesSliders.length; i++) {
-            GenesAbility ability = abilityData.getPassiveAbility(GenesAbility.INSTANCE);
-            if (ability != null) {
+        GenesAbility ability = abilityData.getPassiveAbility(GenesAbility.INSTANCE);
+        if (ability != null) {
+            for (int i = 0; i < this.otherGenesSliders.length; i++) {
                 ability.getGenes().put(ModifiableAttributes.values()[i], this.otherGenesSliders[i].getValue());
-                ModNetwork.sendToServer(new CUpdatePassiveAbilityDataPacket(this.player, ability));
             }
+            ModNetwork.sendToServer(new CUpdatePassiveAbilityDataPacket(this.player, ability));
         }
         ModNetwork.sendToServer(new CRestartPlayerPacket());
         player.refreshDimensions();
@@ -497,6 +498,9 @@ public class ScientistScreen extends Screen {
             for (EntityType<? extends SeraphimEntity> seraphim : ModEntityTypes.SERAPHIMS) {
                 products.add(new EntityProduct(1000000, seraphim));
             }
+        } else if (this.type == Type.CAESAR) {
+            products.add(new BasicItemProduct(15000, ModItems.ENERGY_STEROID));
+            products.add(new BasicItemProduct(20000, ModItems.SULONG_BALL));
         }
         this.shopScreenPanel = new ShopScreenPanel(this, this.entityStats, products);
         this.children.add(shopScreenPanel);
@@ -514,14 +518,42 @@ public class ScientistScreen extends Screen {
     }
 
     private void registerIntroState(int posX, int posY) {
-        NonFruitReworkMod.LOGGER.info(this.buttons.size());
         if (this.type == Type.JUDGE) {
             createButton(posX, posY, ModTexts.GENETIC_COLLECTION, onQuestPress(ModQuests.GEN_MODIFICATION_QUESTS, changeState(State.GENETIC_QUESTS)));
             createButton(posX, posY, ModTexts.MODIFY_ME, changeState(State.GENETIC_MODIFICATIONS));
         } else if (this.type == Type.QUEEN) {
             createButton(posX, posY, ModTexts.CYBORG_UPGRADES, onQuestPress(ModQuests.CYBORG_QUESTS, changeState(State.CYBORG_QUESTS)));
+        } else if (this.type == Type.CAESAR) {
+            createButton(posX, posY, new StringTextComponent("Do an experiment on me"), (btn) -> {
+                applyRandomResult();
+            });
         }
         createButton(posX, posY, ModTexts.SHOP, changeState(State.SHOP));
+    }
+
+    private void applyRandomResult() {
+        this.entityStats.alterBelly(12500, StatChangeSource.STORE);
+        ModNetwork.sendToServer(new CSyncEntityStatsPacket(player.getId(), entityStats));
+        INonFruitData data = NonFruitDataCapability.get(player);
+        Stream<ExperimentResult> experiments = ModRegistries.EXPERIMENT_RESULTS.getEntries().stream().map(Map.Entry::getValue);
+        float rand = player.getRandom().nextFloat();
+        ExperimentResult.Type type;
+        if (rand < 0.05f) {
+            type = ExperimentResult.Type.FATAL;
+        } else if (rand > 0.9998f) {
+            type = ExperimentResult.Type.SUCCESSFUL;
+        } else if (rand < 0.75f) {
+            type = ExperimentResult.Type.NEGATIVE;
+        } else if (rand > 0.9f) {
+            type = ExperimentResult.Type.POSITIVE;
+        } else {
+            type = ExperimentResult.Type.NEUTRAL;
+        }
+        List<ExperimentResult> collect = experiments.filter(exp -> exp.getType() == type)
+                .filter((e) -> !data.getExperiments().contains(e)).collect(Collectors.toList());
+        //data.addExperiment(collect.get(player.getRandom().nextInt(collect.size())));
+        data.addExperiment(ModExperimentResults.GENETIC_DRIFT.get());
+        ModNetwork.sendToServer(new CSyncNonFruitDataPacket(player.getId(), data));
     }
 
     private void createButton(int posX, int posY, ITextComponent text, Button.IPressable onPress) {
@@ -574,7 +606,8 @@ public class ScientistScreen extends Screen {
         GENETIC_QUESTS,
         GENETIC_MODIFICATIONS,
         SHOP,
-        CUSTOM_SERAPHIM
+        CUSTOM_SERAPHIM,
+        EXPERIMENT,
     }
 
     private enum GeneticModsState {

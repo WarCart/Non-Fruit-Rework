@@ -27,6 +27,7 @@ public class ModTexts {
     public static final ITextComponent OTHER_GENES = LangHelper.registerLine("gui.text.genetic_states.other_genes", "Other genes");
     public static final ITextComponent GENOME_DAMAGED = LangHelper.registerLine("gui.text.genome_damaged", "Hybrid genes should add up to 100%");
     public static final ITextComponent WIP = LangHelper.registerLine("gui.text.wip", "WIP");
+    public static final ITextComponent REQUIRES_RAGE = LangHelper.registerLine("ability.text.requires_rage", "Rage must be fully charged for this move to work");
 
     public static void init() {
         registerEnum(PacifistaModel.class, "entity.pacifista.", PacifistaModel::getName);

@@ -23,7 +23,7 @@ public class ModItems {
     public static final RegistryObject<EnergySteroidBatchItem> ENERGY_STEROID_BATCH = registerItem("Energy Steroid Batch", EnergySteroidBatchItem::new);
     public static final RegistryObject<SimplePillItem> RUMBLE_BALL = registerItem("Rumble Ball", () -> new SimplePillItem(new Item.Properties().tab(ItemGroup.TAB_BREWING), SimplePillItem.PillEffect.RUMBLE_BALL));
 
-    private static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> item) {
+    public static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> item) {
         String resName = WyHelper.getResourceName(name);
         RegistryObject<T> reg = ITEMS.register(resName, item);
         ResourceLocation id = reg.getId();

@@ -2,9 +2,10 @@ package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.items.ItemStackHandler;
+import net.warcar.non_fruit_rework.experiments.ExperimentResult;
 import net.warcar.non_fruit_rework.init.ModDamages;
 
+import java.util.List;
 import java.util.Map;
 
 public interface INonFruitData {
@@ -53,7 +54,11 @@ public interface INonFruitData {
         return this.popRumbleBall(1);
     }
 
-    ItemStackHandler getAdditionalInventory();
+    List<ExperimentResult> getExperiments();
+
+    void addExperiment(ExperimentResult experiment);
+
+    void removeExperiment(ExperimentResult experiment);
 
     LivingEntity getDataOwner();
 

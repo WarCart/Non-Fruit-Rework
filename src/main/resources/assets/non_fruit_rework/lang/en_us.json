@@ -18,6 +18,7 @@
 	"ability.non_fruit_rework.weapons_left": "Weapons Left",
 	"ability.non_fruit_rework.weapons_left.mode.canon": "Canon",
 	"ability.non_fruit_rework.weapons_left.mode.machine_gun": "Machine gun",
+	"ability.text.requires_rage": "Rage must be fully charged for this move to work",
 
 	"attribute.generic.non_fruit_rework.size": "Size",
 
@@ -32,14 +33,21 @@
 
 	"death.attack.old_age": "%s died of old age",
 	"death.attack.old_age.player": "%s died of old age while fighting %s",
+	"death.attack.sapphire_scales": "%s succumbed to the sapphire scales decease",
+	"death.attack.sapphire_scales.player": "%s succumbed to the sapphire scales decease while fighting %s",
+	"death.attack.stone_transformation": "%s turned into stone",
+	"death.attack.stone_transformation.player": "%s turned into stone while fighting %s",
 
 	"entity.non_fruit_rework.afterimage": "Afterimage",
+	"entity.non_fruit_rework.caesar_clown": "Caesar Clown",
 	"entity.non_fruit_rework.cp9_trainer": "CP9 Trainer",
 	"entity.non_fruit_rework.electro_trainer": "Electro Trainer",
 	"entity.non_fruit_rework.fishman_trainer": "Fishman Trainer",
 	"entity.non_fruit_rework.hody_jones": "Hody Jones",
 	"entity.non_fruit_rework.inuarashi": "Inuarashi",
+	"entity.non_fruit_rework.judge": "Judge",
 	"entity.non_fruit_rework.nekomamushi": "Nekomamushi",
+	"entity.non_fruit_rework.queen": "Queen",
 	"entity.non_fruit_rework.rankyaku_amane_dachi": "Rankyaku: Amane Dachi",
 	"entity.non_fruit_rework.rankyaku_hakurai": "Rankyaku: Hakurai",
 	"entity.non_fruit_rework.rankyaku_ran": "Rankyaku: Ran",
@@ -74,11 +82,14 @@
 	"gui.text.shop": "Shop",
 	"gui.text.wip": "WIP",
 
+	"item.non_fruit_rework.caesar_clown_spawn_egg": "Spawn Caesar Clown",
 	"item.non_fruit_rework.cp9_trainer_spawn_egg": "Spawn CP9 Trainer",
 	"item.non_fruit_rework.electro_trainer_spawn_egg": "Spawn Electro Trainer",
 	"item.non_fruit_rework.energy_steroid": "Energy Steroid",
 	"item.non_fruit_rework.energy_steroid_batch": "Energy Steroid Batch",
 	"item.non_fruit_rework.fishman_trainer_spawn_egg": "Spawn Fishman Trainer",
+	"item.non_fruit_rework.judge_spawn_egg": "Spawn Judge",
+	"item.non_fruit_rework.queen_spawn_egg": "Spawn Queen",
 	"item.non_fruit_rework.rumble_ball": "Rumble Ball",
 	"item.non_fruit_rework.shawk_spawn_egg": "Spawn S-Hawk",
 	"item.non_fruit_rework.sulong_ball": "Sulong Ball",
@@ -86,6 +97,7 @@
 
 	"quest.mineminenomi.cyborg_body": "Cyborg Body",
 	"quest.mineminenomi.fresh_fire": "Fresh Fire",
+	"quest.mineminenomi.general_franky": "General Franky",
 	"quest.mineminenomi.genes_fishman": "Genes: Fishman",
 	"quest.mineminenomi.genes_mink": "Genes: Mink",
 	"quest.mineminenomi.heavy_armor": "Heavy Armor",

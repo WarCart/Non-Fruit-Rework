@@ -21,7 +21,7 @@ public class BasicItemProduct extends Product {
         this(price, () -> itemStack);
     }
 
-    public BasicItemProduct(int price, RegistryObject<Item> item) {
+    public BasicItemProduct(int price, RegistryObject<? extends Item> item) {
         this(price, () -> new ItemStack(item.get()));
     }
 
