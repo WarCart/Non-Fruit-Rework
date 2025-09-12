@@ -135,6 +135,13 @@ repositories {
     maven {
         url "https://maven.theillusivec4.top"
     }
+    maven {
+        url "https://git.pixelatedw.xyz/api/packages/PixelatedW/maven"
+        credentials {
+            username piwUsername
+            password piwMavenToken
+        }
+    }
 }
 
 dependencies {
@@ -149,6 +156,7 @@ dependencies {
     implementation fg.deobf("blank:mine-mine-no-mi-1.16.5:0.10.7")
     implementation fg.deobf("blank:fruit_progression-reloaded:1.2.0")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.1.0.0")
+    runtimeOnly fg.deobf("xyz.pixelatedw.ziusudra:ziusudra:1.16.5-1.0.0.2")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"

@@ -524,7 +524,7 @@ public class ScientistScreen extends Screen {
         } else if (this.type == Type.QUEEN) {
             createButton(posX, posY, ModTexts.CYBORG_UPGRADES, onQuestPress(ModQuests.CYBORG_QUESTS, changeState(State.CYBORG_QUESTS)));
         } else if (this.type == Type.CAESAR) {
-            createButton(posX, posY, new StringTextComponent("Do an experiment on me"), (btn) -> {
+            createButton(posX, posY, new StringTextComponent(ModTexts.EXPERIMENT_ON_ME.getString()), (btn) -> {
                 applyRandomResult();
             });
         }
@@ -532,7 +532,7 @@ public class ScientistScreen extends Screen {
     }
 
     private void applyRandomResult() {
-        this.entityStats.alterBelly(12500, StatChangeSource.STORE);
+        this.entityStats.alterBelly(2500, StatChangeSource.STORE);
         ModNetwork.sendToServer(new CSyncEntityStatsPacket(player.getId(), entityStats));
         INonFruitData data = NonFruitDataCapability.get(player);
         Stream<ExperimentResult> experiments = ModRegistries.EXPERIMENT_RESULTS.getEntries().stream().map(Map.Entry::getValue);
@@ -551,8 +551,10 @@ public class ScientistScreen extends Screen {
         }
         List<ExperimentResult> collect = experiments.filter(exp -> exp.getType() == type)
                 .filter((e) -> !data.getExperiments().contains(e)).collect(Collectors.toList());
-        //data.addExperiment(collect.get(player.getRandom().nextInt(collect.size())));
-        data.addExperiment(ModExperimentResults.GENETIC_DRIFT.get());
+        if (!collect.isEmpty()) {
+            data.addExperiment(collect.get(player.getRandom().nextInt(collect.size())));
+        }
+        this.minecraft.setScreen(null);
         ModNetwork.sendToServer(new CSyncNonFruitDataPacket(player.getId(), data));
     }
 

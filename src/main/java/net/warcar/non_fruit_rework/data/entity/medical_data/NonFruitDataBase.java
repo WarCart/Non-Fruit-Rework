@@ -2,10 +2,12 @@ package net.warcar.non_fruit_rework.data.entity.medical_data;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
-import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.experiments.ExperimentResult;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NonFruitDataBase implements INonFruitData {
     private Map<ResourceLocation, Float> genome = new HashMap<>();
@@ -105,7 +107,6 @@ public class NonFruitDataBase implements INonFruitData {
         }
         this.experiments.add(experiment);
         experiment.apply(this.dataOwner);
-        NonFruitReworkMod.LOGGER.info("Added experiment: {}", experiment.getRegistryName());
     }
 
     public void removeExperiment(ExperimentResult experiment) {

@@ -1,7 +1,6 @@
 package net.warcar.non_fruit_rework.experiments;
 
 import net.minecraft.entity.LivingEntity;
-import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.abilities.GenesAbility;
 import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
@@ -26,7 +25,6 @@ public class GeneticDriftResult extends ExperimentResult {
             double oldVal = ability.getGenes().get(value);
             double newVal = delta / value.getSteps() * steps + oldVal;
             ability.getGenes().put(value, newVal);
-            NonFruitReworkMod.LOGGER.info("{}: {} ({})", value, newVal, oldVal);
             if (entity.level.isClientSide()) {
                 ModNetwork.sendToServer(new CUpdatePassiveAbilityDataPacket(entity, ability));
             } else {

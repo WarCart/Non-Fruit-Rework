@@ -28,6 +28,12 @@ public class ModTexts {
     public static final ITextComponent GENOME_DAMAGED = LangHelper.registerLine("gui.text.genome_damaged", "Hybrid genes should add up to 100%");
     public static final ITextComponent WIP = LangHelper.registerLine("gui.text.wip", "WIP");
     public static final ITextComponent REQUIRES_RAGE = LangHelper.registerLine("ability.text.requires_rage", "Rage must be fully charged for this move to work");
+    public static final ITextComponent EXPERIMENT_ON_ME = LangHelper.registerLine("gui.text.experiment_on_me", "Do an experiment on me (+2500 belly)");
+    public static final TranslationTextComponent REMOVED_EXPERIMENT = LangHelper.registerLine("command.text.removed_experiment", "Successfully removed %s experiment result from %s");
+    public static final TranslationTextComponent ADDED_EXPERIMENT = LangHelper.registerLine("command.text.added_experiment", "Successfully added %s experiment result to %s");
+    public static final TranslationTextComponent CANT_REMOVE_EXPERIMENT = LangHelper.registerLine("command.text.cant_remove_experiment", "%s doesn't have specified experiment result");
+    public static final TranslationTextComponent CURRENT_EXPERIMENTS = LangHelper.registerLine("command.text.current_experiments", "%s have these experiment results:");
+    public static final TranslationTextComponent NO_EXPERIMENTS = LangHelper.registerLine("command.text.no_experiments", "%s have no experiment results");
 
     public static void init() {
         registerEnum(PacifistaModel.class, "entity.pacifista.", PacifistaModel::getName);

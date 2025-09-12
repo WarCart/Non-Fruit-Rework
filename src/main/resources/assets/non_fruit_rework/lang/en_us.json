@@ -31,6 +31,12 @@
 	"challenge.non_fruit_rework.arlong_park.objective": "Defeat Arlong's crew",
 	"challenge.non_fruit_rework.arlong_park_hard": "Arlong Park (Hard)",
 
+	"command.text.added_experiment": "Successfully added %s experiment result to %s",
+	"command.text.cant_remove_experiment": "%s doesn't have specified experiment result",
+	"command.text.current_experiments": "%s have these experiment results:",
+	"command.text.no_experiments": "%s have no experiment results",
+	"command.text.removed_experiment": "Successfully removed %s experiment result from %s",
+
 	"death.attack.old_age": "%s died of old age",
 	"death.attack.old_age.player": "%s died of old age while fighting %s",
 	"death.attack.sapphire_scales": "%s succumbed to the sapphire scales decease",
@@ -68,6 +74,7 @@
 	"gui.text.buy_seraphim": "Buy Seraphim (1000000-50000000 belly)",
 	"gui.text.buy_seraphim_lvl": "Buy %s (1000000 belly)",
 	"gui.text.custom_seraphim": "I want a custom Seraphim! (50000000 belly)",
+	"gui.text.experiment_on_me": "Do an experiment on me (+2500 belly)",
 	"gui.text.finish": "Finish (%s belly)",
 	"gui.text.genetic_modification": "Genetic Modifications",
 	"gui.text.genetic_states.hybrid_races": "Hybrid Races",
