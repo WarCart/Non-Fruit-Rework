@@ -121,4 +121,9 @@ public class NonFruitDataBase implements INonFruitData {
     public void setDataOwner(LivingEntity dataOwner) {
         this.dataOwner = dataOwner;
     }
+
+    @Override
+    public boolean hasExperiment(ExperimentResult result) {
+        return false;
+    }
 }

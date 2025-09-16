@@ -63,4 +63,6 @@ public interface INonFruitData {
     LivingEntity getDataOwner();
 
     void setDataOwner(LivingEntity dataOwner);
+
+    boolean hasExperiment(ExperimentResult result);
 }

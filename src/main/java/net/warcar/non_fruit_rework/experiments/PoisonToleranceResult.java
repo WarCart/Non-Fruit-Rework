@@ -11,7 +11,9 @@ public class PoisonToleranceResult extends ExperimentResult {
 
     @Override
     public void tick(LivingEntity entity) {
-        entity.removeEffect(ModEffects.DOKU_POISON.get());
+        if (entity.hasEffect(ModEffects.DOKU_POISON.get()) && entity.getEffect(ModEffects.DOKU_POISON.get()).getAmplifier() < 4) {
+            entity.removeEffect(ModEffects.DOKU_POISON.get());
+        }
         entity.removeEffect(Effects.POISON);
     }
 

@@ -1,6 +1,8 @@
 package net.warcar.non_fruit_rework.events;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,6 +11,9 @@ import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.experiments.ExperimentResult;
+import net.warcar.non_fruit_rework.init.ModExperimentResults;
+import xyz.pixelatedw.mineminenomi.api.damagesource.SourceElement;
+import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
 
 import java.util.ArrayList;
 
@@ -56,5 +61,23 @@ public class NonFruitDataEvents {
             }
             data.getExperiments().clear();
         }
+    }
+
+    @SubscribeEvent
+    public static void onDamageTaken(LivingDamageEvent event) {
+        LivingEntity entity = event.getEntityLiving();
+        DamageSource source = event.getSource();
+        INonFruitData data = NonFruitDataCapability.get(entity);
+        if (data.hasExperiment(ModExperimentResults.POISON_TOLERANCE.get()) && isPoison(source)) {
+            event.setAmount(event.getAmount() / 4);
+        }
+    }
+
+    private static boolean isPoison(DamageSource source) {
+        if (source instanceof ModDamageSource) {
+            ModDamageSource modSource = (ModDamageSource) source;
+            return modSource.getElement() == SourceElement.POISON;
+        }
+        return false;
     }
 }
