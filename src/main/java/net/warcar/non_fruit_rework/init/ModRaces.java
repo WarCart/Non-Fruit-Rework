@@ -23,7 +23,12 @@ public class ModRaces {
 
     public static final RegistryObject<RaceId> GIANT = registerRace("Giant", () -> {
         CharacterCreatorSelectionMap.SelectionInfo info = new CharacterCreatorSelectionMap.SelectionInfo(GIANT_ICON);
-        return new RaceId(info, CommonConfig.INSTANCE.isCustomRaces(), 3);
+        return new RaceId(info, CommonConfig.INSTANCE.isCustomRaces(), 3) {
+            @Override
+            public boolean isInBook() {
+                return CommonConfig.INSTANCE.isCustomRaces();
+            }
+        };
     });
 
     public static final RegistryObject<RaceId> ANCIENT_GIANT = registerRace("Ancient Giant", () ->

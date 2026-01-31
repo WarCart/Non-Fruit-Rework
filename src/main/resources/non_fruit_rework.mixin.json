@@ -19,7 +19,8 @@
     "advanced_rokushiki.RokuoganMixin",
     "advanced_rokushiki.ShiganMixin",
     "advanced_rokushiki.SoruMixin",
-    "advanced_rokushiki.TekkaiMixin"
+    "advanced_rokushiki.TekkaiMixin",
+    "cartaddon.NoSizePleaseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

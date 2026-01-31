@@ -1,0 +1,32 @@
+{
+  "parent":"item/generated",
+  "textures": {
+    "layer0": "non_fruit_rework:items/syringe_empty"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "non_fruit_rework:blood_type": 1
+      },
+      "model": "non_fruit_rework:item/syringe_human"
+    },
+    {
+      "predicate": {
+        "non_fruit_rework:blood_type": 2
+      },
+      "model": "non_fruit_rework:item/syringe_green"
+    },
+    {
+      "predicate": {
+        "non_fruit_rework:blood_type": 3
+      },
+      "model": "non_fruit_rework:item/syringe_failed"
+    },
+    {
+      "predicate": {
+        "non_fruit_rework:blood_type": 4
+      },
+      "model": "non_fruit_rework:item/syringe_potion"
+    }
+  ]
+}

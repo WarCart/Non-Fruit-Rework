@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.world.World;
+import net.warcar.non_fruit_rework.helpers.EntityHelper;
 import xyz.pixelatedw.mineminenomi.abilities.CommandAbility;
 import xyz.pixelatedw.mineminenomi.api.entities.ICommandReceiver;
 import xyz.pixelatedw.mineminenomi.api.entities.IThreatLevel;
@@ -92,6 +93,8 @@ public class SeraphimEntity extends OPEntity implements ICommandReceiver, IThrea
         this.goalSelector.addGoal(3, new SoruWrapperGoal(this));
         this.goalSelector.addGoal(3, new GeppoWrapperGoal(this));
         this.goalSelector.addGoal(2, new RadicalBeamWrapperGoal(this));
+        //Lunarian
+        EntityHelper.addLunarianGoals(this);
     }
 
     protected IDevilFruit getDevilFruit() {

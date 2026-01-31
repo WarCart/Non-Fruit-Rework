@@ -2,6 +2,7 @@ package net.warcar.non_fruit_rework.helpers;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.warcar.non_fruit_rework.abilities.human.BerserkModeAbility;
 import net.warcar.non_fruit_rework.config.CommonConfig;
 import net.warcar.non_fruit_rework.entities.AfterimageEntity;
@@ -27,5 +28,9 @@ public final class MiscHelper {
             return afterimage;
         }
         return null;
+    }
+
+    public static boolean nullOrEmpty(CompoundNBT tag) {
+        return tag == null || tag.isEmpty();
     }
 }

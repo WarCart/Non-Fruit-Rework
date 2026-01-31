@@ -58,8 +58,19 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.non_fruit_rework]]
+
+
+
+
 modId="mineminenomi"
 mandatory=true
 versionRange="[0.10.6, )"
 ordering="NONE"
+side="BOTH"
+
+[[dependencies.non_fruit_rework]]
+modId="ability_progression"
+mandatory=false
+versionRange="[2.0.0, )"
+ordering="AFTER"
 side="BOTH"

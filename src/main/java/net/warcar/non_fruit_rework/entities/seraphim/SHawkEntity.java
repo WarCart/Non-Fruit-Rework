@@ -1,10 +1,12 @@
 package net.warcar.non_fruit_rework.entities.seraphim;
 
+import net.MrMagicalCart.cartaddon.init.CartWeapons;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import xyz.pixelatedw.mineminenomi.api.helpers.MobsHelper;
 import xyz.pixelatedw.mineminenomi.data.entity.devilfruit.DevilFruitCapability;
 import xyz.pixelatedw.mineminenomi.entities.mobs.goals.abilities.haki.BusoshokuHakiEmissionWrapperGoal;
@@ -25,8 +27,13 @@ public class SHawkEntity extends SeraphimEntity {
         this.getEntityStats().setFightingStyle(ModValues.SWORDSMAN);
         this.getHakiData().setBusoshokuHakiExp(70);
         this.getHakiData().setKenbunshokuHakiExp(50);
-        ItemStack yoru = new ItemStack(ModWeapons.YORU.get());
-        yoru.getOrCreateTag().putBoolean("isClone", true);
+        ItemStack yoru;
+        if (NonFruitReworkMod.isCartaddonLoaded()) {
+            yoru = new ItemStack(CartWeapons.FALSE_YORU.get());
+        } else {
+            yoru = new ItemStack(ModWeapons.YORU.get());
+            yoru.getOrCreateTag().putBoolean("isClone", true);
+        }
         this.setItemSlot(EquipmentSlotType.MAINHAND, yoru);
     }
 

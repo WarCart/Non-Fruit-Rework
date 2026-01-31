@@ -28,7 +28,7 @@ public class ShopScreenPanel extends ScrollPanel {
     private final FontRenderer font;
 
     public ShopScreenPanel(ScientistScreen parent, IEntityStats abilityProps, List<Product> products) {
-        super(parent.getMinecraft(), 200, 180, parent.height / 2 - 110, parent.width / 2 - 190);
+        super(parent.getMinecraft(), 200, 180, parent.height / 2 - 100, parent.width / 2 - 190);
         this.parent = parent;
         this.props = abilityProps;
         Minecraft parentMinecraft = parent.getMinecraft();
@@ -106,13 +106,15 @@ public class ShopScreenPanel extends ScrollPanel {
                 RenderSystem.popMatrix();
             }
             product.drawIcon(matrixStack, (int)x - 100, (int)y + 16);
-            int color;
-            if (this.props.getBelly() < product.getPrice()) {
-                color = 0xFF0000;
-            } else {
-                color = 0xFFFFFF;
+            if (product.getPrice() > 0) {
+                int color;
+                if (this.props.getBelly() < product.getPrice()) {
+                    color = 0xFF0000;
+                } else {
+                    color = 0xFFFFFF;
+                }
+                WyHelper.drawStringWithBorder(this.font, matrixStack, String.valueOf(product.getPrice()), (int) x - 80, (int) y + 26, color);
             }
-            WyHelper.drawStringWithBorder(this.font, matrixStack, String.valueOf(product.getPrice()), (int)x - 80, (int)y + 26, color);
 
             relativeY = (int)((double)relativeY + 55.0);
         }

@@ -75,8 +75,9 @@ public class NonFruitReworkMod {
         ModStructures.register(bus);
         ModEntityEffects.register(bus);
         ModExperimentResults.register(bus);
+        ModBlocks.register(bus);
 
-        if (ModList.get().isLoaded("cartaddon")) {
+        if (isCartaddonLoaded()) {
             CartAddonIntegration.init();
         }
 
@@ -86,6 +87,10 @@ public class NonFruitReworkMod {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public static boolean isCartaddonLoaded() {
+        return ModList.get().isLoaded("cartaddon");
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -98,6 +103,7 @@ public class NonFruitReworkMod {
 
     @OnlyIn(Dist.CLIENT)
     private void clientSetup(final FMLClientSetupEvent event) {
+        ModItemPredicates.register();
         event.enqueueWork(() -> {
             Minecraft mc = Minecraft.getInstance();
             for (Map.Entry<EntityType<?>, EntityRenderer<?>> entry : mc.getEntityRenderDispatcher().renderers.entrySet()) {

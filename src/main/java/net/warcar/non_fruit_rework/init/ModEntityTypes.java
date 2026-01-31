@@ -1,9 +1,22 @@
 package net.warcar.non_fruit_rework.init;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.MrMagicalCart.cartaddon.models.entities.mobs.humanoids.SHawkModel;
+import net.MrMagicalCart.cartaddon.models.morphs.LunarianClosedWingsModel;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -41,6 +54,7 @@ import net.warcar.non_fruit_rework.models.trainer.HackModel;
 import net.warcar.non_fruit_rework.models.trainer.VegapunkModel;
 import net.warcar.non_fruit_rework.renderers.AfterimageRenderer;
 import xyz.pixelatedw.mineminenomi.entities.mobs.OPEntity;
+import xyz.pixelatedw.mineminenomi.init.ModRenderTypes;
 import xyz.pixelatedw.mineminenomi.models.entities.mobs.humanoids.HumanoidModel;
 import xyz.pixelatedw.mineminenomi.renderers.entities.HumanoidRenderer;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
@@ -135,7 +149,11 @@ public class ModEntityTypes {
         RenderingRegistry.registerEntityRenderingHandler(ElectroTrainer.INSTANCE, new HumanoidRenderer.Factory(new ElectroTrainerModel(), 1));
 
         //Seraphims
-        RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+        if (NonFruitReworkMod.isCartaddonLoaded()) {
+            registerSeraphimsCarts();
+        } else {
+            registerSeraphimsFallback();
+        }
 
         //Bosses
         RenderingRegistry.registerEntityRenderingHandler(NekomamushiBoss.INSTANCE, new HumanoidRenderer.Factory(new NekomamushiModel(), 1, "nekomamushi"));
@@ -144,5 +162,44 @@ public class ModEntityTypes {
 
         //Misc
         RenderingRegistry.registerEntityRenderingHandler(AfterimageEntity.INSTANCE, new AfterimageRenderer.Factory());
+    }
+
+    private static void registerSeraphimsFallback() {
+        RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, new HumanoidRenderer.Factory(new HumanoidModel<>(), 1));
+    }
+
+    private static void registerSeraphimsCarts() {
+        RenderingRegistry.registerEntityRenderingHandler(SHawkEntity.INSTANCE, manager -> new UpscaleStealerRenderer<>(manager, new SHawkModel<>()));
+    }
+
+    private static class UpscaleStealerRenderer<E extends MobEntity, M extends BipedModel<E>> extends HumanoidRenderer<E, M> {
+        public UpscaleStealerRenderer(EntityRendererManager manager, M model) {
+            super(manager, model, "s_hawk");
+            this.addLayer(new SeraphimWingsLayer<>(this));
+        }
+
+        @Override
+        public void render(E entity, float entityYaw, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight) {
+            matrixStack.scale(1.1f, 1.1f, 1.1f);
+            super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+        }
+    }
+
+    private static class SeraphimWingsLayer<T extends LivingEntity, M extends BipedModel<T>> extends LayerRenderer<T, M> {
+        private final LunarianClosedWingsModel<T> model = new LunarianClosedWingsModel<>();
+        private static final ResourceLocation TEXTURE = new ResourceLocation("cartaddon", "textures/models/zoanmorph/lunarian_closed_wings.png");
+
+        public SeraphimWingsLayer(IEntityRenderer<T, M> renderer) {
+            super(renderer);
+        }
+
+        public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+            RenderType renderType = ModRenderTypes.getZoanRenderType(TEXTURE);
+            matrixStack.pushPose();
+            this.getParentModel().copyPropertiesTo(this.model);
+            this.model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            this.model.renderToBuffer(matrixStack, buffer.getBuffer(renderType), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStack.popPose();
+        }
     }
 }

@@ -1,7 +1,7 @@
 package net.warcar.non_fruit_rework.integrations;
 
-import net.warcar.non_fruit_rework.screens.ScientistScreen;
 import net.MrMagicalCart.cartaddon.init.CartRaces;
+import net.warcar.non_fruit_rework.screens.ScientistScreen;
 
 public class CartAddonIntegration {
     public static void init() {

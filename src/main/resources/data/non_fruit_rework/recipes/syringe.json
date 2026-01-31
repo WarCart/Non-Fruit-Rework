@@ -1,0 +1,8 @@
+{
+  "type":"minecraft:crafting_shapeless",
+  "ingredients":[
+    {"item":"minecraft:glass_bottle"},
+    {"tag":"forge:ingots/iron"}
+  ],
+  "result":{"item":"non_fruit_rework:syringe"}
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "non_fruit_rework:item/syringe",
+  "textures": {
+    "layer1": "non_fruit_rework:items/syringe_potion"
+  }
+}

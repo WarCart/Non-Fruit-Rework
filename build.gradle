@@ -152,8 +152,8 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     //implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:6835601")
-    implementation fg.deobf("blank:cartaddon:0.7.11")
-    implementation fg.deobf("blank:mine-mine-no-mi-1.16.5:0.10.7")
+    implementation fg.deobf("blank:cartaddon:0.7.34")
+    implementation fg.deobf("curse.maven:mine-mine-no-mi-78726:7170763")
     implementation fg.deobf("blank:fruit_progression-reloaded:1.2.0")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.1.0.0")
     runtimeOnly fg.deobf("xyz.pixelatedw.ziusudra:ziusudra:1.16.5-1.0.0.2")

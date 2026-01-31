@@ -36,12 +36,16 @@ public class BasicItemProduct extends Product {
 
     @Override
     protected void onBought() {
-        Minecraft.getInstance().player.inventory.add(this.item.get());
+        Minecraft.getInstance().player.inventory.add(getStack());
+    }
+
+    protected ItemStack getStack() {
+        return this.item.get();
     }
 
     @Override
     public void drawIcon(MatrixStack matrixStack, int x, int y) {
-        ItemStack itemStack = this.item.get();
+        ItemStack itemStack = getStack();
         Minecraft.getInstance().getItemRenderer().renderGuiItem(itemStack, x, y);
     }
 }

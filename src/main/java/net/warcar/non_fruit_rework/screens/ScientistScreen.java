@@ -10,6 +10,8 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -184,12 +186,10 @@ public class ScientistScreen extends Screen {
 
         int posX = this.width / 2;
         int posY = this.height / 2;
+        this.renderMenu(matrixStack, mouseX, mouseY, partialTicks);
         switch (this.guiState) {
             case GENETIC_MODIFICATIONS:
                 this.renderMessage(matrixStack, posX, posY);
-                break;
-            case INTRO:
-                this.renderMenu(matrixStack, mouseX, mouseY, partialTicks);
                 break;
             case GENETIC_QUESTS:
             case CYBORG_QUESTS:
@@ -241,7 +241,7 @@ public class ScientistScreen extends Screen {
     public void renderMenu(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         int posX = this.width / 2;
         int posY = this.height / 2;
-        this.startMessage.render(matrixStack, posX - 150, posY - 105, partialTicks);
+        this.startMessage.render(matrixStack, posX - 150, posY - 115, partialTicks);
     }
 
     public void renderQuestList(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -268,7 +268,7 @@ public class ScientistScreen extends Screen {
                 registerExperimentState(posX, posY);
                 break;
             case SHOP:
-                registerBuyPacifistaState(posX, posY);
+                registerShopState(posX, posY);
                 break;
             case CUSTOM_SERAPHIM:
                 registerCustomSeraphim(posX, posY);
@@ -489,18 +489,29 @@ public class ScientistScreen extends Screen {
         this.addButton(backButton);
     }
 
-    private void registerBuyPacifistaState(int posX, int posY) {
+    private void registerShopState(int posX, int posY) {
         ArrayList<Product> products = new ArrayList<>();
+        products.add(new BasicItemProduct(200, ModItems.SYRINGE));
         if (this.type == Type.VEGAPUNK) {
+            products.add(new BasicItemProduct(1000000, () -> {
+                ItemStack stack = new ItemStack(ModItems.SYRINGE.get());
+                stack.getOrCreateTag().putString("blood", "green");
+                stack.getOrCreateTag().putFloat("researched", 1);
+                return stack;
+            }));
             for (PacifistaModel pacifistaModel : PacifistaModel.values()) {
                 products.add(new PacifistaProduct(pacifistaModel));
             }
             for (EntityType<? extends SeraphimEntity> seraphim : ModEntityTypes.SERAPHIMS) {
                 products.add(new EntityProduct(1000000, seraphim));
             }
+            products.add(new SetStateProduct(this, State.CUSTOM_SERAPHIM, ModTexts.CUSTOM_SERAPHIM));
         } else if (this.type == Type.CAESAR) {
             products.add(new BasicItemProduct(15000, ModItems.ENERGY_STEROID));
             products.add(new BasicItemProduct(20000, ModItems.SULONG_BALL));
+        }
+        if (this.player.getMainHandItem().getItem() == ModItems.SYRINGE.get()) {
+            products.add(new InspectProduct());
         }
         this.shopScreenPanel = new ShopScreenPanel(this, this.entityStats, products);
         this.children.add(shopScreenPanel);
@@ -692,6 +703,71 @@ public class ScientistScreen extends Screen {
 
         public static PristineRaces create(String name, RegistryObject<RaceId> race, Predicate<LivingEntity> requirement) {
             throw new IllegalStateException(name + "not created");
+        }
+    }
+
+    private static class SetStateProduct extends Product {
+        private final ScientistScreen screen;
+        private final State state;
+        private final ITextComponent component;
+
+        public SetStateProduct(ScientistScreen screen, State state, ITextComponent component) {
+            super(0);
+            this.screen = screen;
+            this.state = state;
+            this.component = component;
+        }
+
+        @Override
+        public ITextComponent getName() {
+            return component;
+        }
+
+        @Override
+        protected void onBought() {
+            screen.guiState = state;
+            screen.init(screen.getMinecraft(), screen.width, screen.height);
+        }
+    }
+
+    private class InspectProduct extends BasicItemProduct {
+        public InspectProduct() {
+            super(0, ScientistScreen.this.player::getMainHandItem);
+        }
+
+        @Override
+        public ITextComponent getName() {
+            return ModTexts.INSPECT_SYRINGE;
+        }
+
+        @Override
+        public void drawIcon(MatrixStack matrixStack, int x, int y) {
+            super.drawIcon(matrixStack, x, y);
+            WyHelper.drawStringWithBorder(ScientistScreen.this.font, matrixStack, String.valueOf(2000), x + 20, y + 10, 0xffffff);
+        }
+
+        @Override
+        protected void onBought() {
+            ItemStack stack = this.getStack();
+            CompoundNBT data = stack.getOrCreateTagElement("genetics");
+            if (data.isEmpty()) {
+                ScientistScreen.this.startMessage = new SequencedString("", 0, 0);//TODO: message
+            } else if (data.getFloat("researched") >= 2 / 3f && ScientistScreen.this.type != Type.VEGAPUNK || data.getFloat("researched") >= 1) {
+                ScientistScreen.this.startMessage = new SequencedString(ModTexts.INSPECT_FAILURE.getString(), 250, 250);
+            } else {
+                IEntityStats stats = EntityStatsCapability.get(player);
+                if (stats.getBelly() > 2000) {
+                    data.putFloat("researched", data.getFloat("researched") + ScientistScreen.this.player.getRandom().nextFloat() * 0.2f + 0.2f);
+                    if (ScientistScreen.this.type != Type.VEGAPUNK && data.getFloat("researched") >= 2 / 3f) {
+                        data.putFloat("researched", 2 / 3f);
+                    } else if (data.getFloat("researched") >= 1) {
+                        data.putFloat("researched", 1);
+                    }
+                    stats.alterBelly(-2000, StatChangeSource.STORE);
+                } else {
+                    ScientistScreen.this.startMessage = new SequencedString(new TranslationTextComponent(ModI18n.COMMAND_ISSUEBOUNTY_MESSAGE_NOT_ENOUGH_BELLY).getString(), 250, 250);
+                }
+            }
         }
     }
 }

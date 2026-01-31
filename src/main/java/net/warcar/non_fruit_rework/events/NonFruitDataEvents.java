@@ -1,10 +1,14 @@
 package net.warcar.non_fruit_rework.events;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
@@ -12,7 +16,10 @@ import net.warcar.non_fruit_rework.data.entity.medical_data.INonFruitData;
 import net.warcar.non_fruit_rework.data.entity.medical_data.NonFruitDataCapability;
 import net.warcar.non_fruit_rework.experiments.ExperimentResult;
 import net.warcar.non_fruit_rework.init.ModExperimentResults;
+import net.warcar.non_fruit_rework.init.ModItems;
+import net.warcar.non_fruit_rework.items.SyringeItem;
 import xyz.pixelatedw.mineminenomi.api.damagesource.SourceElement;
+import xyz.pixelatedw.mineminenomi.api.events.SmithingTableEvent;
 import xyz.pixelatedw.mineminenomi.init.ModDamageSource;
 
 import java.util.ArrayList;
@@ -79,5 +86,24 @@ public class NonFruitDataEvents {
             return modSource.getElement() == SourceElement.POISON;
         }
         return false;
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRightClick(PlayerInteractEvent.EntityInteract event) {
+        if (!event.getWorld().isClientSide()) {
+            PlayerEntity player = event.getPlayer();
+            ItemStack heldItem = player.getItemInHand(event.getHand());
+            Entity target = event.getTarget();
+            if (target instanceof LivingEntity && heldItem.getItem() == ModItems.SYRINGE.get()) {
+                ModItems.SYRINGE.get().interactLivingEntity(heldItem, player, (LivingEntity) target, event.getHand());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void smithingTableRecipe(SmithingTableEvent event) {
+        if (event.getAdditionSlot().getItem() == ModItems.SYRINGE.get() && event.getAdditionSlot().getItem() == ModItems.SYRINGE.get()) {
+            event.setResultRecipe(SyringeItem.mix(event.getBaseSlot(), event.getAdditionSlot(), event.getPlayer()), 1, 1);
+        }
     }
 }

@@ -11,6 +11,7 @@ import net.warcar.non_fruit_rework.NonFruitReworkMod;
 import net.warcar.non_fruit_rework.helpers.LangHelper;
 import net.warcar.non_fruit_rework.items.EnergySteroidBatchItem;
 import net.warcar.non_fruit_rework.items.SimplePillItem;
+import net.warcar.non_fruit_rework.items.SyringeItem;
 import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 
 import java.util.function.Supplier;
@@ -22,6 +23,7 @@ public class ModItems {
     public static final RegistryObject<SimplePillItem> ENERGY_STEROID = registerItem("Energy Steroid", () -> new SimplePillItem(new Item.Properties().tab(ItemGroup.TAB_BREWING), SimplePillItem.PillEffect.ENERGY_STEROID));
     public static final RegistryObject<EnergySteroidBatchItem> ENERGY_STEROID_BATCH = registerItem("Energy Steroid Batch", EnergySteroidBatchItem::new);
     public static final RegistryObject<SimplePillItem> RUMBLE_BALL = registerItem("Rumble Ball", () -> new SimplePillItem(new Item.Properties().tab(ItemGroup.TAB_BREWING), SimplePillItem.PillEffect.RUMBLE_BALL));
+    public static final RegistryObject<SyringeItem> SYRINGE = registerItem("Syringe", SyringeItem::new);
 
     public static <T extends Item> RegistryObject<T> registerItem(String name, Supplier<T> item) {
         String resName = WyHelper.getResourceName(name);

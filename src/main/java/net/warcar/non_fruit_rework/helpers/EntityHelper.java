@@ -1,7 +1,11 @@
 package net.warcar.non_fruit_rework.helpers;
 
+import net.MrMagicalCart.cartaddon.entities.mobs.goals.abilities.lunarian.FlameRushWrapperGoal;
+import net.MrMagicalCart.cartaddon.entities.mobs.goals.abilities.lunarian.FlamesOnWrapperGoal;
+import net.MrMagicalCart.cartaddon.entities.mobs.goals.abilities.lunarian.FlamingSlashWrapperGoal;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.warcar.non_fruit_rework.NonFruitReworkMod;
@@ -108,6 +112,14 @@ public final class EntityHelper {
                 return isAnyRace(entity, ModValues.HUMAN);
             default:
                 return true;
+        }
+    }
+
+    public static void addLunarianGoals(MobEntity entity) {
+        if (NonFruitReworkMod.isCartaddonLoaded()) {
+            entity.goalSelector.addGoal(1, new FlamesOnWrapperGoal(entity));
+            entity.goalSelector.addGoal(2, new FlamingSlashWrapperGoal(entity));
+            entity.goalSelector.addGoal(3, new FlameRushWrapperGoal(entity));
         }
     }
 }

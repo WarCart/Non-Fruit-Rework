@@ -35,6 +35,12 @@ public class ModTexts {
     public static final TranslationTextComponent CURRENT_EXPERIMENTS = LangHelper.registerLine("command.text.current_experiments", "%s have these experiment results:");
     public static final TranslationTextComponent NO_EXPERIMENTS = LangHelper.registerLine("command.text.no_experiments", "%s have no experiment results");
 
+    public static final ITextComponent NO_DECEASES = LangHelper.registerLine("gui.text.no_diseases", "No diseases identified");
+    public static final ITextComponent DECEASES_FOUND = LangHelper.registerLine("gui.text.diseases_found", "Diseases found:");
+    public static final ITextComponent NO_FRUIT = LangHelper.registerLine("gui.text.no_fruit", "No devil fruit");
+    public static final ITextComponent INSPECT_SYRINGE = LangHelper.registerLine("gui.text.inspect_syringe", "Inspect syringe");
+    public static final ITextComponent INSPECT_FAILURE = LangHelper.registerLine("gui.text.inspect_failure", "I can't really do anything else");
+
     public static void init() {
         registerEnum(PacifistaModel.class, "entity.pacifista.", PacifistaModel::getName);
         registerEnum(ModifiableAttributes.class, "gui.gene.", e -> getName(e.name()));

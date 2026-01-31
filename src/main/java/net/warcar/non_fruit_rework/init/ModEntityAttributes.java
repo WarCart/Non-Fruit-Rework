@@ -17,7 +17,7 @@ import xyz.pixelatedw.mineminenomi.wypi.WyHelper;
 public class ModEntityAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, NonFruitReworkMod.MOD_ID);
 
-    public static final Attribute SIZE = registerAttribute(new RangedAttribute("Size", 1, -2048, 2048).setSyncable(true));
+    public static final Attribute SIZE = registerAttribute(new RangedAttribute("Size", 1, 0, 1024).setSyncable(true));
 
     private static <A extends Attribute> A registerAttribute(A attribute) {
         String id = "attribute.generic." + NonFruitReworkMod.MOD_ID + "." + WyHelper.getResourceName(attribute.getDescriptionId());
